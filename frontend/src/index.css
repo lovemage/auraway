@@ -1,0 +1,32 @@
+/* Reset default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  line-height: 1.5;
+  font-size: 16px;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: #F0F9F8; /* Cotton Candy Fairy 米白色背景 */
+  color: #2A2A2A; /* 深灰色主要文字 */
+}
+
+/* Cotton Candy Fairy 配色變數 */
+:root {
+  --primary-color: #82BFB7; /* 深藍綠色 - 主色 */
+  --secondary-color: #F2A2BD; /* 深粉色 - 輔助色 */
+  --light-pink: #FED3DD; /* 淺粉色 */
+  --light-teal: #C6E6E3; /* 淺藍綠 */
+  --background-color: #F0F9F8; /* 米白色背景 */
+  --text-primary: #2A2A2A; /* 深灰色文字 */
+  --text-secondary: #666666; /* 中灰色文字 */
+  --white: #FFFFFF; /* 純白色 */
+}
