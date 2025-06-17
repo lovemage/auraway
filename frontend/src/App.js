@@ -22,6 +22,9 @@ import BitterMelonProductPage from './components/BitterMelonProductPage';
 import GutHealthProductPage from './components/GutHealthProductPage';
 import MetabolismBProductPage from './components/MetabolismBProductPage';
 import BeautyDrinkProductPage from './components/BeautyDrinkProductPage';
+import AuraPostPage from './components/AuraPostPage';
+import EventPage from './components/EventPage';
+import BabyMemberPage from './components/BabyMemberPage';
 import WomenCards from './components/WomenCards';
 
 function App() {
@@ -143,6 +146,21 @@ function App() {
     setMenuOpen(false);
   };
 
+  const navigateToAuraPost = () => {
+    setCurrentPage('aurapost');
+    setMenuOpen(false);
+  };
+
+  const navigateToEvent = () => {
+    setCurrentPage('event');
+    setMenuOpen(false);
+  };
+
+  const navigateToBabyMember = () => {
+    setCurrentPage('babymember');
+    setMenuOpen(false);
+  };
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -178,15 +196,10 @@ function App() {
         </div>
         <nav className={`navbar ${menuOpen ? 'menu-open' : ''}`}>
           <ul className="nav-menu">
-            <li onClick={navigateToHome}>首頁</li>
-            <li>全部商品</li>
-            <li>免疫力提升</li>
-            <li>美肌養顏</li>
-            <li>活力能量</li>
-            <li>全方位保健</li>
-            <li onClick={navigateToAbout}>關於我們</li>
-            <li>會員專區</li>
-            <li>聯絡我們</li>
+            <li onClick={navigateToHome}>Home 首頁</li>
+            <li onClick={navigateToAuraPost}>Aura Post 專欄</li>
+            <li onClick={navigateToEvent}>Event 活動公告</li>
+            <li onClick={navigateToBabyMember}>寶寶會員專區</li>
           </ul>
         </nav>
       </header>
@@ -514,6 +527,12 @@ function App() {
         <AboutPage />
       ) : currentPage === 'brandstory' ? (
         <BrandStoryPage />
+      ) : currentPage === 'aurapost' ? (
+        <AuraPostPage />
+      ) : currentPage === 'event' ? (
+        <EventPage />
+      ) : currentPage === 'babymember' ? (
+        <BabyMemberPage />
       ) : null}
 
       <footer className="App-footer">
