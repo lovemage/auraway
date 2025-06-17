@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import ProductPage from './components/ProductPage';
 import ProbioticProductPage from './components/ProbioticProductPage';
@@ -13,10 +13,24 @@ import HeaderInfo from './components/HeaderInfo';
 import TurmericFishOilProductPage from './components/TurmericFishOilProductPage';
 import JointCareProductPage from './components/JointCareProductPage';
 import LuteinProductPage from './components/LuteinProductPage';
+import SleepGABAProductPage from './components/SleepGABAProductPage';
+import FatBurnerProductPage from './components/FatBurnerProductPage';
+import BlackMacaProductPage from './components/BlackMacaProductPage';
+import CalciumPowderProductPage from './components/CalciumPowderProductPage';
+import VitaminGummiesProductPage from './components/VitaminGummiesProductPage';
+import BitterMelonProductPage from './components/BitterMelonProductPage';
+import GutHealthProductPage from './components/GutHealthProductPage';
+import MetabolismBProductPage from './components/MetabolismBProductPage';
+import BeautyDrinkProductPage from './components/BeautyDrinkProductPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // 全局處理頁面切換時滾動到頂部
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const navigateToProduct = () => {
     setCurrentPage('product');
@@ -65,6 +79,51 @@ function App() {
 
   const navigateToLuteinProduct = () => {
     setCurrentPage('lutein');
+    setMenuOpen(false);
+  };
+
+  const navigateToSleepGABAProduct = () => {
+    setCurrentPage('sleepgaba');
+    setMenuOpen(false);
+  };
+
+  const navigateToFatBurnerProduct = () => {
+    setCurrentPage('fatburner');
+    setMenuOpen(false);
+  };
+
+  const navigateToBlackMacaProduct = () => {
+    setCurrentPage('blackmaca');
+    setMenuOpen(false);
+  };
+
+  const navigateToCalciumPowderProduct = () => {
+    setCurrentPage('calciumpowder');
+    setMenuOpen(false);
+  };
+
+  const navigateToVitaminGummiesProduct = () => {
+    setCurrentPage('vitamingummies');
+    setMenuOpen(false);
+  };
+
+  const navigateToBitterMelonProduct = () => {
+    setCurrentPage('bittermelon');
+    setMenuOpen(false);
+  };
+
+  const navigateToGutHealthProduct = () => {
+    setCurrentPage('guthealth');
+    setMenuOpen(false);
+  };
+
+  const navigateToMetabolismBProduct = () => {
+    setCurrentPage('metabolismb');
+    setMenuOpen(false);
+  };
+
+  const navigateToBeautyDrinkProduct = () => {
+    setCurrentPage('beautydrink');
     setMenuOpen(false);
   };
 
@@ -293,6 +352,105 @@ function App() {
                   </div>
                   <button className="add-to-cart-btn">加入購物車</button>
                 </div>
+                <div className="product-card" onClick={navigateToSleepGABAProduct}>
+                  <div className="product-badge">美國進口</div>
+                  <img src="/images/美國-夜舒眠GABA/6c1ea9955b8cc16a1e72a661f1e2f5f2.jpg" alt="美國夜舒眠GABA" />
+                  <h3>美國夜舒眠GABA</h3>
+                  <p className="product-description">專業助眠配方，深度睡眠支持</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 1,190</span>
+                    <span className="original-price">NT$ 1,490</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToFatBurnerProduct}>
+                  <div className="product-badge">燃脂專家</div>
+                  <img src="/images/美國-燃纖脂/c3c6e7d6079320a3f5577e12295fbc58.jpg" alt="美國燃纖脂" />
+                  <h3>美國燃纖脂</h3>
+                  <p className="product-description">專業燃脂配方，健康體態管理</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 3,100</span>
+                    <span className="original-price">NT$ 3,400</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToBlackMacaProduct}>
+                  <div className="product-badge">男性活力</div>
+                  <img src="/images/美國-黑馬卡精氨酸/91ce0a777ac90611c870c9caedd179f7.jpg" alt="美國黑馬卡精氨酸" />
+                  <h3>美國黑馬卡精氨酸</h3>
+                  <p className="product-description">男性活力配方，提升體能表現</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 1,250</span>
+                    <span className="original-price">NT$ 1,550</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToCalciumPowderProduct}>
+                  <div className="product-badge">美國進口</div>
+                  <img src="/images/美國-檸檬酸鈣粉/1f51a977a5e989940a06ae39c8e01c52.jpg" alt="美國檸檬酸鈣粉" />
+                  <h3>美國檸檬酸鈣粉</h3>
+                  <p className="product-description">高濃度鈣質，易於人體吸收</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 1,280</span>
+                    <span className="original-price">NT$ 1,580</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToVitaminGummiesProduct}>
+                  <div className="product-badge">美國進口</div>
+                  <img src="/images/美國-綜合維生素軟糖/2a06e4486bb2944dbbaf1319cc5f3505.jpg" alt="美國綜合維生素軟糖" />
+                  <h3>美國綜合維生素軟糖</h3>
+                  <p className="product-description">Q彈美味軟糖，綜合維生素營養</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 1,050</span>
+                    <span className="original-price">NT$ 1,350</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToBitterMelonProduct}>
+                  <div className="product-badge">美國進口</div>
+                  <img src="/images/美國-苦瓜胜肽/2749cfb0ba4558cbe2b17157d7dd9f48.jpg" alt="美國苦瓜胜肽" />
+                  <h3>美國苦瓜胜肽</h3>
+                  <p className="product-description">高純度苦瓜胜肽，調節代謝</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 1,250</span>
+                    <span className="original-price">NT$ 1,550</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToGutHealthProduct}>
+                  <div className="product-badge">美國進口</div>
+                  <img src="/images/美國-固益清/96fe13d991f0703660f9a06f69974378.jpg" alt="美國固益清" />
+                  <h3>美國固益清</h3>
+                  <p className="product-description">腸道保健專業配方，溫和有效</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 1,180</span>
+                    <span className="original-price">NT$ 1,480</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToMetabolismBProduct}>
+                  <div className="product-badge">美國進口</div>
+                  <img src="/images/美國-代謝b群plus/76d12961d9d8193df8b81920a8865b5b.jpg" alt="美國代謝b群plus" />
+                  <h3>美國代謝b群plus</h3>
+                  <p className="product-description">8種B群維生素，提升能量代謝</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 1,180</span>
+                    <span className="original-price">NT$ 1,480</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
+                <div className="product-card" onClick={navigateToBeautyDrinkProduct}>
+                  <div className="product-badge">美肌養顏</div>
+                  <img src="/images/美妍飲/875589f1c2a794f35f547c2e08580c0f.jpg" alt="美妍飲" />
+                  <h3>美妍飲</h3>
+                  <p className="product-description">膠原蛋白美肌飲，由內而外散發光彩</p>
+                  <div className="price-info">
+                    <span className="discount-price">NT$ 850</span>
+                    <span className="original-price">NT$ 1,150</span>
+                  </div>
+                  <button className="add-to-cart-btn">加入購物車</button>
+                </div>
               </div>
             </section>
 
@@ -342,6 +500,24 @@ function App() {
         <JointCareProductPage onNavigateHome={navigateToHome} />
       ) : currentPage === 'lutein' ? (
         <LuteinProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'sleepgaba' ? (
+        <SleepGABAProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'fatburner' ? (
+        <FatBurnerProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'blackmaca' ? (
+        <BlackMacaProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'calciumpowder' ? (
+        <CalciumPowderProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'vitamingummies' ? (
+        <VitaminGummiesProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'bittermelon' ? (
+        <BitterMelonProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'guthealth' ? (
+        <GutHealthProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'metabolismb' ? (
+        <MetabolismBProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'beautydrink' ? (
+        <BeautyDrinkProductPage onNavigateHome={navigateToHome} />
       ) : currentPage === 'about' ? (
         <AboutPage />
       ) : currentPage === 'brandstory' ? (

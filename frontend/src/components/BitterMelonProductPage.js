@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './ProductPage.css';
 
-function TurmericFishOilProductPage({ onNavigateHome }) {
+function BitterMelonProductPage() {
   const images = [
-    '/images/加拿大-薑黃魚油/f9a4ddbad103efea855a2af355dc97c2.jpg',
-    '/images/加拿大-薑黃魚油/1c20d30fef2bf3f6db3e32619edb27e5.jpg'
+    "/images/美國-苦瓜胜肽/2749cfb0ba4558cbe2b17157d7dd9f48.jpg"
   ];
-
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
@@ -23,7 +22,7 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
         <div className="image-carousel">
           <img 
             src={images[currentImageIndex]} 
-            alt="加拿大薑黃魚油" 
+            alt="美國-苦瓜胜肽" 
             className="carousel-image"
           />
           {images.length > 1 && (
@@ -48,20 +47,19 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
         </div>
         
         <div className="product-details">
-          <div className="product-badge" style={{ backgroundColor: 'var(--primary-color)' }}>
-            加拿大進口
+          <div className="product-badge" style={{ backgroundColor: 'var(--secondary-color)' }}>
+            美國進口
           </div>
-          <h1>加拿大薑黃魚油膠囊</h1>
+          <h1>美國-苦瓜胜肽</h1>
           <div className="price-section">
-            <span className="discount-price">NT$ 1,290</span>
-            <span className="original-price">NT$ 1,590</span>
+            <span className="discount-price">NT$1,250</span>
+            <span className="original-price">NT$1,550</span>
           </div>
           <p className="product-description">
-            來自加拿大純淨海域的頂級深海魚油，結合印度薑黃素精華，為您提供雙重健康守護。
-            每粒膠囊含有豐富的Omega-3脂肪酸（EPA+DHA）和95%高純度薑黃素，
-            有效支持心血管健康、抗發炎和增強免疫力。
+            來自美國的高純度苦瓜胜肽，採用先進萃取技術，保留苦瓜的天然活性成分，
+            有助於維持正常的新陳代謝。無苦味設計，讓您輕鬆補充苦瓜的珍貴營養。
           </p>
-          <button className="add-to-cart" onClick={onNavigateHome}>
+          <button className="add-to-cart">
             <span className="material-icons">shopping_cart</span>
             加入購物車
           </button>
@@ -69,7 +67,7 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
       </div>
 
       <div className="additional-info">
-        <h2>加拿大薑黃魚油</h2>
+        <h2>美國苦瓜胜肽</h2>
         
         {/* 產品詳細描述圖片 */}
         <div style={{ 
@@ -80,8 +78,8 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
           padding: '20px'
         }}>
           <img 
-            src="/images/加拿大-薑黃魚油/1c20d30fef2bf3f6db3e32619edb27e5.jpg" 
-            alt="薑黃魚油營養成分分析圖" 
+            src="/images/美國-苦瓜胜肽/47746d4d604028f10f54f720d32fe730.jpg" 
+            alt="美國苦瓜胜肽產品成分與功效說明" 
             style={{ 
               width: '100%', 
               maxWidth: '800px', 
@@ -94,15 +92,15 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
 
         <h2>商品特色</h2>
         <ul>
-          <li>加拿大純淨海域深海魚油</li>
-          <li>95%高純度薑黃素配方</li>
-          <li>豐富Omega-3脂肪酸（EPA+DHA）</li>
-          <li>支持心血管健康</li>
-          <li>天然抗發炎特性</li>
-          <li>增強免疫系統功能</li>
+          <li>美國原裝進口，品質保證</li>
+          <li>高純度苦瓜胜肽萃取，濃縮精華</li>
+          <li>專利去苦技術，無苦味易吞嚥</li>
+          <li>含有豐富的苦瓜皂苷和多胜肽</li>
+          <li>通過美國FDA嚴格品質檢驗</li>
+          <li>素食膠囊，適合素食者食用</li>
         </ul>
 
-        <h2>健康功效分析</h2>
+        <h2>苦瓜胜肽功效分析</h2>
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
@@ -117,10 +115,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
           }}>
             <span className="material-icons" style={{ fontSize: '48px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              favorite
+              speed
             </span>
-            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>心血管保護</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>維持心臟健康，調節血脂</p>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>調節代謝</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>促進正常新陳代謝</p>
           </div>
           <div style={{ 
             textAlign: 'center', 
@@ -130,10 +128,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
           }}>
             <span className="material-icons" style={{ fontSize: '48px', color: 'var(--secondary-color)', marginBottom: '10px' }}>
-              psychology
+              balance
             </span>
-            <h3 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>腦部健康</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>支持腦部發育，增強記憶力</p>
+            <h3 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>平衡調理</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>維持身體平衡狀態</p>
           </div>
           <div style={{ 
             textAlign: 'center', 
@@ -143,10 +141,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
           }}>
             <span className="material-icons" style={{ fontSize: '48px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              healing
+              eco
             </span>
-            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>抗發炎作用</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>天然抗發炎，舒緩身體不適</p>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>天然保健</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>天然植物精華萃取</p>
           </div>
         </div>
 
@@ -164,10 +162,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             textAlign: 'center'
           }}>
             <span className="material-icons" style={{ fontSize: '40px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              elderly
+              work
             </span>
-            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>中老年族群</h4>
-            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>心血管保健需求</p>
+            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>上班族</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>久坐辦公、代謝緩慢</p>
           </div>
           <div style={{ 
             background: 'var(--light-pink)', 
@@ -176,10 +174,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             textAlign: 'center'
           }}>
             <span className="material-icons" style={{ fontSize: '40px', color: 'var(--secondary-color)', marginBottom: '10px' }}>
-              work
+              elderly
             </span>
-            <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>上班族</h4>
-            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>工作壓力大、需要保健</p>
+            <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>中高齡族群</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>注重養生保健、調節體質</p>
           </div>
           <div style={{ 
             background: 'var(--light-teal)', 
@@ -188,10 +186,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             textAlign: 'center'
           }}>
             <span className="material-icons" style={{ fontSize: '40px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              fitness_center
+              restaurant
             </span>
-            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>運動愛好者</h4>
-            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>運動後恢復保健</p>
+            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>應酬族</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>飲食不規律、需要調理</p>
           </div>
         </div>
 
@@ -222,8 +220,8 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
               borderRadius: '10px',
               boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
             }}>
-              <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>建議用量</h4>
-              <p style={{ color: 'var(--text-primary)' }}>每日1-2粒，餐後食用</p>
+              <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>保存方式</h4>
+              <p style={{ color: 'var(--text-primary)' }}>常溫陰涼乾燥處保存</p>
             </div>
             <div style={{ 
               background: 'var(--white)', 
@@ -232,27 +230,43 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
               boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
             }}>
               <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>產地</h4>
-              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>加拿大製造</p>
+              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>美國製造</p>
             </div>
           </div>
         </div>
 
         <h2>食用方法</h2>
         <p style={{ 
-          color: 'var(--text-primary)', 
-          lineHeight: '1.8', 
-          background: 'var(--white)',
-          padding: '20px',
+          background: 'var(--white)', 
+          padding: '20px', 
           borderRadius: '10px',
-          boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+          borderLeft: '4px solid var(--secondary-color)',
+          boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)',
+          lineHeight: '1.6'
         }}>
-          建議每日1-2粒，餐後30分鐘內食用，配合溫開水服用。
-          持續使用3個月以上效果更佳。孕婦、哺乳期婦女及慢性疾病患者，
-          請先諮詢醫師或營養師建議後再食用。
+          每日1-2粒，飯前30分鐘搭配溫開水食用。
+          建議空腹服用效果更佳，請勿超過每日建議攝取量。如有特殊需求請諮詢專業人士。
         </p>
+
+        <h2>注意事項</h2>
+        <div style={{ 
+          background: '#fff3cd',
+          border: '1px solid #ffeaa7',
+          borderRadius: '10px',
+          padding: '20px',
+          margin: '20px 0'
+        }}>
+          <ul style={{ margin: 0, paddingLeft: '20px', color: '#856404' }}>
+            <li>請置於陰涼乾燥處，避免陽光直射</li>
+            <li>開封後請密封保存，並於有效期限內食用完畢</li>
+            <li>孕婦、哺乳期婦女及兒童請避免食用</li>
+            <li>如有服用藥物，請諮詢醫師建議</li>
+            <li>本產品為食品，不具療效，不能取代藥物治療</li>
+          </ul>
+        </div>
       </div>
     </div>
   );
 }
 
-export default TurmericFishOilProductPage; 
+export default BitterMelonProductPage; 

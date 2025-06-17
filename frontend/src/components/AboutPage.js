@@ -294,7 +294,6 @@ function AboutPage() {
             lineHeight: '1.8',
             color: 'var(--text-primary)',
             fontStyle: 'italic',
-            margin: '0 0 20px',
             maxWidth: '800px',
             margin: '0 auto 20px'
           }}>

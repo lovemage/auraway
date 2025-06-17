@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import './ProductPage.css';
 
 const JointCareProductPage = ({ onNavigateHome }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-
   const images = [
-    '/images/美國-關舒活/4ed8b1b1f856a37ca2951f5154b8f6aa.jpg',
-    '/images/美國-關舒活/1dbc1283f878f2773accab97e1d0eb78.jpg'
+    '/images/美國-關舒活/1dbc1283f878f2773accab97e1d0eb78.jpg',
+    '/images/美國-關舒活/4ed8b1b1f856a37ca2951f5154b8f6aa.jpg'
   ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -18,268 +17,239 @@ const JointCareProductPage = ({ onNavigateHome }) => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
-  const handleQuantityChange = (change) => {
-    setQuantity(Math.max(1, quantity + change));
-  };
-
   return (
-    <div className="product-page">
+    <div className="ProductPage">
       <div className="product-container">
-        {/* 返回按鈕 */}
-        <button className="back-button" onClick={onNavigateHome}>
-          <span className="material-icons">arrow_back</span>
-          返回首頁
-        </button>
-
-        {/* 產品主要內容 */}
-        <div className="product-main">
-          {/* 產品圖片區 */}
-          <div className="product-images">
-            <div className="main-image">
-              <img src={images[currentImageIndex]} alt="美國關舒活" />
-              <div className="image-nav">
-                <button onClick={prevImage} className="nav-btn prev-btn">
-                  <span className="material-icons">chevron_left</span>
-                </button>
-                <button onClick={nextImage} className="nav-btn next-btn">
-                  <span className="material-icons">chevron_right</span>
-                </button>
-              </div>
-            </div>
-            <div className="thumbnail-list">
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`關舒活 ${index + 1}`}
-                  className={index === currentImageIndex ? 'active' : ''}
-                  onClick={() => setCurrentImageIndex(index)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* 產品信息區 */}
-          <div className="product-info">
-            <div className="product-badge">美國進口</div>
-            <h1>美國關舒活關節保健膠囊</h1>
-            <p className="product-subtitle">葡萄糖胺 × 軟骨素 × MSM 三重配方</p>
-            
-            <div className="price-section">
-              <div className="price-main">
-                <span className="current-price">NT$ 1,290</span>
-                <span className="original-price">NT$ 1,590</span>
-                <span className="discount-badge">19% OFF</span>
-              </div>
-              <p className="price-note">限時優惠價格</p>
-            </div>
-
-            <div className="product-highlights">
-              <div className="highlight-item">
-                <span className="material-icons">verified</span>
-                <span>美國FDA認證</span>
-              </div>
-              <div className="highlight-item">
-                <span className="material-icons">local_hospital</span>
-                <span>醫師推薦配方</span>
-              </div>
-              <div className="highlight-item">
-                <span className="material-icons">fitness_center</span>
-                <span>運動族群首選</span>
-              </div>
-            </div>
-
-            <div className="quantity-selector">
-              <label>數量：</label>
-              <div className="quantity-controls">
-                <button onClick={() => handleQuantityChange(-1)}>-</button>
-                <span>{quantity}</span>
-                <button onClick={() => handleQuantityChange(1)}>+</button>
-              </div>
-            </div>
-
-            <div className="action-buttons">
-              <button className="add-to-cart-btn primary">
-                <span className="material-icons">shopping_cart</span>
-                加入購物車
+        <div className="image-carousel">
+          <img 
+            src={images[currentImageIndex]} 
+            alt="美國關舒活" 
+            className="carousel-image"
+          />
+          {images.length > 1 && (
+            <>
+              <button onClick={prevImage} className="carousel-arrow prev">
+                <span className="material-icons">chevron_left</span>
               </button>
-              <button className="buy-now-btn">
-                立即購買
+              <button onClick={nextImage} className="carousel-arrow next">
+                <span className="material-icons">chevron_right</span>
               </button>
-              <button className="wishlist-btn">
-                <span className="material-icons">favorite_border</span>
-              </button>
-            </div>
-
-            <div className="shipping-info">
-              <div className="shipping-item">
-                <span className="material-icons">local_shipping</span>
-                <span>全館滿千免運費</span>
-              </div>
-              <div className="shipping-item">
-                <span className="material-icons">assignment_return</span>
-                <span>7天鑑賞期退換貨</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 產品詳細信息 */}
-        <div className="product-details">
-          <div className="details-tabs">
-            <div className="tab active">產品介紹</div>
-            <div className="tab">成分說明</div>
-            <div className="tab">使用方法</div>
-            <div className="tab">注意事項</div>
-          </div>
-
-          <div className="tab-content">
-            <div className="product-description">
-              <h3>產品特色</h3>
-              <p>美國原裝進口的關節保健專業配方，結合葡萄糖胺、軟骨素和MSM三大關鍵成分，為關節提供全方位的營養支持。特別適合運動族群、中老年人及關節保養需求者使用。</p>
-              
-              {/* 長條圖整合區域 */}
-              <div className="nutrition-analysis">
-                <h4>成分功效分析</h4>
-                <div className="chart-container">
-                  <img 
-                    src="/images/美國-關舒活/1dbc1283f878f2773accab97e1d0eb78.jpg" 
-                    alt="關舒活成分功效分析圖" 
-                    className="nutrition-chart"
+              <div className="carousel-controls">
+                {images.map((_, index) => (
+                  <div 
+                    key={index} 
+                    className={`carousel-dot ${index === currentImageIndex ? 'active' : ''}`}
+                    onClick={() => setCurrentImageIndex(index)} 
                   />
-                </div>
-                <div className="chart-description">
-                  <p>專業配方分析顯示各成分的協同作用，為關節健康提供最佳保護。</p>
-                </div>
+                ))}
               </div>
+            </>
+          )}
+        </div>
+        
+        <div className="product-details">
+          <div className="product-badge" style={{ backgroundColor: 'var(--primary-color)' }}>
+            美國進口
+          </div>
+          <h1>美國關舒活關節保健膠囊</h1>
+          <div className="price-section">
+            <span className="discount-price">NT$ 1,290</span>
+            <span className="original-price">NT$ 1,580</span>
+          </div>
+          <p className="product-description">
+            來自美國的專業關節保健配方，結合葡萄糖胺、軟骨素、MSM和薑黃素，
+            為您的關節提供全方位保護。有效維護關節軟骨健康，減緩關節不適，
+            提升活動靈活度，適合關注關節保健的族群。
+          </p>
+          <button className="add-to-cart" onClick={onNavigateHome}>
+            <span className="material-icons">shopping_cart</span>
+            加入購物車
+          </button>
+        </div>
+      </div>
 
-              <div className="suitable-groups">
-                <h4>適用族群</h4>
-                <div className="groups-grid">
-                  <div className="group-item">
-                    <span className="material-icons">directions_run</span>
-                    <span>運動愛好者</span>
-                  </div>
-                  <div className="group-item">
-                    <span className="material-icons">elderly</span>
-                    <span>中老年族群</span>
-                  </div>
-                  <div className="group-item">
-                    <span className="material-icons">work</span>
-                    <span>久坐上班族</span>
-                  </div>
-                  <div className="group-item">
-                    <span className="material-icons">construction</span>
-                    <span>勞動工作者</span>
-                  </div>
-                </div>
-              </div>
+      <div className="additional-info">
+        <h2>美國關舒活</h2>
+        
+        {/* 產品詳細描述圖片 */}
+        <div style={{ 
+          textAlign: 'center', 
+          margin: '30px 0',
+          background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+          borderRadius: '15px',
+          padding: '20px'
+        }}>
+          <img 
+            src="/images/美國-關舒活/1dbc1283f878f2773accab97e1d0eb78.jpg" 
+            alt="關舒活關節保健成分分析圖" 
+            style={{ 
+              width: '100%', 
+              maxWidth: '800px', 
+              height: 'auto',
+              borderRadius: '10px',
+              boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
+            }} 
+          />
+        </div>
 
-              <div className="product-specs">
-                <h4>產品規格</h4>
-                <div className="specs-table">
-                  <div className="spec-row">
-                    <span className="spec-label">產品名稱</span>
-                    <span className="spec-value">美國關舒活關節保健膠囊</span>
-                  </div>
-                  <div className="spec-row">
-                    <span className="spec-label">產地</span>
-                    <span className="spec-value">美國</span>
-                  </div>
-                  <div className="spec-row">
-                    <span className="spec-label">包裝規格</span>
-                    <span className="spec-value">90粒/瓶</span>
-                  </div>
-                  <div className="spec-row">
-                    <span className="spec-label">建議用量</span>
-                    <span className="spec-value">每日2-3粒，餐後食用</span>
-                  </div>
-                  <div className="spec-row">
-                    <span className="spec-label">保存期限</span>
-                    <span className="spec-value">3年</span>
-                  </div>
-                  <div className="spec-row">
-                    <span className="spec-label">保存方式</span>
-                    <span className="spec-value">置於陰涼乾燥處，避免陽光直射</span>
-                  </div>
-                </div>
-              </div>
+        <h2>商品特色</h2>
+        <ul>
+          <li>美國原裝進口，品質保證</li>
+          <li>複合式關節保健配方</li>
+          <li>含葡萄糖胺、軟骨素、MSM</li>
+          <li>添加薑黃素抗發炎成分</li>
+          <li>維護關節軟骨健康</li>
+          <li>提升關節活動靈活度</li>
+        </ul>
 
-              <div className="health-benefits">
-                <h4>健康功效</h4>
-                <div className="benefits-list">
-                  <div className="benefit-item">
-                    <span className="material-icons">accessibility</span>
-                    <div>
-                      <strong>關節靈活</strong>
-                      <p>葡萄糖胺幫助維持關節軟骨健康，增進關節活動力</p>
-                    </div>
-                  </div>
-                  <div className="benefit-item">
-                    <span className="material-icons">healing</span>
-                    <div>
-                      <strong>軟骨修復</strong>
-                      <p>軟骨素促進軟骨組織修復，減緩關節磨損</p>
-                    </div>
-                  </div>
-                  <div className="benefit-item">
-                    <span className="material-icons">shield</span>
-                    <div>
-                      <strong>抗發炎</strong>
-                      <p>MSM具有天然抗發炎特性，舒緩關節不適</p>
-                    </div>
-                  </div>
-                  <div className="benefit-item">
-                    <span className="material-icons">fitness_center</span>
-                    <div>
-                      <strong>運動支持</strong>
-                      <p>提供運動前後關節保護，維持最佳運動表現</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <h2>關節保健功效分析</h2>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+          gap: '20px', 
+          margin: '20px 0' 
+        }}>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '20px',
+            background: 'var(--white)',
+            borderRadius: '10px',
+            boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+          }}>
+            <span className="material-icons" style={{ fontSize: '48px', color: 'var(--primary-color)', marginBottom: '10px' }}>
+              accessibility
+            </span>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>關節靈活</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>提升關節活動度</p>
+          </div>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '20px',
+            background: 'var(--white)',
+            borderRadius: '10px',
+            boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+          }}>
+            <span className="material-icons" style={{ fontSize: '48px', color: 'var(--secondary-color)', marginBottom: '10px' }}>
+              healing
+            </span>
+            <h3 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>軟骨保護</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>維護軟骨健康</p>
+          </div>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '20px',
+            background: 'var(--white)',
+            borderRadius: '10px',
+            boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+          }}>
+            <span className="material-icons" style={{ fontSize: '48px', color: 'var(--primary-color)', marginBottom: '10px' }}>
+              self_improvement
+            </span>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>舒緩不適</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>減緩關節不適感</p>
+          </div>
+        </div>
 
-              <div className="usage-instructions">
-                <h4>使用方法</h4>
-                <div className="instructions-list">
-                  <div className="instruction-item">
-                    <span className="step-number">1</span>
-                    <p>每日2-3粒，建議餐後30分鐘內食用</p>
-                  </div>
-                  <div className="instruction-item">
-                    <span className="step-number">2</span>
-                    <p>配合充足水分，有助於成分吸收</p>
-                  </div>
-                  <div className="instruction-item">
-                    <span className="step-number">3</span>
-                    <p>持續使用3個月以上，效果更佳</p>
-                  </div>
-                  <div className="instruction-item">
-                    <span className="step-number">4</span>
-                    <p>搭配適度運動，維持關節健康</p>
-                  </div>
-                </div>
-              </div>
+        <h2>適用族群</h2>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+          gap: '15px', 
+          margin: '20px 0' 
+        }}>
+          <div style={{ 
+            background: 'var(--light-teal)', 
+            padding: '20px', 
+            borderRadius: '10px',
+            textAlign: 'center'
+          }}>
+            <span className="material-icons" style={{ fontSize: '40px', color: 'var(--primary-color)', marginBottom: '10px' }}>
+              elderly
+            </span>
+            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>銀髮族</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>關節退化、需要保健</p>
+          </div>
+          <div style={{ 
+            background: 'var(--light-pink)', 
+            padding: '20px', 
+            borderRadius: '10px',
+            textAlign: 'center'
+          }}>
+            <span className="material-icons" style={{ fontSize: '40px', color: 'var(--secondary-color)', marginBottom: '10px' }}>
+              fitness_center
+            </span>
+            <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>運動愛好者</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>高強度運動、關節負荷大</p>
+          </div>
+          <div style={{ 
+            background: 'var(--light-teal)', 
+            padding: '20px', 
+            borderRadius: '10px',
+            textAlign: 'center'
+          }}>
+            <span className="material-icons" style={{ fontSize: '40px', color: 'var(--primary-color)', marginBottom: '10px' }}>
+              work
+            </span>
+            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>上班族</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>久坐、關節僵硬</p>
+          </div>
+        </div>
+
+        <h2>產品規格</h2>
+        <div style={{ 
+          background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+          borderRadius: '15px',
+          padding: '25px',
+          margin: '20px 0'
+        }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '20px' 
+          }}>
+            <div style={{ 
+              background: 'var(--white)', 
+              padding: '15px', 
+              borderRadius: '10px',
+              boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+            }}>
+              <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>內容量</h4>
+              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>120粒/瓶</p>
+            </div>
+            <div style={{ 
+              background: 'var(--white)', 
+              padding: '15px', 
+              borderRadius: '10px',
+              boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+            }}>
+              <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>建議用量</h4>
+              <p style={{ color: 'var(--text-primary)' }}>每日2-3粒，餐後食用</p>
+            </div>
+            <div style={{ 
+              background: 'var(--white)', 
+              padding: '15px', 
+              borderRadius: '10px',
+              boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+            }}>
+              <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>產地</h4>
+              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>美國製造</p>
             </div>
           </div>
         </div>
 
-        {/* 相關產品推薦 */}
-        <div className="related-products">
-          <h3>相關產品推薦</h3>
-          <div className="related-grid">
-            <div className="related-item">
-              <img src="/images/加拿大-薑黃魚油/f9a4ddbad103efea855a2af355dc97c2.jpg" alt="加拿大薑黃魚油" />
-              <h4>加拿大薑黃魚油</h4>
-              <p>NT$ 1,290</p>
-            </div>
-            <div className="related-item">
-              <img src="/images/日本-葉黃素/c6077bb6abb93db08f907e4d95ac0ae2.jpg" alt="日本葉黃素" />
-              <h4>日本葉黃素</h4>
-              <p>NT$ 1,150</p>
-            </div>
-          </div>
-        </div>
+        <h2>食用方法</h2>
+        <p style={{ 
+          color: 'var(--text-primary)', 
+          lineHeight: '1.8', 
+          background: 'var(--white)',
+          padding: '20px',
+          borderRadius: '10px',
+          boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+        }}>
+          建議每日2-3粒，餐後食用，配合溫開水服用。
+          持續使用3個月以上效果更佳。孕婦、哺乳期婦女及慢性疾病患者，
+          請先諮詢醫師建議後再食用。
+        </p>
       </div>
     </div>
   );

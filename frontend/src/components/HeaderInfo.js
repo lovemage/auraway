@@ -8,26 +8,7 @@ const HeaderInfo = () => {
     fetchHeaderInfo();
   }, []);
 
-  const fetchHeaderInfo = async () => {
-    try {
-      const response = await fetch('http://localhost:5001/api/header-info');
-      if (response.ok) {
-        const data = await response.json();
-        setHeaderInfos(data);
-        console.log('成功載入導航區塊信息:', data);
-      } else {
-        console.log('API響應錯誤，使用默認數據');
-        useDefaultData();
-      }
-    } catch (error) {
-      console.log('API連接失敗，使用默認導航區塊信息:', error.message);
-      useDefaultData();
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const useDefaultData = () => {
+  const setDefaultData = () => {
     setHeaderInfos([
       {
         type: 'shipping',
@@ -57,6 +38,25 @@ const HeaderInfo = () => {
         settings: {}
       }
     ]);
+  };
+
+  const fetchHeaderInfo = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/api/header-info');
+      if (response.ok) {
+        const data = await response.json();
+        setHeaderInfos(data);
+        console.log('成功載入導航區塊信息:', data);
+      } else {
+        console.log('API響應錯誤，使用默認數據');
+        setDefaultData();
+      }
+    } catch (error) {
+      console.log('API連接失敗，使用默認導航區塊信息:', error.message);
+      setDefaultData();
+    } finally {
+      setLoading(false);
+    }
   };
 
   const formatTitle = (info) => {

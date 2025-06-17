@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './ProductPage.css';
 
-function TurmericFishOilProductPage({ onNavigateHome }) {
+const SleepGABAProductPage = ({ onNavigateHome }) => {
   const images = [
-    '/images/加拿大-薑黃魚油/f9a4ddbad103efea855a2af355dc97c2.jpg',
-    '/images/加拿大-薑黃魚油/1c20d30fef2bf3f6db3e32619edb27e5.jpg'
+    '/images/美國-夜舒眠GABA/6c1ea9955b8cc16a1e72a661f1e2f5f2.jpg',
+    '/images/美國-夜舒眠GABA/9ac955a8307e9f684a7b6eb49400337a.jpg'
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -23,7 +23,7 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
         <div className="image-carousel">
           <img 
             src={images[currentImageIndex]} 
-            alt="加拿大薑黃魚油" 
+            alt="美國夜舒眠GABA" 
             className="carousel-image"
           />
           {images.length > 1 && (
@@ -49,17 +49,17 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
         
         <div className="product-details">
           <div className="product-badge" style={{ backgroundColor: 'var(--primary-color)' }}>
-            加拿大進口
+            美國進口
           </div>
-          <h1>加拿大薑黃魚油膠囊</h1>
+          <h1>美國夜舒眠GABA助眠膠囊</h1>
           <div className="price-section">
-            <span className="discount-price">NT$ 1,290</span>
-            <span className="original-price">NT$ 1,590</span>
+            <span className="discount-price">NT$ 1,190</span>
+            <span className="original-price">NT$ 1,490</span>
           </div>
           <p className="product-description">
-            來自加拿大純淨海域的頂級深海魚油，結合印度薑黃素精華，為您提供雙重健康守護。
-            每粒膠囊含有豐富的Omega-3脂肪酸（EPA+DHA）和95%高純度薑黃素，
-            有效支持心血管健康、抗發炎和增強免疫力。
+            來自美國的專業助眠配方，結合GABA、洋甘菊萃取和褪黑激素，
+            為您提供自然舒緩的睡眠支持。有效放鬆神經系統，改善睡眠品質，
+            幫助快速入睡並維持深層睡眠，適合現代忙碌生活的睡眠調理。
           </p>
           <button className="add-to-cart" onClick={onNavigateHome}>
             <span className="material-icons">shopping_cart</span>
@@ -69,7 +69,7 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
       </div>
 
       <div className="additional-info">
-        <h2>加拿大薑黃魚油</h2>
+        <h2>美國夜舒眠GABA</h2>
         
         {/* 產品詳細描述圖片 */}
         <div style={{ 
@@ -80,8 +80,8 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
           padding: '20px'
         }}>
           <img 
-            src="/images/加拿大-薑黃魚油/1c20d30fef2bf3f6db3e32619edb27e5.jpg" 
-            alt="薑黃魚油營養成分分析圖" 
+            src="/images/美國-夜舒眠GABA/9ac955a8307e9f684a7b6eb49400337a.jpg" 
+            alt="夜舒眠GABA助眠成分分析圖" 
             style={{ 
               width: '100%', 
               maxWidth: '800px', 
@@ -94,15 +94,15 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
 
         <h2>商品特色</h2>
         <ul>
-          <li>加拿大純淨海域深海魚油</li>
-          <li>95%高純度薑黃素配方</li>
-          <li>豐富Omega-3脂肪酸（EPA+DHA）</li>
-          <li>支持心血管健康</li>
-          <li>天然抗發炎特性</li>
-          <li>增強免疫系統功能</li>
+          <li>美國原裝進口，品質保證</li>
+          <li>天然GABA神經舒緩配方</li>
+          <li>添加洋甘菊萃取物</li>
+          <li>含褪黑激素調節生理時鐘</li>
+          <li>無依賴性天然助眠</li>
+          <li>改善睡眠品質</li>
         </ul>
 
-        <h2>健康功效分析</h2>
+        <h2>助眠功效分析</h2>
         <div style={{ 
           display: 'grid', 
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
@@ -117,10 +117,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
           }}>
             <span className="material-icons" style={{ fontSize: '48px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              favorite
+              bedtime
             </span>
-            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>心血管保護</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>維持心臟健康，調節血脂</p>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>快速入睡</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>縮短入睡時間</p>
           </div>
           <div style={{ 
             textAlign: 'center', 
@@ -130,10 +130,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
           }}>
             <span className="material-icons" style={{ fontSize: '48px', color: 'var(--secondary-color)', marginBottom: '10px' }}>
-              psychology
+              nights_stay
             </span>
-            <h3 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>腦部健康</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>支持腦部發育，增強記憶力</p>
+            <h3 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>深層睡眠</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>提升睡眠品質</p>
           </div>
           <div style={{ 
             textAlign: 'center', 
@@ -143,10 +143,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
           }}>
             <span className="material-icons" style={{ fontSize: '48px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              healing
+              self_improvement
             </span>
-            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>抗發炎作用</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>天然抗發炎，舒緩身體不適</p>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>神經放鬆</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>舒緩緊張情緒</p>
           </div>
         </div>
 
@@ -164,10 +164,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             textAlign: 'center'
           }}>
             <span className="material-icons" style={{ fontSize: '40px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              elderly
+              work
             </span>
-            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>中老年族群</h4>
-            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>心血管保健需求</p>
+            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>工作壓力大</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>難以放鬆入睡</p>
           </div>
           <div style={{ 
             background: 'var(--light-pink)', 
@@ -176,10 +176,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             textAlign: 'center'
           }}>
             <span className="material-icons" style={{ fontSize: '40px', color: 'var(--secondary-color)', marginBottom: '10px' }}>
-              work
+              schedule
             </span>
-            <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>上班族</h4>
-            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>工作壓力大、需要保健</p>
+            <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>作息不規律</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>生理時鐘紊亂</p>
           </div>
           <div style={{ 
             background: 'var(--light-teal)', 
@@ -188,10 +188,10 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
             textAlign: 'center'
           }}>
             <span className="material-icons" style={{ fontSize: '40px', color: 'var(--primary-color)', marginBottom: '10px' }}>
-              fitness_center
+              elderly
             </span>
-            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>運動愛好者</h4>
-            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>運動後恢復保健</p>
+            <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>中高齡族群</h4>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9em' }}>睡眠品質下降</p>
           </div>
         </div>
 
@@ -214,7 +214,7 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
               boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
             }}>
               <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>內容量</h4>
-              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>60粒/瓶</p>
+              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>30粒/瓶</p>
             </div>
             <div style={{ 
               background: 'var(--white)', 
@@ -223,7 +223,7 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
               boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
             }}>
               <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>建議用量</h4>
-              <p style={{ color: 'var(--text-primary)' }}>每日1-2粒，餐後食用</p>
+              <p style={{ color: 'var(--text-primary)' }}>睡前30分鐘1粒</p>
             </div>
             <div style={{ 
               background: 'var(--white)', 
@@ -232,7 +232,7 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
               boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
             }}>
               <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>產地</h4>
-              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>加拿大製造</p>
+              <p style={{ color: 'var(--text-primary)', fontWeight: '500' }}>美國製造</p>
             </div>
           </div>
         </div>
@@ -246,13 +246,13 @@ function TurmericFishOilProductPage({ onNavigateHome }) {
           borderRadius: '10px',
           boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
         }}>
-          建議每日1-2粒，餐後30分鐘內食用，配合溫開水服用。
-          持續使用3個月以上效果更佳。孕婦、哺乳期婦女及慢性疾病患者，
-          請先諮詢醫師或營養師建議後再食用。
+          建議睡前30分鐘服用1粒，配合溫開水服用。
+          避免與酒精或其他鎮靜劑同時使用。孕婦、哺乳期婦女及慢性疾病患者，
+          請先諮詢醫師建議後再食用。
         </p>
       </div>
     </div>
   );
-}
+};
 
-export default TurmericFishOilProductPage; 
+export default SleepGABAProductPage; 

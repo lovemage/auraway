@@ -3,7 +3,8 @@ import './ProductPage.css';
 
 function Q10ProductPage() {
   const images = [
-    "/images/日本q10/5bc33a45db7e74693e442838dff85d6b.jpg"
+    "/images/日本q10/5bc33a45db7e74693e442838dff85d6b.jpg",
+    "/images/日本q10/d297cc3ea96ede9d70c78168818c2ca6.jpg"
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

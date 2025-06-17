@@ -3,7 +3,8 @@ import './ProductPage.css';
 
 function RoyalJellyProductPage() {
   const images = [
-    "/images/日本蜂王乳/e9cc017fd6ade38af291acf2d319f1dc.jpg"
+    "/images/日本蜂王乳/e9cc017fd6ade38af291acf2d319f1dc.jpg",
+    "/images/日本蜂王乳/rXxaTRc.jpg"
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
