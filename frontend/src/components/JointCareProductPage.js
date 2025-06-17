@@ -3,7 +3,6 @@ import './ProductPage.css';
 
 const JointCareProductPage = ({ onNavigateHome }) => {
   const images = [
-    '/images/美國-關舒活/1dbc1283f878f2773accab97e1d0eb78.jpg',
     '/images/美國-關舒活/4ed8b1b1f856a37ca2951f5154b8f6aa.jpg'
   ];
 

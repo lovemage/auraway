@@ -3,8 +3,7 @@ import './ProductPage.css';
 
 const SleepGABAProductPage = ({ onNavigateHome }) => {
   const images = [
-    '/images/美國-夜舒眠GABA/6c1ea9955b8cc16a1e72a661f1e2f5f2.jpg',
-    '/images/美國-夜舒眠GABA/9ac955a8307e9f684a7b6eb49400337a.jpg'
+    '/images/美國-夜舒眠GABA/6c1ea9955b8cc16a1e72a661f1e2f5f2.jpg'
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

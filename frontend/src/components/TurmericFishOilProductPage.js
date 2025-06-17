@@ -3,8 +3,7 @@ import './ProductPage.css';
 
 function TurmericFishOilProductPage({ onNavigateHome }) {
   const images = [
-    '/images/加拿大-薑黃魚油/f9a4ddbad103efea855a2af355dc97c2.jpg',
-    '/images/加拿大-薑黃魚油/1c20d30fef2bf3f6db3e32619edb27e5.jpg'
+    '/images/加拿大-薑黃魚油/f9a4ddbad103efea855a2af355dc97c2.jpg'
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

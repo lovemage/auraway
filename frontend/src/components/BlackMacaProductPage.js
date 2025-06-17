@@ -3,7 +3,6 @@ import './ProductPage.css';
 
 const BlackMacaProductPage = ({ onNavigateHome }) => {
   const images = [
-    '/images/美國-黑馬卡精氨酸/2ce503f5a880a3baffb3f6b5871721cc.jpg',
     '/images/美國-黑馬卡精氨酸/91ce0a777ac90611c870c9caedd179f7.jpg'
   ];
 

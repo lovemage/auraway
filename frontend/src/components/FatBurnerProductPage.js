@@ -3,7 +3,6 @@ import './ProductPage.css';
 
 const FatBurnerProductPage = ({ onNavigateHome }) => {
   const images = [
-    '/images/美國-燃纖脂/564a5520dbfa7cefaae8fe84e102c81e.jpg',
     '/images/美國-燃纖脂/c3c6e7d6079320a3f5577e12295fbc58.jpg'
   ];
 

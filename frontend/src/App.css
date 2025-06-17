@@ -382,102 +382,175 @@ body {
   font-weight: 300;
 }
 
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.product-card {
-  background-color: var(--white);
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
-  transition: all 0.3s;
+/* Hover Card Styles */
+div.catCard {
+  border: solid 5px #e9e9e9;
+  background: #d8d8d8;
+  width: 221px;
+  height: 400px;
+  display: block;
   position: relative;
+  overflow: hidden;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(130, 191, 183, 0.2);
-}
-
-.product-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: var(--secondary-color);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 0;
-  font-size: 0.8em;
-  font-weight: 500;
-  z-index: 1;
-}
-
-.product-card img {
-  width: 100%;
+div.lowerCatCard {
+  position: absolute; 
+  background: #e9e9e9;
+  padding: 5px 5px; 
   height: 200px;
+  -webkit-transition: all 0.6s ease;
+  -moz-transition: all 0.6s ease;
+  -o-transition: all 0.6s ease;
+  transition: all 0.6s ease;
+}
+
+div.lowerCatCard:hover {
+  opacity: 0.95;
+  bottom: 0;
+  height: 390px;
+}
+
+div.catCard div.lowerCatCard { 
+  left: 0; 
+  bottom: -3%;
+  width: 215px;
+}
+
+div.catCard:hover div.lowerCatCard { 
+  bottom: 0;
+}
+
+li.catCardList {
+  width: 225px;
+  display: inline-block;
+  margin-right: 19px;
+  margin-top: 25px;
+}
+
+li.catCardList-last {
+  margin-right: 0;
+  width: 225px;
+  display: inline-block;
+}
+
+ul.catCardList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+#catCardButton {
+  position: absolute;
+  width: 190px;
+  bottom: 5px;
+  -webkit-transition: all 0.6s ease;
+  -moz-transition: all 0.6s ease;
+  -o-transition: all 0.6s ease;
+}
+
+div.lowerCatCard:hover #catCardButton {
+  bottom: 5px;
+}
+
+.startingPrice span {
+  font-size: 16px;
+  color: #c90c12;
+  font-weight: 300;
+}
+
+div.startingPrice {
+  margin-bottom: 5px;
+  color: #000;
+  font-weight: 300;
+}
+
+.catCard img {
+  border: 1px solid #dddddd;
+  width: 219px;
+  height: 198px;
   object-fit: cover;
 }
 
-.product-placeholder {
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(135deg, var(--light-teal), var(--light-pink));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-color);
-  font-size: 1.2em;
+.catCard img:hover {
+  border: 1px solid #bababa;
 }
 
-.product-card h3 {
-  padding: 20px 20px 10px;
+.catCard h3 {
   font-size: 1.3em;
-  color: var(--text-primary);
   margin: 0;
+  color: #333;
 }
 
-.product-description {
-  padding: 0 20px;
-  color: var(--text-secondary);
+.catCard p {
   font-size: 0.9em;
-  line-height: 1.5;
+  line-height: 1.4;
+  margin: 10px 0;
 }
 
-.price-info {
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.discount-price {
-  font-size: 1.4em;
-  font-weight: 600;
-  color: var(--secondary-color);
-}
-
-.original-price {
-  text-decoration: line-through;
-  color: var(--text-secondary);
-  font-size: 1.1em;
-}
-
-.add-to-cart-btn {
-  width: 100%;
-  padding: 15px;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  border: none;
+.catCard h4 {
   font-size: 1em;
-  cursor: pointer;
-  transition: all 0.3s;
+  margin: 10px 0 5px 0;
+  color: #333;
 }
 
-.add-to-cart-btn:hover {
-  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+.catCard ul {
+  margin: 0;
+  padding-left: 15px;
+  font-size: 0.85em;
+}
+
+.catCard li {
+  margin: 2px 0;
+}
+
+/* Button Styles */
+.button {
+  cursor: pointer;
+  font-size: 14px !important;
+  color: #ffffff;
+  padding: 7px 10px !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0 !important;
+  background: #000;
+  border: none;
+  border-bottom: solid 1px #c90c12;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #c90c12;
+  border: none;
+  border-bottom: solid 1px #000;
+  box-shadow: 0 2px 3px #a8a8a8;
+  transform: scale(1.04);
+  -webkit-transform: scale(1.04);
+  -moz-transform: scale(1.04);
+  -o-transform: scale(1.04);
+  -ms-transform: scale(1.04);
+}
+
+.button:active {
+  background: #000;
+}
+
+.button a {
+  color: #ffffff;
+  padding: 7px 30px !important;
+  text-decoration: none;
+}
+
+.button a:hover {
+  color: #ffffff;
+}
+
+.button:hover {
+  color: #fff;
 }
 
 /* 關於我們、服務承諾等區塊 */

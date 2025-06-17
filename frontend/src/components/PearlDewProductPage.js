@@ -3,8 +3,7 @@ import './ProductPage.css';
 
 function PearlDewProductPage() {
   const images = [
-    "/images/珍珠露/4bf10c3038a770b3d4af941f36e77dde (1).jpg",
-    "/images/珍珠露/57461b3776cf4febb8468fbecd89d0c7.jpg"
+    "/images/珍珠露/4bf10c3038a770b3d4af941f36e77dde (1).jpg"
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

@@ -3,8 +3,7 @@ import './ProductPage.css';
 
 function EnzymeJellyProductPage() {
   const images = [
-    "/images/青之酵素果凍/4e541dda27431efc8d93a5adbed63ff0.jpg",
-    "/images/青之酵素果凍/d99be0051786472bda22eddbb51e50cf.jpg"
+    "/images/青之酵素果凍/4e541dda27431efc8d93a5adbed63ff0.jpg"
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

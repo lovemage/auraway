@@ -3,7 +3,6 @@ import './ProductPage.css';
 
 function LiverProductPage() {
   const images = [
-    "/images/肝精/7191177995eee51427a82b37602a4a45.jpg",
     "/images/肝精/肝經main.jpg"
   ];
   

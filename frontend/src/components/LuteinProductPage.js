@@ -3,7 +3,6 @@ import './ProductPage.css';
 
 const LuteinProductPage = ({ onNavigateHome }) => {
   const images = [
-    '/images/日本-葉黃素/a13789b0a1b9488ad91d5eee85a70107.jpg',
     '/images/日本-葉黃素/c6077bb6abb93db08f907e4d95ac0ae2.jpg'
   ];
 
