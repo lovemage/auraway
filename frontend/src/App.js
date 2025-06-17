@@ -22,6 +22,7 @@ import BitterMelonProductPage from './components/BitterMelonProductPage';
 import GutHealthProductPage from './components/GutHealthProductPage';
 import MetabolismBProductPage from './components/MetabolismBProductPage';
 import BeautyDrinkProductPage from './components/BeautyDrinkProductPage';
+import WomenCards from './components/WomenCards';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -193,16 +194,40 @@ function App() {
       {currentPage === 'home' ? (
         <>
           <section className="hero-section">
-            <div className="hero-slider">
-              <div className="hero-slide" style={{ backgroundImage: `url('/images/white-rainforest-qCDK3DN7lOs-unsplash.jpg')` }}>
-                <div className="hero-content">
-                  <h2>守護健康 從今開始</h2>
-                  <p>專業營養師團隊嚴選，給您最優質的保健食品</p>
-                  <button className="cta-button" onClick={navigateToProduct}>立即選購</button>
-                </div>
+            <div className="hero-content">
+              <h1 className="hero-main-title">妳的身體，懂得所有的答案</h1>
+              <p className="hero-subtitle">
+                我們只是翻譯者，<br />
+                將健康的密語，化作每日的守護。
+              </p>
+              <div className="hero-buttons">
+                <button 
+                  className="hero-btn hero-btn-primary" 
+                  onClick={() => {
+                    const womenCardsSection = document.querySelector('.women-cards-section');
+                    if (womenCardsSection) {
+                      womenCardsSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  開始對話
+                </button>
+                <button 
+                  className="hero-btn hero-btn-secondary" 
+                  onClick={() => {
+                    const productsSection = document.querySelector('.featured-products');
+                    if (productsSection) {
+                      productsSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  探索更多
+                </button>
               </div>
             </div>
           </section>
+
+          <WomenCards />
 
           <main className="main-content">
             <section className="categories-section">

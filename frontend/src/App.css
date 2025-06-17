@@ -85,7 +85,7 @@ body {
   align-items: center;
   background-color: var(--light-teal);
   border: 1px solid var(--primary-color);
-  border-radius: 25px;
+  border-radius: 0;
   padding: 8px 20px;
   min-width: 300px;
 }
@@ -134,7 +134,7 @@ body {
   color: white;
   font-size: 12px;
   padding: 2px 6px;
-  border-radius: 10px;
+  border-radius: 0;
   font-weight: 500;
 }
 
@@ -179,73 +179,143 @@ body {
   background-color: var(--primary-color);
 }
 
-/* Hero Section */
+/* Hero Section - 新設計 */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+
+@property --hue1 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --hue2 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 .hero-section {
+  position: relative;
   width: 100%;
-  height: 500px;
+  min-height: 80vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  background-image: linear-gradient(
+      in oklch longer hue to right,
+      oklch(0.93 0.08 var(--hue1) / 50%),
+      oklch(0.93 0.08 var(--hue2) / 50%)
+    ),
+    linear-gradient(
+      in oklch longer hue to bottom,
+      oklch(0.93 0.08 var(--hue1) / 50%),
+      oklch(0.93 0.08 var(--hue2) / 50%)
+    );
+  background-size: 100% 100%;
+  animation: anim_hero_bg 5s linear infinite;
+}
+
+@keyframes anim_hero_bg {
+  0% {
+    --hue1: 0deg;
+    --hue2: 300deg;
+  }
+  100% {
+    --hue1: 360deg;
+    --hue2: 660deg;
+  }
+}
+
+.hero-content {
+  font-family: "Geist", sans-serif;
+  color: #DB7093;
+  max-width: 800px;
+  padding: 40px 20px;
+  z-index: 2;
+  position: relative;
+}
+
+.hero-main-title {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-bottom: 30px;
+  line-height: 1.1;
+  color: #DB7093;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 50px;
+  opacity: 0.85;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #C76C8C;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.hero-btn {
+  font-family: "Geist", sans-serif;
+  padding: 15px 35px;
+  border: none;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
   position: relative;
   overflow: hidden;
 }
 
-.hero-slide {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.hero-slide::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(130, 191, 183, 0.3), rgba(242, 162, 189, 0.3));
-  z-index: 1;
-}
-
-.hero-content {
-  text-align: center;
+.hero-btn-primary {
+  background: linear-gradient(135deg, #DB7093, #C76C8C);
   color: white;
-  z-index: 2;
-  position: relative;
-  max-width: 600px;
-  padding: 0 20px;
+  box-shadow: 0 4px 20px rgba(219, 112, 147, 0.3);
 }
 
-.hero-content h2 {
-  font-size: 3em;
-  margin-bottom: 20px;
-  font-weight: 300;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+.hero-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(219, 112, 147, 0.4);
+  background: linear-gradient(135deg, #E17BA6, #D1789F);
 }
 
-.hero-content p {
-  font-size: 1.2em;
-  margin-bottom: 30px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+.hero-btn-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  color: #DB7093;
+  border: 2px solid rgba(219, 112, 147, 0.3);
+  backdrop-filter: blur(10px);
 }
 
+.hero-btn-secondary:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(219, 112, 147, 0.5);
+  box-shadow: 0 8px 30px rgba(219, 112, 147, 0.2);
+}
+
+.hero-btn:active {
+  transform: translateY(-1px);
+}
+
+/* 移除舊的CTA按鈕樣式 */
 .cta-button {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 15px rgba(130, 191, 183, 0.3);
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(130, 191, 183, 0.4);
+  display: none;
 }
 
 /* 主要內容 */
@@ -269,7 +339,7 @@ body {
   text-align: center;
   padding: 30px 20px;
   background-color: var(--white);
-  border-radius: 15px;
+  border-radius: 0;
   box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
   transition: transform 0.3s;
 }
@@ -316,7 +386,7 @@ body {
 
 .category-card {
   background-color: var(--white);
-  border-radius: 15px;
+  border-radius: 0;
   padding: 30px 20px;
   text-align: center;
   cursor: pointer;
@@ -361,7 +431,7 @@ body {
   margin-bottom: 60px;
   padding: 40px;
   background: linear-gradient(135deg, var(--light-teal), var(--light-pink));
-  border-radius: 20px;
+  border-radius: 0;
 }
 
 .featured-products h2 {
@@ -380,7 +450,7 @@ body {
 
 .product-card {
   background-color: var(--white);
-  border-radius: 15px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
   transition: all 0.3s;
@@ -399,7 +469,7 @@ body {
   background-color: var(--secondary-color);
   color: white;
   padding: 5px 10px;
-  border-radius: 15px;
+  border-radius: 0;
   font-size: 0.8em;
   font-weight: 500;
   z-index: 1;
@@ -477,7 +547,7 @@ body {
   margin-bottom: 60px;
   padding: 40px;
   background-color: var(--white);
-  border-radius: 20px;
+  border-radius: 0;
   box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
 }
 
@@ -531,7 +601,7 @@ body {
   text-align: center;
   padding: 20px;
   background: linear-gradient(135deg, var(--light-teal), var(--light-pink));
-  border-radius: 15px;
+  border-radius: 0;
 }
 
 .quality-item h3 {
@@ -551,7 +621,7 @@ body {
 .reason-item {
   padding: 20px;
   background-color: var(--background-color);
-  border-radius: 10px;
+  border-radius: 0;
   border-left: 4px solid var(--primary-color);
 }
 
@@ -565,7 +635,7 @@ body {
 .nutritionist-quote {
   background: linear-gradient(135deg, var(--light-teal), var(--light-pink));
   padding: 30px;
-  border-radius: 15px;
+  border-radius: 0;
   text-align: center;
 }
 
@@ -590,7 +660,7 @@ body {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
   text-decoration: none;
-  border-radius: 25px;
+  border-radius: 0;
   font-size: 1.1em;
   transition: all 0.3s;
   box-shadow: 0 4px 15px rgba(130, 191, 183, 0.3);
@@ -668,10 +738,10 @@ body {
 .hamburger-menu .bar {
   width: 25px;
   height: 3px;
-  background-color: var(--primary-color);
+  background-color: #4a4a4a; /* 黑灰色 */
   margin: 3px 0;
   transition: 0.3s;
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 .menu-open .hamburger-menu .bar:nth-child(1) {
@@ -710,43 +780,68 @@ body {
 
   .navbar {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    position: fixed;
+    top: 0;
     right: 0;
-    background-color: var(--white);
-    box-shadow: 0 2px 10px rgba(130, 191, 183, 0.2);
+    width: 80%;
+    height: 100vh;
+    background-color: #F0F9F8; /* 與主頁背景一致的米白色 */
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
     z-index: 999;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
   }
 
   .navbar.menu-open {
     display: block;
+    transform: translateX(0);
   }
 
   .nav-menu {
     flex-direction: column;
-    padding: 0;
+    padding: 80px 0 20px 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+  }
+
+  /* 選單標題 */
+  .nav-menu::before {
+    content: '選單';
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2a2a2a;
   }
 
   .nav-menu li {
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--light-teal);
+    padding: 18px 30px;
+    border-bottom: 1px solid #e5e5e5;
+    color: #4a4a4a; /* 黑灰色字體 */
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .nav-menu li:first-child {
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .nav-menu li:hover {
+    background-color: #f0f0f0;
+    color: #2a2a2a;
+    padding-left: 35px;
   }
 
   .nav-menu li:last-child {
-    border-bottom: none;
+    border-bottom: 1px solid #e5e5e5;
   }
 
-  .navbar.menu-open::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-  }
+
 
   /* 移動端產品網格 - 雙排顯示 */
   .products-grid {
@@ -826,6 +921,20 @@ body {
 }
 
 @media (max-width: 480px) {
+  /* 小螢幕漢堡選單調整 */
+  .navbar {
+    width: 90%; /* 小螢幕下增加寬度到90% */
+  }
+
+  .nav-menu li {
+    padding: 16px 25px;
+    font-size: 15px;
+  }
+
+  .nav-menu li:hover {
+    padding-left: 30px;
+  }
+
   /* 小螢幕移動端產品網格優化 */
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
