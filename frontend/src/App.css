@@ -5,9 +5,9 @@
 
 body {
   margin: 0;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Huninn", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background-color);
@@ -180,7 +180,6 @@ body {
 }
 
 /* Hero Section - 新設計 */
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 
 @property --hue1 {
   syntax: "<angle>";
@@ -228,7 +227,7 @@ body {
 }
 
 .hero-content {
-  font-family: "Geist", sans-serif;
+  font-family: "Huninn", sans-serif;
   color: #DB7093;
   max-width: 800px;
   padding: 40px 20px;
@@ -266,7 +265,7 @@ body {
 }
 
 .hero-btn {
-  font-family: "Geist", sans-serif;
+  font-family: "Huninn", sans-serif;
   padding: 15px 35px;
   border: none;
   border-radius: 0;
@@ -365,66 +364,7 @@ body {
   line-height: 1.6;
 }
 
-/* 分類區域 */
-.categories-section {
-  margin-bottom: 60px;
-}
 
-.categories-section h2 {
-  text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 40px;
-  color: var(--primary-color);
-  font-weight: 300;
-}
-
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.category-card {
-  background-color: var(--white);
-  border-radius: 0;
-  padding: 30px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
-}
-
-.category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(130, 191, 183, 0.2);
-}
-
-.category-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 20px;
-  background: linear-gradient(135deg, var(--light-teal), var(--light-pink));
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.category-icon .material-icons {
-  font-size: 40px;
-  color: var(--primary-color);
-}
-
-.category-card h3 {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-  color: var(--text-primary);
-}
-
-.category-card p {
-  color: var(--text-secondary);
-  font-size: 0.9em;
-}
 
 /* 精選商品 */
 .featured-products {

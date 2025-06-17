@@ -230,39 +230,6 @@ function App() {
           <WomenCards />
 
           <main className="main-content">
-            <section className="categories-section">
-              <h2>熱門分類</h2>
-              <div className="category-grid">
-                <div className="category-card" onClick={navigateToProduct}>
-                  <div className="category-icon">
-                    <span className="material-icons">health_and_safety</span>
-                  </div>
-                  <h3>免疫力提升</h3>
-                  <p>強化身體防禦系統</p>
-                </div>
-                <div className="category-card" onClick={navigateToProduct}>
-                  <div className="category-icon">
-                    <span className="material-icons">spa</span>
-                  </div>
-                  <h3>美肌養顏</h3>
-                  <p>由內而外調理</p>
-                </div>
-                <div className="category-card" onClick={navigateToProduct}>
-                  <div className="category-icon">
-                    <span className="material-icons">fitness_center</span>
-                  </div>
-                  <h3>活力能量</h3>
-                  <p>維持最佳體能狀態</p>
-                </div>
-                <div className="category-card" onClick={navigateToProduct}>
-                  <div className="category-icon">
-                    <span className="material-icons">local_florist</span>
-                  </div>
-                  <h3>全方位保健</h3>
-                  <p>均衡營養補給</p>
-                </div>
-              </div>
-            </section>
 
             <section className="featured-products">
               <h2>精選商品</h2>
