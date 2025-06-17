@@ -382,175 +382,126 @@ body {
   font-weight: 300;
 }
 
-/* Hover Card Styles */
-div.catCard {
-  border: solid 5px #e9e9e9;
-  background: #d8d8d8;
-  width: 221px;
-  height: 400px;
-  display: block;
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 50px;
+  justify-items: center;
+}
+
+.product-card {
+  width: 380px;
   position: relative;
-  overflow: hidden;
+  box-shadow: 0 2px 7px #dfdfdf;
+  background: #fafafa;
+  font-family: 'Roboto', sans-serif;
 }
 
-div.lowerCatCard {
-  position: absolute; 
-  background: #e9e9e9;
-  padding: 5px 5px; 
-  height: 200px;
-  -webkit-transition: all 0.6s ease;
-  -moz-transition: all 0.6s ease;
-  -o-transition: all 0.6s ease;
-  transition: all 0.6s ease;
-}
-
-div.lowerCatCard:hover {
-  opacity: 0.95;
-  bottom: 0;
-  height: 390px;
-}
-
-div.catCard div.lowerCatCard { 
-  left: 0; 
-  bottom: -3%;
-  width: 215px;
-}
-
-div.catCard:hover div.lowerCatCard { 
-  bottom: 0;
-}
-
-li.catCardList {
-  width: 225px;
-  display: inline-block;
-  margin-right: 19px;
-  margin-top: 25px;
-}
-
-li.catCardList-last {
-  margin-right: 0;
-  width: 225px;
-  display: inline-block;
-}
-
-ul.catCardList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-#catCardButton {
+.badge {
   position: absolute;
-  width: 190px;
-  bottom: 5px;
-  -webkit-transition: all 0.6s ease;
-  -moz-transition: all 0.6s ease;
-  -o-transition: all 0.6s ease;
-}
-
-div.lowerCatCard:hover #catCardButton {
-  bottom: 5px;
-}
-
-.startingPrice span {
-  font-size: 16px;
-  color: #c90c12;
-  font-weight: 300;
-}
-
-div.startingPrice {
-  margin-bottom: 5px;
-  color: #000;
-  font-weight: 300;
-}
-
-.catCard img {
-  border: 1px solid #dddddd;
-  width: 219px;
-  height: 198px;
-  object-fit: cover;
-}
-
-.catCard img:hover {
-  border: 1px solid #bababa;
-}
-
-.catCard h3 {
-  font-size: 1.3em;
-  margin: 0;
-  color: #333;
-}
-
-.catCard p {
-  font-size: 0.9em;
-  line-height: 1.4;
-  margin: 10px 0;
-}
-
-.catCard h4 {
-  font-size: 1em;
-  margin: 10px 0 5px 0;
-  color: #333;
-}
-
-.catCard ul {
-  margin: 0;
-  padding-left: 15px;
-  font-size: 0.85em;
-}
-
-.catCard li {
-  margin: 2px 0;
-}
-
-/* Button Styles */
-.button {
-  cursor: pointer;
-  font-size: 14px !important;
-  color: #ffffff;
-  padding: 7px 10px !important;
-  text-decoration: none !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0 !important;
-  background: #000;
-  border: none;
-  border-bottom: solid 1px #c90c12;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.button:hover {
-  background-color: #c90c12;
-  border: none;
-  border-bottom: solid 1px #000;
-  box-shadow: 0 2px 3px #a8a8a8;
-  transform: scale(1.04);
-  -webkit-transform: scale(1.04);
-  -moz-transform: scale(1.04);
-  -o-transform: scale(1.04);
-  -ms-transform: scale(1.04);
-}
-
-.button:active {
-  background: #000;
-}
-
-.button a {
-  color: #ffffff;
-  padding: 7px 30px !important;
-  text-decoration: none;
-}
-
-.button a:hover {
-  color: #ffffff;
-}
-
-.button:hover {
+  left: 0;
+  top: 20px;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  background: red;
   color: #fff;
+  padding: 3px 10px;
+  z-index: 2;
+}
+
+.product-tumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  padding: 50px;
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+.product-tumb img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.product-details {
+  padding: 30px;
+}
+
+.product-catagory {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ccc;
+  margin-bottom: 18px;
+}
+
+.product-details h4 {
+  margin: 0;
+  margin-bottom: 18px;
+}
+
+.product-details h4 a {
+  font-weight: 500;
+  display: block;
+  text-transform: uppercase;
+  color: #363636;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.product-details h4 a:hover {
+  color: #fbb72c;
+}
+
+.product-details p {
+  font-size: 15px;
+  line-height: 22px;
+  margin-bottom: 18px;
+  color: #999;
+}
+
+.product-bottom-details {
+  overflow: hidden;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.product-bottom-details div {
+  float: left;
+  width: 50%;
+}
+
+.product-price {
+  font-size: 18px;
+  color: #fbb72c;
+  font-weight: 600;
+}
+
+.product-price small {
+  font-size: 80%;
+  font-weight: 400;
+  text-decoration: line-through;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.product-links {
+  text-align: right;
+}
+
+.product-links a {
+  display: inline-block;
+  margin-left: 5px;
+  color: #e1e1e1;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.product-links a:hover {
+  color: #fbb72c;
 }
 
 /* 關於我們、服務承諾等區塊 */
@@ -773,24 +724,24 @@ div.startingPrice {
   .hamburger-menu {
     display: flex;
   }
-
+  
   .header-top {
     font-size: 12px;
     gap: 20px;
   }
-
+  
   .header-main {
     padding: 15px 20px;
     flex-wrap: wrap;
     gap: 15px;
   }
-
+  
   .header-actions {
     order: 3;
     width: 100%;
     justify-content: center;
   }
-
+  
   .navbar {
     display: none;
     position: fixed;
@@ -805,12 +756,12 @@ div.startingPrice {
     transition: transform 0.3s ease-in-out;
     overflow-y: auto;
   }
-
+  
   .navbar.menu-open {
     display: block;
     transform: translateX(0);
   }
-
+  
   .nav-menu {
     flex-direction: column;
     padding: 80px 0 20px 0;
@@ -829,7 +780,7 @@ div.startingPrice {
     font-weight: 600;
     color: #2a2a2a;
   }
-
+  
   .nav-menu li {
     padding: 18px 30px;
     border-bottom: 1px solid #e5e5e5;
@@ -849,7 +800,7 @@ div.startingPrice {
     color: #2a2a2a;
     padding-left: 35px;
   }
-
+  
   .nav-menu li:last-child {
     border-bottom: 1px solid #e5e5e5;
   }
@@ -863,53 +814,41 @@ div.startingPrice {
   }
 
   .product-card {
+    width: 100%;
     min-height: auto;
   }
 
-  .product-card img {
-    height: 150px;
+  .product-tumb {
+    height: 200px;
+    padding: 20px;
   }
 
-  .product-card h3 {
-    padding: 15px 15px 8px;
-    font-size: 1.1em;
-    line-height: 1.3;
+  .product-details {
+    padding: 20px;
   }
 
-  .product-description {
-    padding: 0 15px;
-    font-size: 0.85em;
-    line-height: 1.4;
-    margin-bottom: 5px;
+  .product-details h4 a {
+    font-size: 14px;
   }
 
-  .price-info {
-    padding: 10px 15px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
+  .product-details p {
+    font-size: 12px;
+    line-height: 18px;
   }
 
-  .discount-price {
-    font-size: 1.2em;
+  .product-price {
+    font-size: 16px;
   }
 
-  .original-price {
-    font-size: 1em;
+  .product-links a {
+    font-size: 14px;
   }
 
-  .add-to-cart-btn {
-    padding: 12px;
-    font-size: 0.9em;
+  .badge {
+    font-size: 11px;
+    padding: 2px 6px;
   }
-
-  .product-badge {
-    top: 10px;
-    right: 10px;
-    padding: 4px 8px;
-    font-size: 0.7em;
-  }
-
+  
   .features-section,
   .categories-section,
   .featured-products,
@@ -918,16 +857,16 @@ div.startingPrice {
   .promise-section {
     padding: 20px;
   }
-
+  
   .footer-content {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-
+  
   .hero-content h2 {
     font-size: 2.2em;
   }
-
+  
   .hero-content p {
     font-size: 1.1em;
   }
@@ -954,46 +893,39 @@ div.startingPrice {
     gap: 12px;
   }
 
-  .product-card img {
-    height: 130px;
+  .product-card {
+    width: 100%;
   }
 
-  .product-card h3 {
-    padding: 12px 12px 6px;
-    font-size: 1em;
-    line-height: 1.2;
+  .product-tumb {
+    height: 180px;
+    padding: 15px;
   }
 
-  .product-description {
-    padding: 0 12px;
-    font-size: 0.8em;
-    line-height: 1.3;
-    margin-bottom: 3px;
+  .product-details {
+    padding: 15px;
   }
 
-  .price-info {
-    padding: 8px 12px;
-    gap: 3px;
+  .product-details h4 a {
+    font-size: 12px;
   }
 
-  .discount-price {
-    font-size: 1.1em;
+  .product-details p {
+    font-size: 11px;
+    line-height: 16px;
   }
 
-  .original-price {
-    font-size: 0.9em;
+  .product-price {
+    font-size: 14px;
   }
 
-  .add-to-cart-btn {
-    padding: 10px;
-    font-size: 0.85em;
+  .product-links a {
+    font-size: 12px;
   }
 
-  .product-badge {
-    top: 8px;
-    right: 8px;
-    padding: 3px 6px;
-    font-size: 0.65em;
+  .badge {
+    font-size: 10px;
+    padding: 2px 5px;
   }
 
   .features-section,
