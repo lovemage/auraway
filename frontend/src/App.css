@@ -392,9 +392,15 @@ body {
 .product-card {
   width: 380px;
   position: relative;
-  box-shadow: 0 2px 7px #dfdfdf;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
   background: #fafafa;
   font-family: 'Roboto', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .badge {
@@ -816,6 +822,12 @@ body {
   .product-card {
     width: 100%;
     min-height: auto;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), 0 3px 10px rgba(0, 0, 0, 0.08);
   }
 
   .product-tumb {
@@ -895,6 +907,12 @@ body {
 
   .product-card {
     width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
   .product-tumb {
