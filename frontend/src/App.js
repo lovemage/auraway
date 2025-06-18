@@ -161,6 +161,8 @@ function App() {
     setMenuOpen(false);
   };
 
+
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };

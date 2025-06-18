@@ -1,0 +1,435 @@
+/* Blog 管理後台樣式 */
+.blog-admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Huninn', sans-serif;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.admin-header h1 {
+  margin: 0 0 0 20px;
+  color: #333;
+  font-size: 28px;
+}
+
+.back-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background: #5a6268;
+}
+
+/* 標籤頁樣式 */
+.admin-tabs {
+  display: flex;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  color: #6c757d;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+.tab-button:hover {
+  color: #495057;
+  background: #f8f9fa;
+}
+
+.tab-button.active {
+  color: #007bff;
+  border-bottom-color: #007bff;
+  background: #f8f9fa;
+}
+
+/* 表單樣式 */
+.admin-form-section, .blog-settings-section {
+  background: #fff;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.admin-form-section h2, .blog-settings-section h2 {
+  margin: 0 0 25px 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.article-form, .settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 12px;
+  border: 1px solid #ced4da;
+  font-size: 16px;
+  font-family: 'Huninn', sans-serif;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.submit-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background: #218838;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+}
+
+/* 文章列表樣式 */
+.admin-list-section {
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.admin-list-section h2 {
+  margin: 0 0 25px 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.article-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  background: #f8f9fa;
+}
+
+.article-info {
+  flex: 1;
+}
+
+.article-info h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.article-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.article-meta .tag {
+  background: #007bff;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.article-meta .date,
+.article-meta .author {
+  color: #6c757d;
+}
+
+.article-desc {
+  color: #495057;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.article-actions {
+  display: flex;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.edit-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+  background: #0056b3;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.no-articles {
+  text-align: center;
+  color: #6c757d;
+  font-size: 18px;
+  padding: 40px;
+}
+
+/* 設定預覽樣式 */
+.settings-preview {
+  margin-top: 30px;
+}
+
+.settings-preview h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.preview-container {
+  transition: all 0.3s ease;
+}
+
+/* 社交分享樣式 */
+.article-share {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid #e9ecef;
+}
+
+.article-share h4 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+  color: white;
+}
+
+.share-btn i {
+  font-size: 16px;
+}
+
+.share-btn.facebook {
+  background: #1877f2;
+}
+
+.share-btn.facebook:hover {
+  background: #166fe5;
+}
+
+.share-btn.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.share-btn.instagram:hover {
+  opacity: 0.9;
+}
+
+.share-btn.line {
+  background: #00c300;
+}
+
+.share-btn.line:hover {
+  background: #00b300;
+}
+
+.share-btn.wechat {
+  background: #07c160;
+}
+
+.share-btn.wechat:hover {
+  background: #06ad56;
+}
+
+.share-btn.twitter {
+  background: #000000;
+}
+
+.share-btn.twitter:hover {
+  background: #333333;
+}
+
+.share-btn.copy {
+  background: #6c757d;
+}
+
+.share-btn.copy:hover {
+  background: #5a6268;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .blog-admin-container {
+    padding: 15px;
+  }
+  
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .admin-header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .admin-tabs {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    padding: 12px 20px;
+    text-align: left;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .article-item {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .article-actions {
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+  
+  .share-buttons {
+    justify-content: center;
+  }
+  
+  .share-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-form-section, .blog-settings-section {
+    padding: 20px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .submit-btn, .cancel-btn {
+    width: 100%;
+  }
+  
+  .share-btn {
+    min-width: 120px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+} 

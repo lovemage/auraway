@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import BlogAdminPage from './BlogAdminPage';
+import './BlogStyles.css';
 
 const AuraPostPage = () => {
   const [articles, setArticles] = useState([]);
   const [selectedTag, setSelectedTag] = useState('全部');
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const [showAdmin, setShowAdmin] = useState(false);
+
+  // Blog設定的預設值
+  const defaultBlogSettings = {
+    blogTitle: 'Aura Post 專欄',
+    blogDescription: '健康知識分享，專業營養資訊',
+    headerImage: '',
+    backgroundColor: '#ffffff',
+    textColor: '#333333',
+    accentColor: '#007bff'
+  };
+
+  const [blogSettings, setBlogSettings] = useState(defaultBlogSettings);
 
   const tags = ['全部', '靈性', '家庭', '健康', '醫療', '兒童', '幼兒', '料理', '年齡', '睡眠'];
 
@@ -67,6 +78,25 @@ const AuraPostPage = () => {
     }
   ];
 
+  // 載入blog設定的函數
+  const loadBlogSettings = () => {
+    const savedSettings = localStorage.getItem('blogSettings');
+    if (savedSettings) {
+      try {
+        const parsedSettings = JSON.parse(savedSettings);
+        setBlogSettings(parsedSettings);
+        console.log('載入的blog設定:', parsedSettings); // 除錯用
+      } catch (error) {
+        console.error('解析blog設定失敗:', error);
+        setBlogSettings(defaultBlogSettings);
+      }
+    } else {
+      // 如果沒有保存的設定，使用預設值並保存到localStorage
+      setBlogSettings(defaultBlogSettings);
+      localStorage.setItem('blogSettings', JSON.stringify(defaultBlogSettings));
+    }
+  };
+
   useEffect(() => {
     // 初始化文章數據
     const savedArticles = localStorage.getItem('auraPostArticles');
@@ -76,7 +106,42 @@ const AuraPostPage = () => {
       setArticles(defaultArticles);
       localStorage.setItem('auraPostArticles', JSON.stringify(defaultArticles));
     }
-  }, []);
+    
+    // 初始載入設定
+    loadBlogSettings();
+
+    // 監聽localStorage變化，當後台更新設定時自動重新載入
+    const handleStorageChange = (e) => {
+      if (e.key === 'blogSettings') {
+        loadBlogSettings();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // 定期檢查localStorage變化（因為同一標籤頁內storage事件不會觸發）
+    const checkInterval = setInterval(() => {
+      const currentSettings = localStorage.getItem('blogSettings');
+      if (currentSettings) {
+        try {
+          const parsedSettings = JSON.parse(currentSettings);
+          // 比較設定是否有變化
+          if (JSON.stringify(parsedSettings) !== JSON.stringify(blogSettings)) {
+            setBlogSettings(parsedSettings);
+            console.log('檢測到blog設定變化:', parsedSettings);
+          }
+        } catch (error) {
+          console.error('檢查blog設定時出錯:', error);
+        }
+      }
+    }, 1000); // 每秒檢查一次
+
+    // 清理事件監聽器和定時器
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(checkInterval);
+    };
+  }, [blogSettings]);
 
   const filteredArticles = selectedTag === '全部' 
     ? articles 
@@ -95,23 +160,50 @@ const AuraPostPage = () => {
     setSelectedArticle(null);
   };
 
-  const handleShowAdmin = () => {
-    setShowAdmin(true);
-    setSelectedArticle(null);
+
+
+  // 社交分享功能
+  const shareToFacebook = (article) => {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(`${article.title} - ${article.description}`);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
   };
 
-  const handleBackFromAdmin = () => {
-    setShowAdmin(false);
-    // 重新載入文章數據
-    const savedArticles = localStorage.getItem('auraPostArticles');
-    if (savedArticles) {
-      setArticles(JSON.parse(savedArticles));
-    }
+  const shareToInstagram = (article) => {
+    // Instagram 不支援直接分享連結，複製文字到剪貼簿
+    const text = `${article.title}\n\n${article.description}\n\n查看完整文章：${window.location.href}`;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('文章內容已複製到剪貼簿！請貼到 Instagram 貼文中。');
+    });
   };
 
-  if (showAdmin) {
-    return <BlogAdminPage onNavigateBack={handleBackFromAdmin} />;
-  }
+  const shareToLine = (article) => {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(`${article.title}\n${article.description}`);
+    window.open(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`, '_blank');
+  };
+
+  const shareToWechat = (article) => {
+    // WeChat 分享需要特殊處理，這裡提供二維碼生成
+    const text = `${article.title}\n\n${article.description}\n\n查看完整文章：${window.location.href}`;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('文章內容已複製到剪貼簿！請貼到 WeChat 中分享。');
+    });
+  };
+
+  const shareToTwitter = (article) => {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(`${article.title} - ${article.description}`);
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+  };
+
+  const copyLink = (article) => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('文章連結已複製到剪貼簿！');
+    });
+  };
+
+
 
   if (selectedArticle) {
     return (
@@ -135,6 +227,60 @@ const AuraPostPage = () => {
               <p key={index}>{paragraph}</p>
             ))}
           </div>
+          
+          <div className="article-share">
+            <h4>分享文章</h4>
+            <div className="share-buttons">
+              <button 
+                className="share-btn facebook"
+                onClick={() => shareToFacebook(selectedArticle)}
+                title="分享到 Facebook"
+              >
+                <i className="fab fa-facebook-f"></i>
+                Facebook
+              </button>
+              <button 
+                className="share-btn instagram"
+                onClick={() => shareToInstagram(selectedArticle)}
+                title="分享到 Instagram"
+              >
+                <i className="fab fa-instagram"></i>
+                Instagram
+              </button>
+              <button 
+                className="share-btn line"
+                onClick={() => shareToLine(selectedArticle)}
+                title="分享到 LINE"
+              >
+                <i className="fab fa-line"></i>
+                LINE
+              </button>
+              <button 
+                className="share-btn wechat"
+                onClick={() => shareToWechat(selectedArticle)}
+                title="分享到 WeChat"
+              >
+                <i className="fab fa-weixin"></i>
+                WeChat
+              </button>
+              <button 
+                className="share-btn twitter"
+                onClick={() => shareToTwitter(selectedArticle)}
+                title="分享到 X (Twitter)"
+              >
+                <i className="fab fa-x-twitter"></i>
+                X
+              </button>
+              <button 
+                className="share-btn copy"
+                onClick={() => copyLink(selectedArticle)}
+                title="複製連結"
+              >
+                <i className="fas fa-link"></i>
+                複製連結
+              </button>
+            </div>
+          </div>
         </article>
       </div>
     );
@@ -142,15 +288,41 @@ const AuraPostPage = () => {
 
   return (
     <div className="aura-post-container">
-      <div className="page-header">
+      <div className="page-header" style={{
+        backgroundColor: blogSettings.backgroundColor,
+        color: blogSettings.textColor,
+        backgroundImage: blogSettings.headerImage ? `url(${blogSettings.headerImage})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}>
         <div className="header-content">
           <div>
-            <h1>Aura Post 專欄</h1>
-            <p>健康知識分享，專業營養資訊</p>
+            <h1 style={{ color: blogSettings.accentColor }}>{blogSettings.blogTitle}</h1>
+            <p>{blogSettings.blogDescription}</p>
           </div>
-          <button className="admin-btn" onClick={handleShowAdmin}>
-            文章管理
-          </button>
+          <div className="admin-notice">
+            <p style={{ fontSize: '14px', opacity: '0.8' }}>
+              📝 管理員可通過 <a href="/admin.html" target="_blank" style={{ color: blogSettings.accentColor }}>後台管理系統</a> 管理文章和設定
+              <button 
+                onClick={() => {
+                  loadBlogSettings();
+                  alert('設定已重新載入！');
+                }} 
+                style={{ 
+                  marginLeft: '10px', 
+                  padding: '4px 8px', 
+                  fontSize: '12px',
+                  backgroundColor: blogSettings.accentColor,
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+                title="重新載入blog設定"
+              >
+                🔄 重新載入設定
+              </button>
+            </p>
+          </div>
         </div>
       </div>
       

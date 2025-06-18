@@ -392,6 +392,7 @@
             <ul class="sidebar-menu">
                 <li><a href="#dashboard" class="active"><span class="material-icons">dashboard</span>儀表板</a></li>
                 <li><a href="#products"><span class="material-icons">inventory_2</span>商品管理</a></li>
+                <li><a href="#blog"><span class="material-icons">article</span>Blog 管理</a></li>
                 <li><a href="#header-info"><span class="material-icons">info</span>導航區塊管理</a></li>
                 <li><a href="#orders"><span class="material-icons">shopping_cart</span>訂單管理</a></li>
                 <li><a href="#customers"><span class="material-icons">people</span>客戶管理</a></li>
@@ -820,6 +821,153 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Blog 管理 -->
+            <div class="content-section" id="blog-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">Blog 管理</h3>
+                    <div class="blog-tabs">
+                        <button class="tab-btn active" data-tab="articles">文章管理</button>
+                        <button class="tab-btn" data-tab="settings">版面設定</button>
+                    </div>
+                </div>
+                
+                <!-- 文章管理標籤 -->
+                <div class="tab-content" id="articles-tab">
+                    <div class="blog-stats">
+                        <div class="blog-stat-card">
+                            <h4>總文章數</h4>
+                            <span class="stat-number" id="total-articles">2</span>
+                        </div>
+                        <div class="blog-stat-card">
+                            <h4>本月新增</h4>
+                            <span class="stat-number" id="monthly-articles">2</span>
+                        </div>
+                        <div class="blog-stat-card">
+                            <h4>文章標籤</h4>
+                            <span class="stat-number" id="total-tags">9</span>
+                        </div>
+                    </div>
+
+                    <div class="article-form-container">
+                        <h4>新增/編輯文章</h4>
+                        <form id="article-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="article-title">文章標題 *</label>
+                                    <input type="text" id="article-title" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="article-tag">文章標籤 *</label>
+                                    <select id="article-tag" required>
+                                        <option value="靈性">靈性</option>
+                                        <option value="家庭">家庭</option>
+                                        <option value="健康">健康</option>
+                                        <option value="醫療">醫療</option>
+                                        <option value="兒童">兒童</option>
+                                        <option value="幼兒">幼兒</option>
+                                        <option value="料理">料理</option>
+                                        <option value="年齡">年齡</option>
+                                        <option value="睡眠">睡眠</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-description">文章描述 *</label>
+                                <textarea id="article-description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="article-author">作者</label>
+                                <input type="text" id="article-author" value="編輯部">
+                            </div>
+                            <div class="form-group">
+                                <label for="article-content">文章內容 *</label>
+                                <textarea id="article-content" rows="15" required placeholder="請輸入文章內容，支援 Markdown 格式..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="material-icons">save</span>
+                                    <span id="form-submit-text">發布文章</span>
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="cancel-edit" style="display: none;">
+                                    <span class="material-icons">cancel</span>取消編輯
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="articles-list-container">
+                        <h4>已發布文章</h4>
+                        <div class="articles-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>標題</th>
+                                        <th>標籤</th>
+                                        <th>作者</th>
+                                        <th>發布日期</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="articles-table-body">
+                                    <!-- 文章列表將由 JavaScript 動態生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 版面設定標籤 -->
+                <div class="tab-content" id="settings-tab" style="display: none;">
+                    <div class="blog-settings-container">
+                        <h4>Blog 版面設定</h4>
+                        <form id="blog-settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="blog-title">Blog 標題</label>
+                                    <input type="text" id="blog-title" value="Aura Post 專欄">
+                                </div>
+                                <div class="form-group">
+                                    <label for="blog-header-image">頭部圖片 URL</label>
+                                    <input type="url" id="blog-header-image" placeholder="請輸入圖片網址">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="blog-description">Blog 描述</label>
+                                <textarea id="blog-description" rows="3">健康知識分享，專業營養資訊</textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="blog-bg-color">背景顏色</label>
+                                    <input type="color" id="blog-bg-color" value="#ffffff">
+                                </div>
+                                <div class="form-group">
+                                    <label for="blog-text-color">文字顏色</label>
+                                    <input type="color" id="blog-text-color" value="#333333">
+                                </div>
+                                <div class="form-group">
+                                    <label for="blog-accent-color">主題色</label>
+                                    <input type="color" id="blog-accent-color" value="#007bff">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="material-icons">save</span>儲存設定
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="settings-preview">
+                            <h4>預覽效果</h4>
+                            <div class="preview-container" id="blog-preview">
+                                <h3 id="preview-title">Aura Post 專欄</h3>
+                                <p id="preview-description">健康知識分享，專業營養資訊</p>
+                                <button class="preview-button">範例按鈕</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -889,6 +1037,174 @@
             background-color: var(--background-color);
             color: var(--text-secondary);
         }
+
+        /* Blog 管理樣式 */
+        .blog-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active,
+        .tab-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            margin-top: 30px;
+        }
+
+        .blog-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .blog-stat-card {
+            background: linear-gradient(135deg, var(--light-teal), var(--light-pink));
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .blog-stat-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .article-form-container,
+        .articles-list-container,
+        .blog-settings-container {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(130, 191, 183, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .article-form-container h4,
+        .articles-list-container h4,
+        .blog-settings-container h4 {
+            margin: 0 0 20px 0;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .articles-table {
+            overflow-x: auto;
+        }
+
+        .articles-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .articles-table th,
+        .articles-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-teal);
+        }
+
+        .articles-table th {
+            background: var(--light-teal);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .articles-table tr:hover {
+            background: var(--background-color);
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .settings-preview {
+            margin-top: 30px;
+        }
+
+        .preview-container {
+            border: 2px solid var(--light-teal);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .preview-container h3 {
+            margin: 0 0 10px 0;
+        }
+
+        .preview-container p {
+            margin: 0 0 15px 0;
+        }
+
+        .preview-button {
+            background: var(--accent-color, var(--primary-color));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-tabs {
+                flex-direction: column;
+            }
+        }
     </style>
 
     <script>
@@ -940,9 +1256,12 @@
             if (href === '#header-info') {
                 document.getElementById('header-info-section').style.display = 'block';
                 loadHeaderInfo();
+            } else if (href === '#blog') {
+                document.getElementById('blog-section').style.display = 'block';
+                initBlogManagement();
             } else {
                 // 顯示默認內容（儀表板）
-                document.querySelectorAll('.content-section:not(#header-info-section)').forEach(section => {
+                document.querySelectorAll('.content-section:not(#header-info-section):not(#blog-section)').forEach(section => {
                     section.style.display = 'block';
                 });
             }
@@ -1070,6 +1389,310 @@
         window.addEventListener('load', () => {
             setTimeout(animateNumbers, 500);
         });
+
+        // Blog 管理功能
+        let blogArticles = [];
+        let editingArticleId = null;
+        let blogSettings = {
+            blogTitle: 'Aura Post 專欄',
+            blogDescription: '健康知識分享，專業營養資訊',
+            headerImage: '',
+            backgroundColor: '#ffffff',
+            textColor: '#333333',
+            accentColor: '#007bff'
+        };
+
+        // 初始化 Blog 管理
+        function initBlogManagement() {
+            loadBlogData();
+            setupBlogEventListeners();
+            loadBlogSettings();
+        }
+
+        // 設置事件監聽器
+        function setupBlogEventListeners() {
+            // 標籤頁切換
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.dataset.tab;
+                    switchBlogTab(tab);
+                });
+            });
+
+            // 文章表單提交
+            document.getElementById('article-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveArticle();
+            });
+
+            // 取消編輯
+            document.getElementById('cancel-edit').addEventListener('click', function() {
+                cancelEdit();
+            });
+
+            // Blog 設定表單提交
+            document.getElementById('blog-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveBlogSettings();
+            });
+
+            // 設定預覽更新
+            ['blog-title', 'blog-description', 'blog-bg-color', 'blog-text-color', 'blog-accent-color'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updatePreview);
+            });
+        }
+
+        // 切換標籤頁
+        function switchBlogTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById(`${tab}-tab`).style.display = 'block';
+        }
+
+        // 載入 Blog 數據
+        function loadBlogData() {
+            // 模擬載入文章數據
+            const defaultArticles = [
+                {
+                    id: 1,
+                    title: '三十五歲的秘密花園',
+                    description: '三十五歲的清晨，她在鏡子前微笑。不是二十歲那種不經意的笑，也不是三十歲時略帶緊張的笑。',
+                    tag: '年齡',
+                    date: '2025-01-17',
+                    author: '編輯部',
+                    content: '三十五歲的清晨，她在鏡子前微笑...'
+                },
+                {
+                    id: 2,
+                    title: '夢境裡的秘密房間',
+                    description: '她說，枕頭是這世上最忠實的朋友。每個夜晚，當城市的喧囂漸漸沉澱，她開始準備一場與自己的約會。',
+                    tag: '睡眠',
+                    date: '2025-01-16',
+                    author: '編輯部',
+                    content: '她說，枕頭是這世上最忠實的朋友...'
+                }
+            ];
+
+            const saved = localStorage.getItem('blogArticles');
+            blogArticles = saved ? JSON.parse(saved) : defaultArticles;
+            
+            if (!saved) {
+                localStorage.setItem('blogArticles', JSON.stringify(defaultArticles));
+            }
+
+            updateBlogStats();
+            renderArticlesTable();
+        }
+
+        // 更新統計數據
+        function updateBlogStats() {
+            document.getElementById('total-articles').textContent = blogArticles.length;
+            
+            const currentMonth = new Date().getMonth();
+            const monthlyArticles = blogArticles.filter(article => {
+                const articleDate = new Date(article.date);
+                return articleDate.getMonth() === currentMonth;
+            }).length;
+            
+            document.getElementById('monthly-articles').textContent = monthlyArticles;
+        }
+
+        // 渲染文章表格
+        function renderArticlesTable() {
+            const tbody = document.getElementById('articles-table-body');
+            tbody.innerHTML = '';
+
+            blogArticles.forEach(article => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${article.title}</td>
+                    <td><span style="background: var(--primary-color); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">${article.tag}</span></td>
+                    <td>${article.author}</td>
+                    <td>${article.date}</td>
+                    <td class="article-actions">
+                        <button class="btn btn-primary btn-small" onclick="editArticle(${article.id})">編輯</button>
+                        <button class="btn btn-secondary btn-small" onclick="deleteArticle(${article.id})">刪除</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 儲存文章
+        function saveArticle() {
+            const title = document.getElementById('article-title').value;
+            const description = document.getElementById('article-description').value;
+            const tag = document.getElementById('article-tag').value;
+            const author = document.getElementById('article-author').value;
+            const content = document.getElementById('article-content').value;
+
+            if (!title || !description || !content) {
+                alert('請填寫所有必填欄位');
+                return;
+            }
+
+            const currentDate = new Date().toISOString().split('T')[0];
+
+            if (editingArticleId) {
+                // 編輯現有文章
+                const index = blogArticles.findIndex(article => article.id === editingArticleId);
+                if (index !== -1) {
+                    blogArticles[index] = {
+                        ...blogArticles[index],
+                        title,
+                        description,
+                        tag,
+                        author,
+                        content
+                    };
+                }
+            } else {
+                // 新增文章
+                const newArticle = {
+                    id: Date.now(),
+                    title,
+                    description,
+                    tag,
+                    author,
+                    content,
+                    date: currentDate
+                };
+                blogArticles.push(newArticle);
+            }
+
+            localStorage.setItem('blogArticles', JSON.stringify(blogArticles));
+            
+            // 重置表單
+            document.getElementById('article-form').reset();
+            document.getElementById('article-author').value = '編輯部';
+            editingArticleId = null;
+            document.getElementById('form-submit-text').textContent = '發布文章';
+            document.getElementById('cancel-edit').style.display = 'none';
+
+            updateBlogStats();
+            renderArticlesTable();
+            
+            alert(editingArticleId ? '文章更新成功！' : '文章發布成功！');
+        }
+
+        // 編輯文章
+        function editArticle(id) {
+            const article = blogArticles.find(a => a.id === id);
+            if (!article) return;
+
+            document.getElementById('article-title').value = article.title;
+            document.getElementById('article-description').value = article.description;
+            document.getElementById('article-tag').value = article.tag;
+            document.getElementById('article-author').value = article.author;
+            document.getElementById('article-content').value = article.content;
+
+            editingArticleId = id;
+            document.getElementById('form-submit-text').textContent = '更新文章';
+            document.getElementById('cancel-edit').style.display = 'inline-block';
+
+            // 滾動到表單
+            document.querySelector('.article-form-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 刪除文章
+        function deleteArticle(id) {
+            if (confirm('確定要刪除這篇文章嗎？')) {
+                blogArticles = blogArticles.filter(article => article.id !== id);
+                localStorage.setItem('blogArticles', JSON.stringify(blogArticles));
+                
+                updateBlogStats();
+                renderArticlesTable();
+                
+                alert('文章刪除成功！');
+            }
+        }
+
+        // 取消編輯
+        function cancelEdit() {
+            document.getElementById('article-form').reset();
+            document.getElementById('article-author').value = '編輯部';
+            editingArticleId = null;
+            document.getElementById('form-submit-text').textContent = '發布文章';
+            document.getElementById('cancel-edit').style.display = 'none';
+        }
+
+        // 載入 Blog 設定
+        function loadBlogSettings() {
+            const saved = localStorage.getItem('blogSettings');
+            if (saved) {
+                try {
+                    blogSettings = JSON.parse(saved);
+                } catch (error) {
+                    console.error('解析blog設定失敗:', error);
+                    // 使用預設值
+                    blogSettings = {
+                        blogTitle: 'Aura Post 專欄',
+                        blogDescription: '健康知識分享，專業營養資訊',
+                        headerImage: '',
+                        backgroundColor: '#ffffff',
+                        textColor: '#333333',
+                        accentColor: '#007bff'
+                    };
+                }
+            } else {
+                // 如果沒有保存的設定，保存預設值到localStorage
+                localStorage.setItem('blogSettings', JSON.stringify(blogSettings));
+            }
+            
+            // 更新表單欄位
+            document.getElementById('blog-title').value = blogSettings.blogTitle;
+            document.getElementById('blog-description').value = blogSettings.blogDescription;
+            document.getElementById('blog-header-image').value = blogSettings.headerImage || '';
+            document.getElementById('blog-bg-color').value = blogSettings.backgroundColor;
+            document.getElementById('blog-text-color').value = blogSettings.textColor;
+            document.getElementById('blog-accent-color').value = blogSettings.accentColor;
+            
+            updatePreview();
+        }
+
+        // 儲存 Blog 設定
+        function saveBlogSettings() {
+            blogSettings = {
+                blogTitle: document.getElementById('blog-title').value,
+                blogDescription: document.getElementById('blog-description').value,
+                headerImage: document.getElementById('blog-header-image').value,
+                backgroundColor: document.getElementById('blog-bg-color').value,
+                textColor: document.getElementById('blog-text-color').value,
+                accentColor: document.getElementById('blog-accent-color').value
+            };
+
+            console.log('準備保存的blog設定:', blogSettings);
+            localStorage.setItem('blogSettings', JSON.stringify(blogSettings));
+            
+            // 驗證保存是否成功
+            const saved = localStorage.getItem('blogSettings');
+            console.log('保存後的blog設定:', JSON.parse(saved));
+            
+            alert('Blog 設定已儲存！請到前台頁面點擊「重新載入設定」按鈕查看變化。');
+        }
+
+        // 更新預覽
+        function updatePreview() {
+            const preview = document.getElementById('blog-preview');
+            const title = document.getElementById('blog-title').value;
+            const description = document.getElementById('blog-description').value;
+            const bgColor = document.getElementById('blog-bg-color').value;
+            const textColor = document.getElementById('blog-text-color').value;
+            const accentColor = document.getElementById('blog-accent-color').value;
+
+            preview.style.backgroundColor = bgColor;
+            preview.style.color = textColor;
+            preview.style.borderColor = accentColor;
+
+            document.getElementById('preview-title').textContent = title;
+            document.getElementById('preview-title').style.color = accentColor;
+            document.getElementById('preview-description').textContent = description;
+            
+            const button = preview.querySelector('.preview-button');
+            button.style.backgroundColor = accentColor;
+        }
     </script>
 </body>
 </html> 
