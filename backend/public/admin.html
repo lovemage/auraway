@@ -454,13 +454,164 @@
                 </div>
             </div>
 
-            <!-- 商品管理區塊 -->
+            <!-- 產品管理區塊 -->
+            <div id="products-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">產品管理</h3>
+                    <button class="btn btn-primary" onclick="showAddProductForm()">
+                        <span class="material-icons">add</span>新增產品
+                    </button>
+                </div>
+                
+                <!-- 產品列表 -->
+                <div class="table-container">
+                    <table id="products-table">
+                        <thead>
+                            <tr>
+                                <th>產品圖片</th>
+                                <th>產品名稱</th>
+                                <th>分類</th>
+                                <th>價格</th>
+                                <th>庫存</th>
+                                <th>狀態</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- 動態加載產品數據 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 產品表單 -->
+            <div id="product-form-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title" id="product-form-title">新增產品</h3>
+                    <button class="btn btn-secondary" onclick="hideProductForm()">
+                        <span class="material-icons">close</span>取消
+                    </button>
+                </div>
+                
+                <form id="product-form" onsubmit="saveProduct(event)">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <!-- 左側：基本信息 -->
+                        <div>
+                            <div class="form-group">
+                                <label for="product-name">產品名稱 *</label>
+                                <input type="text" id="product-name" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-description">產品描述 *</label>
+                                <textarea id="product-description" class="form-control" rows="4" required></textarea>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label for="product-price">售價 *</label>
+                                    <input type="number" id="product-price" class="form-control" min="0" step="1" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="product-original-price">原價</label>
+                                    <input type="number" id="product-original-price" class="form-control" min="0" step="1">
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label for="product-stock">庫存數量 *</label>
+                                    <input type="number" id="product-stock" class="form-control" min="0" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="product-category">產品分類 *</label>
+                                    <select id="product-category" class="form-control" required>
+                                        <option value="">選擇分類</option>
+                                        <option value="健康保健">健康保健</option>
+                                        <option value="美容保養">美容保養</option>
+                                        <option value="心血管保健">心血管保健</option>
+                                        <option value="護眼保健">護眼保健</option>
+                                        <option value="睡眠保健">睡眠保健</option>
+                                        <option value="關節保健">關節保健</option>
+                                        <option value="體重管理">體重管理</option>
+                                        <option value="男性保健">男性保健</option>
+                                        <option value="女性保健">女性保健</option>
+                                        <option value="酵素保健">酵素保健</option>
+                                        <option value="益生菌">益生菌</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-badge">產品標籤</label>
+                                <input type="text" id="product-badge" class="form-control" placeholder="如：熱銷、新上市、限時優惠">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-tags">產品標籤 (用逗號分隔)</label>
+                                <input type="text" id="product-tags" class="form-control" placeholder="標籤1,標籤2,標籤3">
+                            </div>
+                        </div>
+                        
+                        <!-- 右側：規格與圖片 -->
+                        <div>
+                            <div class="form-group">
+                                <label for="product-images">產品圖片 (每行一個URL)</label>
+                                <textarea id="product-images" class="form-control" rows="4" placeholder="/images/產品資料夾/圖片1.jpg&#10;/images/產品資料夾/圖片2.jpg"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-content">內容量/規格</label>
+                                <input type="text" id="product-content" class="form-control" placeholder="如：18g x 20包/盒">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-storage">保存方式</label>
+                                <input type="text" id="product-storage" class="form-control" placeholder="如：常溫陰涼乾燥處保存">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-origin">產地</label>
+                                <input type="text" id="product-origin" class="form-control" placeholder="如：台灣製造">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-ingredients">主要成分</label>
+                                <textarea id="product-ingredients" class="form-control" rows="3" placeholder="主要成分說明"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-usage">食用方法</label>
+                                <textarea id="product-usage" class="form-control" rows="3" placeholder="食用方法說明"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-features">商品特色 (每行一個特色)</label>
+                                <textarea id="product-features" class="form-control" rows="4" placeholder="特色1&#10;特色2&#10;特色3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="material-icons">save</span>儲存產品
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="hideProductForm()">
+                            取消
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 原有的商品管理區塊 (簡化版) -->
             <div class="content-section">
                 <div class="section-header">
-                    <h3 class="section-title">商品管理</h3>
-                    <a href="#add-product" class="btn btn-primary">
-                        <span class="material-icons">add</span>新增商品
-                    </a>
+                    <h3 class="section-title">商品總覽</h3>
+                    <button class="btn btn-primary" onclick="showProductsSection()">
+                        <span class="material-icons">inventory_2</span>進入產品管理
+                    </button>
                 </div>
                 <div class="table-container">
                     <table>
@@ -482,7 +633,7 @@
                                 <td>50</td>
                                 <td><span class="status-badge status-active">上架中</span></td>
                                 <td>
-                                    <button class="btn btn-secondary">編輯</button>
+                                    <button class="btn btn-secondary" onclick="showProductsSection()">管理</button>
                                 </td>
                             </tr>
                             <tr>
@@ -492,112 +643,33 @@
                                 <td>30</td>
                                 <td><span class="status-badge status-active">上架中</span></td>
                                 <td>
-                                    <button class="btn btn-secondary">編輯</button>
+                                    <button class="btn btn-secondary" onclick="showProductsSection()">管理</button>
                                 </td>
                             </tr>
-                                                         <tr>
-                                 <td>專業肝精保健食品</td>
-                                 <td>保健食品</td>
-                                 <td>NT$1,680</td>
-                                 <td>25</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>珍珠露 - 美麗膠原蛋白</td>
-                                 <td>美肌養顏</td>
-                                 <td>NT$1,290</td>
-                                 <td>40</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>日本蜂王乳</td>
-                                 <td>美肌養顏</td>
-                                 <td>NT$1,480</td>
-                                 <td>35</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>青之酵素果凍</td>
-                                 <td>酵素保健</td>
-                                 <td>NT$1,280</td>
-                                 <td>45</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>日本Q10</td>
-                                 <td>心血管保健</td>
-                                 <td>NT$1,290</td>
-                                 <td>30</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>加拿大薑黃魚油</td>
-                                 <td>心血管保健</td>
-                                 <td>NT$1,290</td>
-                                 <td>25</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>美國關舒活</td>
-                                 <td>關節保健</td>
-                                 <td>NT$1,290</td>
-                                 <td>20</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>日本葉黃素</td>
-                                 <td>護眼保健</td>
-                                 <td>NT$1,150</td>
-                                 <td>35</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>美國夜舒眠GABA</td>
-                                 <td>睡眠保健</td>
-                                 <td>NT$1,190</td>
-                                 <td>30</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>美國燃纖脂</td>
-                                 <td>體重管理</td>
-                                 <td>NT$3,100</td>
-                                 <td>15</td>
-                                 <td><span class="status-badge status-active">上架中</span></td>
-                                 <td>
-                                     <button class="btn btn-secondary">編輯</button>
-                                 </td>
-                             </tr>
-                             <tr>
-                                 <td>美國黑馬卡精氨酸</td>
-                                 <td>男性保健</td>
+                            <tr>
+                                <td>專業肝精保健食品</td>
+                                <td>保健食品</td>
+                                <td>NT$1,680</td>
+                                <td>25</td>
+                                <td><span class="status-badge status-active">上架中</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="showProductsSection()">管理</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 庫存警告區塊 -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h3 class="section-title">庫存警告</h3>
+                    <span class="status-badge status-pending" id="low-stock-count">0 項商品</span>
+                </div>
+                <div id="low-stock-products">
+                    <!-- 動態加載低庫存商品 -->
+                </div>
                                  <td>NT$1,250</td>
                                  <td>25</td>
                                  <td><span class="status-badge status-active">上架中</span></td>
@@ -1323,7 +1395,9 @@
                 section.style.display = 'none';
             });
             
-            if (href === '#header-info') {
+            if (href === '#products') {
+                showProductsSection();
+            } else if (href === '#header-info') {
                 document.getElementById('header-info-section').style.display = 'block';
                 loadHeaderInfo();
             } else if (href === '#blog') {
@@ -1827,6 +1901,310 @@
             const button = preview.querySelector('.preview-button');
             button.style.backgroundColor = accentColor;
         }
+
+        // ========== 產品管理功能 ==========
+        let products = [];
+        let editingProductId = null;
+
+        // 顯示產品管理區塊
+        function showProductsSection() {
+            // 隱藏所有內容區塊
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // 顯示產品管理區塊
+            document.getElementById('products-section').style.display = 'block';
+            
+            // 載入產品數據
+            loadProducts();
+        }
+
+        // 載入產品數據
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                if (response.ok) {
+                    products = await response.json();
+                    renderProductsTable();
+                    updateProductStats();
+                    checkLowStock();
+                } else {
+                    console.error('載入產品失敗');
+                }
+            } catch (error) {
+                console.error('載入產品錯誤:', error);
+            }
+        }
+
+        // 渲染產品表格
+        function renderProductsTable() {
+            const tbody = document.getElementById('products-table-body');
+            tbody.innerHTML = '';
+
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                const firstImage = product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.jpg';
+                const originalPrice = product.originalPrice ? `<small style="text-decoration: line-through; color: #999;">NT$${product.originalPrice}</small><br>` : '';
+                
+                row.innerHTML = `
+                    <td>
+                        <img src="${firstImage}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                    </td>
+                    <td>
+                        <strong>${product.name}</strong>
+                        ${product.badge ? `<br><span style="background: var(--secondary-color); color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">${product.badge}</span>` : ''}
+                    </td>
+                    <td>${product.category}</td>
+                    <td>
+                        ${originalPrice}
+                        <span style="color: var(--primary-color); font-weight: bold;">NT$${product.price}</span>
+                    </td>
+                    <td>
+                        <span style="color: ${product.stock < 10 ? 'red' : 'var(--text-primary)'}; font-weight: ${product.stock < 10 ? 'bold' : 'normal'};">
+                            ${product.stock}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${product.isActive ? 'status-active' : 'status-inactive'}">
+                            ${product.isActive ? '上架中' : '已下架'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-small" onclick="editProduct('${product._id}')" style="margin-right: 5px;">編輯</button>
+                        <button class="btn btn-secondary btn-small" onclick="toggleProduct('${product._id}')" style="margin-right: 5px;">
+                            ${product.isActive ? '下架' : '上架'}
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="deleteProduct('${product._id}')" style="background: #dc3545;">刪除</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 更新產品統計
+        function updateProductStats() {
+            // 更新儀表板的產品數量
+            const totalProducts = products.length;
+            const activeProducts = products.filter(p => p.isActive).length;
+            
+            // 假設有產品統計元素
+            const productStatElement = document.querySelector('.stat-card.primary .stat-value');
+            if (productStatElement) {
+                productStatElement.textContent = totalProducts;
+            }
+        }
+
+        // 檢查低庫存
+        function checkLowStock() {
+            const lowStockProducts = products.filter(p => p.stock < 10 && p.isActive);
+            const lowStockContainer = document.getElementById('low-stock-products');
+            const lowStockCount = document.getElementById('low-stock-count');
+            
+            if (lowStockCount) {
+                lowStockCount.textContent = `${lowStockProducts.length} 項商品`;
+            }
+            
+            if (lowStockContainer) {
+                if (lowStockProducts.length === 0) {
+                    lowStockContainer.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 20px;">目前沒有低庫存商品</p>';
+                } else {
+                    lowStockContainer.innerHTML = lowStockProducts.map(product => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--white); margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #dc3545;">
+                            <div>
+                                <strong>${product.name}</strong>
+                                <span style="color: #dc3545; margin-left: 10px;">庫存: ${product.stock}</span>
+                            </div>
+                            <button class="btn btn-primary btn-small" onclick="quickUpdateStock('${product._id}', ${product.stock})">補貨</button>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        // 快速更新庫存
+        async function quickUpdateStock(productId, currentStock) {
+            const newStock = prompt(`請輸入新的庫存數量 (目前: ${currentStock}):`, currentStock);
+            if (newStock !== null && !isNaN(newStock) && parseInt(newStock) >= 0) {
+                try {
+                    const response = await fetch(`/api/products/${productId}/stock`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ stock: parseInt(newStock) })
+                    });
+
+                    if (response.ok) {
+                        await loadProducts();
+                        alert('庫存更新成功！');
+                    } else {
+                        alert('庫存更新失敗');
+                    }
+                } catch (error) {
+                    console.error('更新庫存錯誤:', error);
+                    alert('庫存更新失敗');
+                }
+            }
+        }
+
+        // 顯示新增產品表單
+        function showAddProductForm() {
+            document.getElementById('products-section').style.display = 'none';
+            document.getElementById('product-form-section').style.display = 'block';
+            document.getElementById('product-form-title').textContent = '新增產品';
+            document.getElementById('product-form').reset();
+            editingProductId = null;
+        }
+
+        // 隱藏產品表單
+        function hideProductForm() {
+            document.getElementById('product-form-section').style.display = 'none';
+            document.getElementById('products-section').style.display = 'block';
+            editingProductId = null;
+        }
+
+        // 編輯產品
+        function editProduct(productId) {
+            const product = products.find(p => p._id === productId);
+            if (!product) return;
+
+            document.getElementById('products-section').style.display = 'none';
+            document.getElementById('product-form-section').style.display = 'block';
+            document.getElementById('product-form-title').textContent = '編輯產品';
+
+            // 填充表單
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-description').value = product.description;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-original-price').value = product.originalPrice || '';
+            document.getElementById('product-stock').value = product.stock;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-badge').value = product.badge || '';
+            document.getElementById('product-tags').value = product.tags ? product.tags.join(',') : '';
+            document.getElementById('product-images').value = product.images ? product.images.join('\n') : '';
+            
+            // 規格信息
+            if (product.specifications) {
+                document.getElementById('product-content').value = product.specifications.content || '';
+                document.getElementById('product-storage').value = product.specifications.storage || '';
+                document.getElementById('product-origin').value = product.specifications.origin || '';
+                document.getElementById('product-ingredients').value = product.specifications.ingredients || '';
+                document.getElementById('product-usage').value = product.specifications.usage || '';
+                document.getElementById('product-features').value = product.specifications.features ? product.specifications.features.join('\n') : '';
+            }
+
+            editingProductId = productId;
+        }
+
+        // 儲存產品
+        async function saveProduct(event) {
+            event.preventDefault();
+
+            const formData = {
+                name: document.getElementById('product-name').value,
+                description: document.getElementById('product-description').value,
+                price: parseInt(document.getElementById('product-price').value),
+                originalPrice: document.getElementById('product-original-price').value ? parseInt(document.getElementById('product-original-price').value) : null,
+                stock: parseInt(document.getElementById('product-stock').value),
+                category: document.getElementById('product-category').value,
+                badge: document.getElementById('product-badge').value,
+                tags: document.getElementById('product-tags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
+                images: document.getElementById('product-images').value.split('\n').map(img => img.trim()).filter(img => img),
+                specifications: {
+                    content: document.getElementById('product-content').value,
+                    storage: document.getElementById('product-storage').value,
+                    origin: document.getElementById('product-origin').value,
+                    ingredients: document.getElementById('product-ingredients').value,
+                    usage: document.getElementById('product-usage').value,
+                    features: document.getElementById('product-features').value.split('\n').map(feature => feature.trim()).filter(feature => feature)
+                }
+            };
+
+            try {
+                let response;
+                if (editingProductId) {
+                    // 更新產品
+                    response = await fetch(`/api/products/${editingProductId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                } else {
+                    // 新增產品
+                    response = await fetch('/api/products', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                }
+
+                if (response.ok) {
+                    alert(editingProductId ? '產品更新成功！' : '產品新增成功！');
+                    hideProductForm();
+                    await loadProducts();
+                } else {
+                    const error = await response.json();
+                    alert('儲存失敗: ' + (error.message || '未知錯誤'));
+                }
+            } catch (error) {
+                console.error('儲存產品錯誤:', error);
+                alert('儲存失敗，請稍後再試');
+            }
+        }
+
+        // 切換產品狀態
+        async function toggleProduct(productId) {
+            try {
+                const response = await fetch(`/api/products/${productId}/toggle`, {
+                    method: 'PATCH'
+                });
+
+                if (response.ok) {
+                    await loadProducts();
+                    alert('產品狀態更新成功！');
+                } else {
+                    alert('狀態更新失敗');
+                }
+            } catch (error) {
+                console.error('切換產品狀態錯誤:', error);
+                alert('狀態更新失敗');
+            }
+        }
+
+        // 刪除產品
+        async function deleteProduct(productId) {
+            const product = products.find(p => p._id === productId);
+            if (!product) return;
+
+            if (confirm(`確定要刪除產品「${product.name}」嗎？此操作無法復原。`)) {
+                try {
+                    const response = await fetch(`/api/products/${productId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        await loadProducts();
+                        alert('產品刪除成功！');
+                    } else {
+                        alert('刪除失敗');
+                    }
+                } catch (error) {
+                    console.error('刪除產品錯誤:', error);
+                    alert('刪除失敗');
+                }
+            }
+        }
+
+        // 初始化產品管理
+        document.addEventListener('DOMContentLoaded', function() {
+            // 載入產品數據用於儀表板統計
+            loadProducts();
+        });
     </script>
 </body>
 </html> 
