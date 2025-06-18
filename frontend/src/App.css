@@ -449,25 +449,16 @@ body {
   margin-bottom: 18px;
 }
 
-.product-details h4 a,
-.product-details h4 .product-title-btn {
+.product-details h4 a {
   font-weight: 500;
   display: block;
   text-transform: uppercase;
   color: #363636;
   text-decoration: none;
   transition: 0.3s;
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
 }
 
-.product-details h4 a:hover,
-.product-details h4 .product-title-btn:hover {
+.product-details h4 a:hover {
   color: #fbb72c;
 }
 
@@ -507,21 +498,15 @@ body {
   text-align: right;
 }
 
-.product-links a,
-.product-links .product-action-btn {
+.product-links a {
   display: inline-block;
   margin-left: 5px;
   color: #e1e1e1;
   transition: 0.3s;
   font-size: 17px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
 }
 
-.product-links a:hover,
-.product-links .product-action-btn:hover {
+.product-links a:hover {
   color: #fbb72c;
 }
 
@@ -827,7 +812,7 @@ body {
   }
 
 
-
+  
   /* 移動端產品網格 - 雙排顯示 */
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -854,8 +839,7 @@ body {
     padding: 20px;
   }
 
-  .product-details h4 a,
-  .product-details h4 .product-title-btn {
+  .product-details h4 a {
     font-size: 14px;
   }
 
@@ -868,8 +852,7 @@ body {
     font-size: 16px;
   }
 
-  .product-links a,
-  .product-links .product-action-btn {
+  .product-links a {
     font-size: 14px;
   }
 
@@ -941,8 +924,7 @@ body {
     padding: 15px;
   }
 
-  .product-details h4 a,
-  .product-details h4 .product-title-btn {
+  .product-details h4 a {
     font-size: 12px;
   }
 
@@ -955,8 +937,7 @@ body {
     font-size: 14px;
   }
 
-  .product-links a,
-  .product-links .product-action-btn {
+  .product-links a {
     font-size: 12px;
   }
 
@@ -1343,14 +1324,27 @@ body {
 
 .aura-post-container .page-header {
   margin-bottom: 40px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid var(--light-teal);
+  padding: 25px;
+  border: 2px solid var(--light-teal);
+  border-radius: 15px;
+  transition: all 0.3s ease;
 }
 
 .header-content {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.header-content h1 {
+  margin: 0 0 10px 0;
+  font-size: 1.8em;
+  font-weight: 500;
+}
+
+.header-content p {
+  margin: 0 0 15px 0;
+  line-height: 1.6;
 }
 
 .admin-btn {

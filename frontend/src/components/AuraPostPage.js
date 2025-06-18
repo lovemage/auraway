@@ -6,17 +6,14 @@ const AuraPostPage = () => {
   const [selectedTag, setSelectedTag] = useState('全部');
   const [selectedArticle, setSelectedArticle] = useState(null);
 
-  // Blog設定的預設值
-  const defaultBlogSettings = {
+  const [blogSettings, setBlogSettings] = useState({
     blogTitle: 'Aura Post 專欄',
     blogDescription: '健康知識分享，專業營養資訊',
     headerImage: '',
     backgroundColor: '#ffffff',
     textColor: '#333333',
     accentColor: '#007bff'
-  };
-
-  const [blogSettings, setBlogSettings] = useState(defaultBlogSettings);
+  });
 
   const tags = ['全部', '靈性', '家庭', '健康', '醫療', '兒童', '幼兒', '料理', '年齡', '睡眠'];
 
@@ -78,70 +75,58 @@ const AuraPostPage = () => {
     }
   ];
 
-  // 載入blog設定的函數
-  const loadBlogSettings = () => {
-    const savedSettings = localStorage.getItem('blogSettings');
-    if (savedSettings) {
-      try {
-        const parsedSettings = JSON.parse(savedSettings);
-        setBlogSettings(parsedSettings);
-        console.log('載入的blog設定:', parsedSettings); // 除錯用
-      } catch (error) {
-        console.error('解析blog設定失敗:', error);
-        setBlogSettings(defaultBlogSettings);
-      }
-    } else {
-      // 如果沒有保存的設定，使用預設值並保存到localStorage
-      setBlogSettings(defaultBlogSettings);
-      localStorage.setItem('blogSettings', JSON.stringify(defaultBlogSettings));
-    }
-  };
-
   useEffect(() => {
-    // 初始化文章數據
-    const savedArticles = localStorage.getItem('auraPostArticles');
-    if (savedArticles) {
-      setArticles(JSON.parse(savedArticles));
-    } else {
-      setArticles(defaultArticles);
-      localStorage.setItem('auraPostArticles', JSON.stringify(defaultArticles));
-    }
-    
-    // 初始載入設定
-    loadBlogSettings();
-
-    // 監聽localStorage變化，當後台更新設定時自動重新載入
-    const handleStorageChange = (e) => {
-      if (e.key === 'blogSettings') {
-        loadBlogSettings();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    // 定期檢查localStorage變化（因為同一標籤頁內storage事件不會觸發）
-    const checkInterval = setInterval(() => {
-      const currentSettings = localStorage.getItem('blogSettings');
-      if (currentSettings) {
-        try {
-          const parsedSettings = JSON.parse(currentSettings);
-          // 比較設定是否有變化
-          if (JSON.stringify(parsedSettings) !== JSON.stringify(blogSettings)) {
-            setBlogSettings(parsedSettings);
-            console.log('檢測到blog設定變化:', parsedSettings);
-          }
-        } catch (error) {
-          console.error('檢查blog設定時出錯:', error);
+    // 載入文章數據
+    const loadArticles = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/api/blog/articles');
+        if (response.ok) {
+          const articlesData = await response.json();
+          // 轉換MongoDB格式到前台格式
+          const formattedArticles = articlesData.map(article => ({
+            id: article._id,
+            title: article.title,
+            description: article.description,
+            content: article.content,
+            tag: article.tag,
+            author: article.author,
+            date: new Date(article.date).toISOString().split('T')[0]
+          }));
+          setArticles(formattedArticles);
+        } else {
+          // 如果API失敗，使用預設文章並初始化
+          setArticles(defaultArticles);
+          await fetch('http://localhost:5001/api/blog/init', { method: 'POST' });
         }
+      } catch (error) {
+        console.error('載入文章失敗:', error);
+        setArticles(defaultArticles);
       }
-    }, 1000); // 每秒檢查一次
-
-    // 清理事件監聽器和定時器
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      clearInterval(checkInterval);
     };
-  }, [blogSettings]);
+
+    // 載入blog設定
+    const loadSettings = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/api/blog/settings');
+        if (response.ok) {
+          const settingsData = await response.json();
+          setBlogSettings({
+            blogTitle: settingsData.blogTitle,
+            blogDescription: settingsData.blogDescription,
+            headerImage: settingsData.headerImage,
+            backgroundColor: settingsData.backgroundColor,
+            textColor: settingsData.textColor,
+            accentColor: settingsData.accentColor
+          });
+        }
+      } catch (error) {
+        console.error('載入設定失敗:', error);
+      }
+    };
+
+    loadArticles();
+    loadSettings();
+  }, []);
 
   const filteredArticles = selectedTag === '全部' 
     ? articles 
@@ -298,30 +283,7 @@ const AuraPostPage = () => {
         <div className="header-content">
           <div>
             <h1 style={{ color: blogSettings.accentColor }}>{blogSettings.blogTitle}</h1>
-            <p>{blogSettings.blogDescription}</p>
-          </div>
-          <div className="admin-notice">
-            <p style={{ fontSize: '14px', opacity: '0.8' }}>
-              📝 管理員可通過 <a href="/admin.html" target="_blank" style={{ color: blogSettings.accentColor }}>後台管理系統</a> 管理文章和設定
-              <button 
-                onClick={() => {
-                  loadBlogSettings();
-                  alert('設定已重新載入！');
-                }} 
-                style={{ 
-                  marginLeft: '10px', 
-                  padding: '4px 8px', 
-                  fontSize: '12px',
-                  backgroundColor: blogSettings.accentColor,
-                  color: 'white',
-                  border: 'none',
-                  cursor: 'pointer'
-                }}
-                title="重新載入blog設定"
-              >
-                🔄 重新載入設定
-              </button>
-            </p>
+            <p style={{ color: blogSettings.textColor }}>{blogSettings.blogDescription}</p>
           </div>
         </div>
       </div>

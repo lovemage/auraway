@@ -22,6 +22,13 @@ import BitterMelonProductPage from './components/BitterMelonProductPage';
 import GutHealthProductPage from './components/GutHealthProductPage';
 import MetabolismBProductPage from './components/MetabolismBProductPage';
 import BeautyDrinkProductPage from './components/BeautyDrinkProductPage';
+import VitaminD3ProductPage from './components/VitaminD3ProductPage';
+import VitaminCZincProductPage from './components/VitaminCZincProductPage';
+import CollagenPeptideProductPage from './components/CollagenPeptideProductPage';
+import SlimCupProductPage from './components/SlimCupProductPage';
+import PeaceTabletProductPage from './components/PeaceTabletProductPage';
+import NattokinaseProductPage from './components/NattokinaseProductPage';
+import EnzymeSlimJellyProductPage from './components/EnzymeSlimJellyProductPage';
 import AuraPostPage from './components/AuraPostPage';
 import EventPage from './components/EventPage';
 import BabyMemberPage from './components/BabyMemberPage';
@@ -131,6 +138,41 @@ function App() {
     setMenuOpen(false);
   };
 
+  const navigateToVitaminD3Product = () => {
+    setCurrentPage('vitamind3');
+    setMenuOpen(false);
+  };
+
+  const navigateToVitaminCZincProduct = () => {
+    setCurrentPage('vitaminczinc');
+    setMenuOpen(false);
+  };
+
+  const navigateToCollagenPeptideProduct = () => {
+    setCurrentPage('collagenpeptide');
+    setMenuOpen(false);
+  };
+
+  const navigateToSlimCupProduct = () => {
+    setCurrentPage('slimcup');
+    setMenuOpen(false);
+  };
+
+  const navigateToPeaceTabletProduct = () => {
+    setCurrentPage('peacetablet');
+    setMenuOpen(false);
+  };
+
+  const navigateToNattokinaseProduct = () => {
+    setCurrentPage('nattokinase');
+    setMenuOpen(false);
+  };
+
+  const navigateToEnzymeSlimJellyProduct = () => {
+    setCurrentPage('enzymeslimjelly');
+    setMenuOpen(false);
+  };
+
   const navigateToHome = () => {
     setCurrentPage('home');
     setMenuOpen(false);
@@ -209,7 +251,7 @@ function App() {
       {currentPage === 'home' ? (
         <>
           <section className="hero-section">
-            <div className="hero-content">
+                <div className="hero-content">
               <h1 className="hero-main-title">妳的身體，懂得所有的答案</h1>
               <p className="hero-subtitle">
                 我們只是翻譯者，<br />
@@ -256,13 +298,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">健康保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToProduct}>波森莓濃縮飲PLUS</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToProduct(); }}>波森莓濃縮飲PLUS</a></h4>
                     <p>富含抗氧化成分，提升免疫力</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 2,000</small>NT$ 1,280</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -274,13 +316,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">腸道保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToProbioticProduct}>日本-原生菌</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToProbioticProduct(); }}>日本-原生菌</a></h4>
                     <p>22種乳酸菌，腸道健康守護</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,880</small>NT$ 1,580</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -292,13 +334,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">肝臟保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToLiverProduct}>專業肝精保健食品</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToLiverProduct(); }}>專業肝精保健食品</a></h4>
                     <p>肝臟保健，促進新陳代謝</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 2,200</small>NT$ 1,680</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -310,13 +352,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">美容保養</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToPearlDewProduct}>珍珠露美麗膠原蛋白</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToPearlDewProduct(); }}>珍珠露美麗膠原蛋白</a></h4>
                     <p>日本製造，由內而外散發自然光采</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,590</small>NT$ 1,290</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -328,13 +370,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">美容保養</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToRoyalJellyProduct}>日本蜂王乳</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToRoyalJellyProduct(); }}>日本蜂王乳</a></h4>
                     <p>天然美容聖品，由內而外散發光彩</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,780</small>NT$ 1,480</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -346,13 +388,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">消化保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToEnzymeJellyProduct}>青之酵素果凍</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToEnzymeJellyProduct(); }}>青之酵素果凍</a></h4>
                     <p>清爽果凍口感，輕鬆補充酵素營養</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,580</small>NT$ 1,280</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -364,13 +406,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">心血管保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToQ10Product}>日本Q10</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToQ10Product(); }}>日本Q10</a></h4>
                     <p>細胞能量代謝，維持心血管健康</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,590</small>NT$ 1,290</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -382,13 +424,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">健康保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToTurmericFishOilProduct}>加拿大薑黃魚油</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToTurmericFishOilProduct(); }}>加拿大薑黃魚油</a></h4>
                     <p>深海魚油×薑黃素雙重配方</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,590</small>NT$ 1,290</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -400,13 +442,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">關節保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToJointCareProduct}>美國關舒活</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToJointCareProduct(); }}>美國關舒活</a></h4>
                     <p>葡萄糖胺三重關節保健配方</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,590</small>NT$ 1,290</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -418,13 +460,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">眼部保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToLuteinProduct}>日本葉黃素</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToLuteinProduct(); }}>日本葉黃素</a></h4>
                     <p>金盞花萃取護眼專業配方</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,450</small>NT$ 1,150</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -436,13 +478,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">睡眠保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToSleepGABAProduct}>美國夜舒眠GABA</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToSleepGABAProduct(); }}>美國夜舒眠GABA</a></h4>
                     <p>專業助眠配方，深度睡眠支持</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,490</small>NT$ 1,190</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -454,13 +496,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">體重管理</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToFatBurnerProduct}>美國燃纖脂</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToFatBurnerProduct(); }}>美國燃纖脂</a></h4>
                     <p>專業燃脂配方，健康體態管理</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 3,400</small>NT$ 3,100</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -472,13 +514,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">男性保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToBlackMacaProduct}>美國黑馬卡精氨酸</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToBlackMacaProduct(); }}>美國黑馬卡精氨酸</a></h4>
                     <p>男性活力配方，提升體能表現</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,550</small>NT$ 1,250</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -490,13 +532,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">骨骼保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToCalciumPowderProduct}>美國檸檬酸鈣粉</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToCalciumPowderProduct(); }}>美國檸檬酸鈣粉</a></h4>
                     <p>高濃度鈣質，易於人體吸收</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,580</small>NT$ 1,280</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -508,13 +550,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">營養補充</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToVitaminGummiesProduct}>美國綜合維生素軟糖</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToVitaminGummiesProduct(); }}>美國綜合維生素軟糖</a></h4>
                     <p>Q彈美味軟糖，綜合維生素營養</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,350</small>NT$ 1,050</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -526,13 +568,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">代謝調節</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToBitterMelonProduct}>美國苦瓜胜肽</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToBitterMelonProduct(); }}>美國苦瓜胜肽</a></h4>
                     <p>高純度苦瓜胜肽，調節代謝</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,550</small>NT$ 1,250</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -544,13 +586,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">腸道保健</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToGutHealthProduct}>美國固益清</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToGutHealthProduct(); }}>美國固益清</a></h4>
                     <p>腸道保健專業配方，溫和有效</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,480</small>NT$ 1,180</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -562,13 +604,13 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">營養補充</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToMetabolismBProduct}>美國代謝b群plus</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToMetabolismBProduct(); }}>美國代謝b群plus</a></h4>
                     <p>8種B群維生素，提升能量代謝</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,480</small>NT$ 1,180</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -580,13 +622,139 @@ function App() {
                   </div>
                   <div className="product-details">
                     <span className="product-catagory">美容保養</span>
-                    <h4><button type="button" className="product-title-btn" onClick={navigateToBeautyDrinkProduct}>美妍飲</button></h4>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToBeautyDrinkProduct(); }}>美妍飲</a></h4>
                     <p>膠原蛋白美肌飲，由內而外散發光彩</p>
                     <div className="product-bottom-details">
                       <div className="product-price"><small>NT$ 1,680</small>NT$ 1,380</div>
                       <div className="product-links">
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入收藏"><i className="fa fa-heart"></i></button>
-                        <button type="button" className="product-action-btn" onClick={() => {}} title="加入購物車"><i className="fa fa-shopping-cart"></i></button>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-card">
+                  <div className="badge">加拿大進口</div>
+                  <div className="product-tumb" onClick={navigateToVitaminD3Product}>
+                    <img src="/images/加拿大-維生素D3液劑15ml/27e611ffb4eb6a9732ba2310268fe0d4.jpg" alt="加拿大維生素D3液劑15ml" />
+                  </div>
+                  <div className="product-details">
+                    <span className="product-catagory">骨骼保健</span>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToVitaminD3Product(); }}>加拿大維生素D3液劑15ml</a></h4>
+                    <p>高濃度維生素D3，促進鈣質吸收</p>
+                    <div className="product-bottom-details">
+                      <div className="product-price"><small>NT$ 1,980</small>NT$ 1,680</div>
+                      <div className="product-links">
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-card">
+                  <div className="badge">免疫增強</div>
+                  <div className="product-tumb" onClick={navigateToVitaminCZincProduct}>
+                    <img src="/images/維生素C+酵母鋅/f94c0999d662bdd0260afb59a401534a.jpg" alt="維生素C+酵母鋅" />
+                  </div>
+                  <div className="product-details">
+                    <span className="product-catagory">免疫保健</span>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToVitaminCZincProduct(); }}>維生素C+酵母鋅</a></h4>
+                    <p>雙重營養素，增強免疫防護力</p>
+                    <div className="product-bottom-details">
+                      <div className="product-price"><small>NT$ 1,450</small>NT$ 1,150</div>
+                      <div className="product-links">
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-card">
+                  <div className="badge">美肌抗老</div>
+                  <div className="product-tumb" onClick={navigateToCollagenPeptideProduct}>
+                    <img src="/images/膠原蛋白胜肽/c7f238f1065d57d92d71e06499e23e20.jpg" alt="膠原蛋白胜肽" />
+                  </div>
+                  <div className="product-details">
+                    <span className="product-catagory">美容保養</span>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToCollagenPeptideProduct(); }}>膠原蛋白胜肽</a></h4>
+                    <p>小分子膠原蛋白，易吸收抗老化</p>
+                    <div className="product-bottom-details">
+                      <div className="product-price"><small>NT$ 2,080</small>NT$ 1,780</div>
+                      <div className="product-links">
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-card">
+                  <div className="badge">新上市</div>
+                  <div className="product-tumb" onClick={navigateToSlimCupProduct}>
+                    <img src="/images/日本-孅淨一杯/9eca82704a21ed1288db87d8827e09e4.jpg" alt="日本孅淨一杯" />
+                  </div>
+                  <div className="product-details">
+                    <span className="product-catagory">體重管理</span>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToSlimCupProduct(); }}>日本孅淨一杯</a></h4>
+                    <p>天然植物萃取，促進新陳代謝</p>
+                    <div className="product-bottom-details">
+                      <div className="product-price"><small>NT$ 1,650</small>NT$ 1,350</div>
+                      <div className="product-links">
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-card">
+                  <div className="badge">新上市</div>
+                  <div className="product-tumb" onClick={navigateToPeaceTabletProduct}>
+                    <img src="/images/日本-平安錠/d09666aa64e7988592a562202875b273.jpg" alt="日本平安錠" />
+                  </div>
+                  <div className="product-details">
+                    <span className="product-catagory">壓力舒緩</span>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToPeaceTabletProduct(); }}>日本平安錠</a></h4>
+                    <p>天然草本精華，舒緩壓力平衡身心</p>
+                    <div className="product-bottom-details">
+                      <div className="product-price"><small>NT$ 1,550</small>NT$ 1,250</div>
+                      <div className="product-links">
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-card">
+                  <div className="badge">新上市</div>
+                  <div className="product-tumb" onClick={navigateToNattokinaseProduct}>
+                    <img src="/images/日本-蚓激酶/3967ec6fa88a35454dd60cfd8825cab8.jpg" alt="日本蚓激酶" />
+                  </div>
+                  <div className="product-details">
+                    <span className="product-catagory">心血管保健</span>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToNattokinaseProduct(); }}>日本蚓激酶</a></h4>
+                    <p>納豆發酵萃取，促進血液循環</p>
+                    <div className="product-bottom-details">
+                      <div className="product-price"><small>NT$ 1,780</small>NT$ 1,480</div>
+                      <div className="product-links">
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-card">
+                  <div className="badge">新上市</div>
+                  <div className="product-tumb" onClick={navigateToEnzymeSlimJellyProduct}>
+                    <img src="/images/酵孅凍/5a92ca803369be5533eafa2a7ab04c15.jpg" alt="酵孅凍" />
+                  </div>
+                  <div className="product-details">
+                    <span className="product-catagory">消化保健</span>
+                    <h4><a href="#" onClick={(e) => { e.preventDefault(); navigateToEnzymeSlimJellyProduct(); }}>酵孅凍</a></h4>
+                    <p>創新果凍配方，酵素纖維雙效</p>
+                    <div className="product-bottom-details">
+                      <div className="product-price"><small>NT$ 1,680</small>NT$ 1,380</div>
+                      <div className="product-links">
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart"></i></a>
+                        <a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-shopping-cart"></i></a>
                       </div>
                     </div>
                   </div>
@@ -658,6 +826,20 @@ function App() {
         <MetabolismBProductPage onNavigateHome={navigateToHome} />
       ) : currentPage === 'beautydrink' ? (
         <BeautyDrinkProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'vitamind3' ? (
+        <VitaminD3ProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'vitaminczinc' ? (
+        <VitaminCZincProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'collagenpeptide' ? (
+        <CollagenPeptideProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'slimcup' ? (
+        <SlimCupProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'peacetablet' ? (
+        <PeaceTabletProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'nattokinase' ? (
+        <NattokinaseProductPage onNavigateHome={navigateToHome} />
+      ) : currentPage === 'enzymeslimjelly' ? (
+        <EnzymeSlimJellyProductPage onNavigateHome={navigateToHome} />
       ) : currentPage === 'about' ? (
         <AboutPage />
       ) : currentPage === 'brandstory' ? (

@@ -422,8 +422,8 @@
                          <span class="stat-title">總商品數</span>
                          <span class="material-icons stat-icon">inventory_2</span>
                      </div>
-                     <div class="stat-value">19</div>
-                     <div class="stat-change">+9 本月新增</div>
+                     <div class="stat-value">26</div>
+                     <div class="stat-change">+12 本月新增</div>
                  </div>
 
                 <div class="stat-card secondary">
@@ -660,6 +660,76 @@
                                  <td>美肌養顏</td>
                                  <td>NT$850</td>
                                  <td>20</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
+                                     <button class="btn btn-secondary">編輯</button>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>加拿大維生素D3液劑15ml</td>
+                                 <td>骨骼保健</td>
+                                 <td>NT$1,680</td>
+                                 <td>30</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
+                                     <button class="btn btn-secondary">編輯</button>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>維生素C+酵母鋅</td>
+                                 <td>免疫保健</td>
+                                 <td>NT$1,150</td>
+                                 <td>40</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
+                                     <button class="btn btn-secondary">編輯</button>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>膠原蛋白胜肽</td>
+                                 <td>美容保養</td>
+                                 <td>NT$1,780</td>
+                                 <td>25</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
+                                     <button class="btn btn-secondary">編輯</button>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>【新上市】日本孅淨一杯</td>
+                                 <td>體重管理</td>
+                                 <td>NT$1,350</td>
+                                 <td>30</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
+                                     <button class="btn btn-secondary">編輯</button>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>【新上市】日本平安錠</td>
+                                 <td>壓力舒緩</td>
+                                 <td>NT$1,250</td>
+                                 <td>25</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
+                                     <button class="btn btn-secondary">編輯</button>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>【新上市】日本蚓激酶</td>
+                                 <td>心血管保健</td>
+                                 <td>NT$1,480</td>
+                                 <td>20</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
+                                     <button class="btn btn-secondary">編輯</button>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td>【新上市】酵孅凍</td>
+                                 <td>消化保健</td>
+                                 <td>NT$1,380</td>
+                                 <td>35</td>
                                  <td><span class="status-badge status-active">上架中</span></td>
                                  <td>
                                      <button class="btn btn-secondary">編輯</button>
@@ -1452,9 +1522,32 @@
         }
 
         // 載入 Blog 數據
-        function loadBlogData() {
-            // 模擬載入文章數據
-            const defaultArticles = [
+        async function loadBlogData() {
+            try {
+                // 從API載入文章數據
+                const response = await fetch('/api/blog/articles');
+                if (response.ok) {
+                    const articlesData = await response.json();
+                    blogArticles = articlesData.map(article => ({
+                        id: article._id,
+                        _id: article._id, // 保留原始_id用於API調用
+                        title: article.title,
+                        description: article.description,
+                        content: article.content,
+                        tag: article.tag,
+                        author: article.author,
+                        date: new Date(article.date).toISOString().split('T')[0]
+                    }));
+                } else {
+                    // 如果沒有文章，初始化預設文章
+                    await fetch('/api/blog/init', { method: 'POST' });
+                    await loadBlogData(); // 重新載入
+                    return;
+                }
+            } catch (error) {
+                console.error('載入文章失敗:', error);
+                // 備用預設文章數據
+                const defaultArticles = [
                 {
                     id: 1,
                     title: '三十五歲的秘密花園',
@@ -1462,7 +1555,25 @@
                     tag: '年齡',
                     date: '2025-01-17',
                     author: '編輯部',
-                    content: '三十五歲的清晨，她在鏡子前微笑...'
+                    content: `三十五歲的清晨，她在鏡子前微笑。
+
+不是二十歲那種不經意的笑，也不是三十歲時略帶緊張的笑。這是一種知道了某個秘密之後的笑——彷彿整個宇宙悄悄在她耳邊說了一個只有她才聽得懂的笑話。
+
+眼角的細紋像是時光留下的密碼，每一道都記錄著一個故事：第一道是熬夜哄睡孩子時月光的痕跡，第二道是和閨蜜笑到流淚的證明，第三道...啊，那是看透了卻不說破的智慧印記。
+
+她開始懂得，年齡不是數字，是釀造。像一瓶好酒，需要恰到好處的溫度、濕度，還有最重要的——時間。二十歲是清冽的白葡萄酒，三十歲是初熟的紅酒，而三十五歲？她是帶著神秘香料味的陳釀，每一口都有不同的層次。
+
+衣櫃裡，那件買了五年都沒穿過的小黑裙終於找到了主人。不是因為身材變了，而是因為她終於知道怎麼穿它——不是為了證明什麼，只是因為今天想要那種感覺。她學會了與自己的身體對話，知道哪一寸肌膚喜歡絲綢的觸感，哪一處曲線適合羊絨的擁抱。
+
+午後的陽光灑進書房，她泡了一杯茶，茶葉在水中舒展的樣子像極了她自己。不急不躁，慢慢綻放。手機裡的群組訊息響個不停，她選擇性地回覆——這也是三十五歲的特權，知道什麼值得立即回應，什麼可以等到月亮升起。
+
+她發現了一個秘密：原來，女人最美的年紀不是十八歲的青澀，不是二十五歲的綻放，而是當她開始真正認識自己的那一刻。三十五歲的她，終於明白了身體的語言、情緒的節奏、慾望的形狀。
+
+晚餐時，她為自己開了一瓶酒，點了一根蠟燭。不為任何人，只為慶祝這個普通又特別的夜晚。窗外的城市燈火闌珊，她知道，在這個年紀，她既是自己的女王，也是自己的騎士。
+
+月光爬上窗檯時，她在日記本上寫下：「三十五歲，我終於成為了那個小時候想要成為的神秘女人。」
+
+筆尖停頓了一下，她又加了一句：「而且，比想像中更快樂。」`
                 },
                 {
                     id: 2,
@@ -1471,15 +1582,28 @@
                     tag: '睡眠',
                     date: '2025-01-16',
                     author: '編輯部',
-                    content: '她說，枕頭是這世上最忠實的朋友...'
+                    content: `她說，枕頭是這世上最忠實的朋友。
+
+每個夜晚，當城市的喧囂漸漸沉澱，她開始準備一場與自己的約會。浴室裡瀰漫著薰衣草的香氣，那是她為睡眠調配的魔法藥水。熱水輕撫過肌膚，洗去的不只是一天的疲憊，還有那些不屬於夜晚的思緒。
+
+臥室是她的秘密王國。床單是月光色的埃及棉，觸感像雲朵的耳語。她曾經數過，這張床陪伴了她三千多個夜晚——見證過她的眼淚、聽過她的夢話、收藏著她所有說不出口的秘密。
+
+十一點二十三分，這是她與睡眠之神的約定時間。不早不晚，剛剛好。她發現身體有自己的時鐘，在這個時刻，每一個細胞都開始唱起安眠曲。她輕輕闔上眼，像是關上通往白天世界的門。
+
+在半夢半醒之間，她常常能聽見身體的私語。心臟說：「今天跳了八萬六千四百次，為妳。」肺說：「我收集了一整天的氧氣，現在要慢慢釋放。」皮膚說：「夜晚是我的修復時光，明天妳會更美。」
+
+她的夢境是一座神秘的圖書館，每本書都是一個故事：有時她在雲端上跳舞，有時在深海裡呼吸，有時回到童年的花園，有時預見未來的模樣。最奇妙的是，每個夢都像是靈魂寫給她的密信，用符號和隱喻訴說著內心深處的渴望。
+
+凌晨三點，月光特別明亮的時刻，她偶爾會醒來。不是失眠，而是一種神聖的清醒。在這個時刻，整個世界都在沉睡，只有她和宇宙在對話。她會喝一小口水，感受生命在身體裡流淌，然後帶著感激重新入睡。
+
+她說，真正懂得睡眠的女人，擁有一種特別的光澤——那是從內而外的修復，是夜晚贈予的禮物。睡眠不是時間的浪費，而是靈魂的煉金術，把疲憊轉化為能量，把憂慮轉化為智慧，把昨天轉化為明天。
+
+清晨的第一縷陽光親吻她的臉頰時，她微笑著醒來。枕頭上還留著夢的痕跡，她知道，今夜十一點二十三分，她們會再次相遇。
+
+在這個永恆的循環裡，她找到了生命最美的節奏。`
                 }
             ];
-
-            const saved = localStorage.getItem('blogArticles');
-            blogArticles = saved ? JSON.parse(saved) : defaultArticles;
-            
-            if (!saved) {
-                localStorage.setItem('blogArticles', JSON.stringify(defaultArticles));
+                blogArticles = defaultArticles;
             }
 
             updateBlogStats();
@@ -1512,8 +1636,8 @@
                     <td>${article.author}</td>
                     <td>${article.date}</td>
                     <td class="article-actions">
-                        <button class="btn btn-primary btn-small" onclick="editArticle(${article.id})">編輯</button>
-                        <button class="btn btn-secondary btn-small" onclick="deleteArticle(${article.id})">刪除</button>
+                        <button class="btn btn-primary btn-small" onclick="editArticle('${article.id}')">編輯</button>
+                        <button class="btn btn-secondary btn-small" onclick="deleteArticle('${article.id}')">刪除</button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -1521,7 +1645,7 @@
         }
 
         // 儲存文章
-        function saveArticle() {
+        async function saveArticle() {
             const title = document.getElementById('article-title').value;
             const description = document.getElementById('article-description').value;
             const tag = document.getElementById('article-tag').value;
@@ -1533,54 +1657,49 @@
                 return;
             }
 
-            const currentDate = new Date().toISOString().split('T')[0];
-
-            if (editingArticleId) {
-                // 編輯現有文章
-                const index = blogArticles.findIndex(article => article.id === editingArticleId);
-                if (index !== -1) {
-                    blogArticles[index] = {
-                        ...blogArticles[index],
-                        title,
-                        description,
-                        tag,
-                        author,
-                        content
-                    };
+            try {
+                if (editingArticleId) {
+                    // 編輯現有文章
+                    const response = await fetch(`/api/blog/articles/${editingArticleId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title, description, tag, author, content })
+                    });
+                    if (!response.ok) throw new Error('更新文章失敗');
+                } else {
+                    // 新增文章
+                    const response = await fetch('/api/blog/articles', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title, description, tag, author, content })
+                    });
+                    if (!response.ok) throw new Error('新增文章失敗');
                 }
-            } else {
-                // 新增文章
-                const newArticle = {
-                    id: Date.now(),
-                    title,
-                    description,
-                    tag,
-                    author,
-                    content,
-                    date: currentDate
-                };
-                blogArticles.push(newArticle);
+
+                // 重新載入文章數據
+                await loadBlogData();
+                
+                // 重置表單
+                document.getElementById('article-form').reset();
+                document.getElementById('article-author').value = '編輯部';
+                editingArticleId = null;
+                document.getElementById('form-submit-text').textContent = '發布文章';
+                document.getElementById('cancel-edit').style.display = 'none';
+
+                alert(editingArticleId ? '文章更新成功！' : '文章發布成功！');
+            } catch (error) {
+                console.error('儲存文章失敗:', error);
+                alert('儲存文章失敗，請稍後再試');
             }
-
-            localStorage.setItem('blogArticles', JSON.stringify(blogArticles));
-            
-            // 重置表單
-            document.getElementById('article-form').reset();
-            document.getElementById('article-author').value = '編輯部';
-            editingArticleId = null;
-            document.getElementById('form-submit-text').textContent = '發布文章';
-            document.getElementById('cancel-edit').style.display = 'none';
-
-            updateBlogStats();
-            renderArticlesTable();
-            
-            alert(editingArticleId ? '文章更新成功！' : '文章發布成功！');
         }
 
         // 編輯文章
         function editArticle(id) {
-            const article = blogArticles.find(a => a.id === id);
-            if (!article) return;
+            const article = blogArticles.find(a => a.id === id || a._id === id);
+            if (!article) {
+                console.error('找不到文章:', id, '可用文章:', blogArticles.map(a => ({id: a.id, _id: a._id})));
+                return;
+            }
 
             document.getElementById('article-title').value = article.title;
             document.getElementById('article-description').value = article.description;
@@ -1588,7 +1707,7 @@
             document.getElementById('article-author').value = article.author;
             document.getElementById('article-content').value = article.content;
 
-            editingArticleId = id;
+            editingArticleId = article._id || article.id; // 使用_id進行API調用
             document.getElementById('form-submit-text').textContent = '更新文章';
             document.getElementById('cancel-edit').style.display = 'inline-block';
 
@@ -1597,15 +1716,33 @@
         }
 
         // 刪除文章
-        function deleteArticle(id) {
-            if (confirm('確定要刪除這篇文章嗎？')) {
-                blogArticles = blogArticles.filter(article => article.id !== id);
-                localStorage.setItem('blogArticles', JSON.stringify(blogArticles));
-                
-                updateBlogStats();
-                renderArticlesTable();
-                
-                alert('文章刪除成功！');
+        async function deleteArticle(id) {
+            const article = blogArticles.find(a => a.id === id || a._id === id);
+            if (!article) {
+                console.error('找不到文章:', id, '可用文章:', blogArticles.map(a => ({id: a.id, _id: a._id})));
+                alert('找不到要刪除的文章');
+                return;
+            }
+
+            if (confirm(`確定要刪除文章「${article.title}」嗎？`)) {
+                try {
+                    const articleId = article._id || article.id;
+                    console.log('正在刪除文章，ID:', articleId);
+                    
+                    const response = await fetch(`/api/blog/articles/${articleId}`, {
+                        method: 'DELETE'
+                    });
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`刪除文章失敗: ${errorText}`);
+                    }
+                    
+                    await loadBlogData();
+                    alert('文章刪除成功！');
+                } catch (error) {
+                    console.error('刪除文章失敗:', error);
+                    alert(`刪除文章失敗：${error.message}`);
+                }
             }
         }
 
@@ -1619,42 +1756,29 @@
         }
 
         // 載入 Blog 設定
-        function loadBlogSettings() {
-            const saved = localStorage.getItem('blogSettings');
-            if (saved) {
-                try {
-                    blogSettings = JSON.parse(saved);
-                } catch (error) {
-                    console.error('解析blog設定失敗:', error);
-                    // 使用預設值
-                    blogSettings = {
-                        blogTitle: 'Aura Post 專欄',
-                        blogDescription: '健康知識分享，專業營養資訊',
-                        headerImage: '',
-                        backgroundColor: '#ffffff',
-                        textColor: '#333333',
-                        accentColor: '#007bff'
-                    };
+        async function loadBlogSettings() {
+            try {
+                const response = await fetch('/api/blog/settings');
+                if (response.ok) {
+                    blogSettings = await response.json();
+                    
+                    document.getElementById('blog-title').value = blogSettings.blogTitle;
+                    document.getElementById('blog-description').value = blogSettings.blogDescription;
+                    document.getElementById('blog-header-image').value = blogSettings.headerImage || '';
+                    document.getElementById('blog-bg-color').value = blogSettings.backgroundColor;
+                    document.getElementById('blog-text-color').value = blogSettings.textColor;
+                    document.getElementById('blog-accent-color').value = blogSettings.accentColor;
+                    
+                    updatePreview();
                 }
-            } else {
-                // 如果沒有保存的設定，保存預設值到localStorage
-                localStorage.setItem('blogSettings', JSON.stringify(blogSettings));
+            } catch (error) {
+                console.error('載入設定失敗:', error);
             }
-            
-            // 更新表單欄位
-            document.getElementById('blog-title').value = blogSettings.blogTitle;
-            document.getElementById('blog-description').value = blogSettings.blogDescription;
-            document.getElementById('blog-header-image').value = blogSettings.headerImage || '';
-            document.getElementById('blog-bg-color').value = blogSettings.backgroundColor;
-            document.getElementById('blog-text-color').value = blogSettings.textColor;
-            document.getElementById('blog-accent-color').value = blogSettings.accentColor;
-            
-            updatePreview();
         }
 
         // 儲存 Blog 設定
-        function saveBlogSettings() {
-            blogSettings = {
+        async function saveBlogSettings() {
+            const newSettings = {
                 blogTitle: document.getElementById('blog-title').value,
                 blogDescription: document.getElementById('blog-description').value,
                 headerImage: document.getElementById('blog-header-image').value,
@@ -1663,14 +1787,23 @@
                 accentColor: document.getElementById('blog-accent-color').value
             };
 
-            console.log('準備保存的blog設定:', blogSettings);
-            localStorage.setItem('blogSettings', JSON.stringify(blogSettings));
-            
-            // 驗證保存是否成功
-            const saved = localStorage.getItem('blogSettings');
-            console.log('保存後的blog設定:', JSON.parse(saved));
-            
-            alert('Blog 設定已儲存！請到前台頁面點擊「重新載入設定」按鈕查看變化。');
+            try {
+                const response = await fetch('/api/blog/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newSettings)
+                });
+                
+                if (response.ok) {
+                    blogSettings = newSettings;
+                    alert('Blog 設定已儲存！');
+                } else {
+                    throw new Error('儲存設定失敗');
+                }
+            } catch (error) {
+                console.error('儲存設定失敗:', error);
+                alert('儲存設定失敗，請稍後再試');
+            }
         }
 
         // 更新預覽
@@ -1689,6 +1822,7 @@
             document.getElementById('preview-title').textContent = title;
             document.getElementById('preview-title').style.color = accentColor;
             document.getElementById('preview-description').textContent = description;
+            document.getElementById('preview-description').style.color = textColor;
             
             const button = preview.querySelector('.preview-button');
             button.style.backgroundColor = accentColor;
