@@ -3,7 +3,7 @@ const Product = require('./models/Product');
 require('dotenv').config();
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/auraway-shop', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://aistorm0910:derWbD9u9MW4GRJt@ivan.w6ickfj.mongodb.net/auraway-shop', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
