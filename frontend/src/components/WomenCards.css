@@ -602,6 +602,46 @@
     --card-height: 380px;
   }
 
+  .women-cards-carousel {
+    overflow: hidden;
+    padding: 5vh 20px;
+  }
+
+  .women-cards-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    padding: 40px 0;
+    gap: 20px;
+  }
+
+  .women-cards-track::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .women-deconstructed-card {
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    width: var(--card-width);
+  }
+
+  .women-cards-controls {
+    display: none; /* 隱藏桌面版的控制按鈕 */
+  }
+
+  /* 添加滑動提示 */
+  .women-cards-section::after {
+    content: "← 左右滑動查看更多 →";
+    display: block;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    opacity: 0.7;
+  }
+
   .women-card-content {
     padding: 20px;
   }

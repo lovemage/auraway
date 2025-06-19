@@ -25,12 +25,14 @@ const announcementRoutes = require('./routes/announcementRoutes');
 const couponRoutes = require('./routes/couponRoutes');
 const headerInfoRoutes = require('./routes/headerInfoRoutes');
 const blogRoutes = require('./routes/blogRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 app.use('/api/products', productRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/blog', blogRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

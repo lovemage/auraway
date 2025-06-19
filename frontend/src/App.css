@@ -88,6 +88,7 @@ body {
   border-radius: 0;
   padding: 8px 20px;
   min-width: 300px;
+  position: relative;
 }
 
 .search-box input {
@@ -102,6 +103,89 @@ body {
 
 .search-box input::placeholder {
   color: var(--text-secondary);
+}
+
+/* 搜尋結果樣式 */
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--primary-color);
+  border-top: none;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-result-item:hover {
+  background-color: var(--light-teal);
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 12px;
+  border-radius: 4px;
+}
+
+.search-result-info {
+  flex: 1;
+}
+
+.search-result-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.search-result-info p {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.search-result-category {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--light-teal);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.search-no-results {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.search-no-results .material-icons {
+  font-size: 48px;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.search-no-results p {
+  margin: 0;
+  font-size: 14px;
 }
 
 .user-actions {
@@ -308,6 +392,36 @@ body {
   box-shadow: 0 8px 30px rgba(219, 112, 147, 0.2);
 }
 
+.hero-btn-recommend {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-btn-recommend:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c8bf0 0%, #8a5cb8 100%);
+}
+
+.hero-btn-recommend::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.hero-btn-recommend:hover::before {
+  left: 100%;
+}
+
 .hero-btn:active {
   transform: translateY(-1px);
 }
@@ -384,13 +498,41 @@ body {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
   justify-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 電腦端最多4列 */
+@media (min-width: 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+}
+
+/* 平板端最多3列 */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+  }
+}
+
+/* 移動端2列 */
+@media (max-width: 767px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 10px;
+  }
 }
 
 .product-card {
-  width: 380px;
+  width: 100%;
+  max-width: 380px;
   position: relative;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
   background: #fafafa;
@@ -746,6 +888,24 @@ body {
     order: 3;
     width: 100%;
     justify-content: center;
+  }
+
+  .search-box {
+    min-width: 250px;
+  }
+
+  .search-results {
+    left: -10px;
+    right: -10px;
+  }
+
+  .search-result-item {
+    padding: 10px;
+  }
+
+  .search-result-item img {
+    width: 40px;
+    height: 40px;
   }
   
   .navbar {

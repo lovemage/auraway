@@ -1,0 +1,509 @@
+.auraway-recommend-page {
+  min-height: 100vh;
+  background-image: linear-gradient(
+      in oklch longer hue to right,
+      oklch(0.93 0.08 var(--hue1) / 50%),
+      oklch(0.93 0.08 var(--hue2) / 50%)
+    ),
+    linear-gradient(
+      in oklch longer hue to bottom,
+      oklch(0.93 0.08 var(--hue1) / 50%),
+      oklch(0.93 0.08 var(--hue2) / 50%)
+    );
+  background-size: 100% 100%;
+  animation: anim_recommend_bg 5s linear infinite;
+  padding: 0;
+  font-family: "Huninn", sans-serif;
+}
+
+@keyframes anim_recommend_bg {
+  0% {
+    --hue1: 0deg;
+    --hue2: 300deg;
+  }
+  100% {
+    --hue1: 360deg;
+    --hue2: 660deg;
+  }
+}
+
+.auraway-recommend-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.auraway-recommend-header {
+  text-align: center;
+  padding: 60px 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.auraway-recommend-title {
+  font-family: "Huninn", sans-serif;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 300;
+  color: #DB7093;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.title-icon {
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  animation: sparkle 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(219, 112, 147, 0.3));
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 4px 8px rgba(219, 112, 147, 0.3));
+  }
+  50% { 
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 8px 16px rgba(219, 112, 147, 0.5));
+  }
+}
+
+.auraway-recommend-subtitle {
+  font-family: "Huninn", sans-serif;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  color: #C76C8C;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.auraway-recommend-categories {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
+  position: relative;
+  z-index: 2;
+}
+
+.categories-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0;
+  box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(219, 112, 147, 0.1);
+}
+
+.category-button {
+  font-family: "Huninn", sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 0;
+  background: linear-gradient(135deg, #DB7093, #C76C8C);
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(219, 112, 147, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.category-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.category-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(219, 112, 147, 0.4);
+  background: linear-gradient(135deg, #E17BA6, #D1789F);
+}
+
+.category-button:hover::before {
+  left: 100%;
+}
+
+.category-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  transform: translateY(-3px);
+}
+
+.category-button.active::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.category-name {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.category-count {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 3px 10px;
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.auraway-recommend-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.current-category-info {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.current-category-info h2 {
+  font-family: "Huninn", sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  color: #DB7093;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+.product-count {
+  font-size: 1rem;
+  color: #C76C8C;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 20px;
+  border-radius: 0;
+  border: 1px solid rgba(219, 112, 147, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  justify-items: center;
+  margin-bottom: 60px;
+  max-width: 1400px;
+  margin: 0 auto 60px;
+}
+
+/* 電腦端最多4列 */
+@media (min-width: 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+}
+
+/* 平板端最多3列 */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+  }
+}
+
+/* 移動端2列 */
+@media (max-width: 767px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 10px;
+  }
+}
+
+.recommend-product-card {
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: #fafafa;
+  font-family: 'Huninn', sans-serif;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.recommend-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-image-container {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.recommend-product-card:hover .product-image {
+  transform: scale(1.02);
+}
+
+.product-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, #DB7093, #C76C8C);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: 'Huninn', sans-serif;
+  box-shadow: 0 2px 8px rgba(219, 112, 147, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.product-info {
+  padding: 30px;
+  background: white;
+}
+
+.product-name {
+  font-family: 'Huninn', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-primary, #2c3e50);
+  margin-bottom: 12px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.product-description {
+  color: var(--text-secondary, #666);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: 'Huninn', sans-serif;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.current-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color, #82bfb7);
+  font-family: 'Huninn', sans-serif;
+}
+
+.original-price {
+  font-size: 1.1rem;
+  color: #999;
+  text-decoration: line-through;
+  font-family: 'Huninn', sans-serif;
+}
+
+.product-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.feature-tag {
+  background: linear-gradient(135deg, #DB7093, #C76C8C);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: 'Huninn', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.no-products {
+  text-align: center;
+  padding: 100px 20px;
+  color: #C76C8C;
+  font-family: 'Huninn', sans-serif;
+}
+
+.no-products-icon {
+  font-size: 5rem;
+  margin-bottom: 30px;
+  opacity: 0.7;
+}
+
+.no-products h3 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #DB7093;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+.no-products p {
+  font-size: 1.2rem;
+  color: #C76C8C;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .auraway-recommend-header {
+    padding: 40px 15px 30px;
+  }
+  
+  .auraway-recommend-title {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .categories-container {
+    gap: 12px;
+    padding: 20px 15px;
+  }
+  
+  .category-button {
+    padding: 12px 18px;
+    font-size: 0.9rem;
+  }
+  
+  .current-category-info h2 {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .recommend-product-card {
+    max-width: none;
+  }
+  
+  .product-info {
+    padding: 25px;
+  }
+  
+  .product-name {
+    font-size: 1.3rem;
+  }
+  
+  .current-price {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auraway-recommend-header {
+    padding: 30px 10px 20px;
+  }
+  
+  .categories-container {
+    padding: 15px 10px;
+    gap: 10px;
+  }
+  
+  .category-button {
+    justify-content: center;
+    padding: 10px 15px;
+    font-size: 0.85rem;
+  }
+  
+  .auraway-recommend-content {
+    padding: 0 10px 40px;
+  }
+  
+  .product-image-container {
+    height: 200px;
+  }
+  
+  .product-info {
+    padding: 15px;
+  }
+  
+  .product-name {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  
+  .product-description {
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+  
+  .current-price {
+    font-size: 1.1rem;
+  }
+  
+  .original-price {
+    font-size: 0.9rem;
+  }
+  
+  .feature-tag {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+  
+  .no-products {
+    padding: 60px 15px;
+  }
+  
+  .no-products h3 {
+    font-size: 1.6rem;
+  }
+  
+  .no-products p {
+    font-size: 1rem;
+  }
+} 

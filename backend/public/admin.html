@@ -31,9 +31,145 @@
             line-height: 1.6;
         }
 
-        .admin-container {
+        /* 登入頁面樣式 */
+        .login-container {
             display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .login-box {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--light-teal);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: var(--white);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(130, 191, 183, 0.1);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all 0.3s;
+            pointer-events: none;
+            background: var(--white);
+            padding: 0 5px;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: 0;
+            font-size: 12px;
+            color: var(--primary-color);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(130, 191, 183, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .admin-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .admin-container.show {
+            display: flex;
+        }
+
+        /* 登出按鈕 */
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
         }
 
         /* 側邊欄 */
@@ -382,6 +518,27 @@
     </style>
 </head>
 <body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>Auraway Shop</h1>
+                <p>後台管理系統</p>
+            </div>
+            <form class="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="Username" required>
+                    <label for="username">Username</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <label for="password">Password</label>
+                </div>
+                <button type="submit" class="login-btn" id="login-btn">登入</button>
+                <div class="error-message" id="login-error"></div>
+            </form>
+        </div>
+    </div>
+
     <div class="admin-container">
         <!-- 側邊欄 -->
         <nav class="sidebar">
@@ -392,12 +549,13 @@
             <ul class="sidebar-menu">
                 <li><a href="#dashboard" class="active"><span class="material-icons">dashboard</span>儀表板</a></li>
                 <li><a href="#products"><span class="material-icons">inventory_2</span>商品管理</a></li>
+                <li><a href="#announcements"><span class="material-icons">campaign</span>活動公告</a></li>
                 <li><a href="#blog"><span class="material-icons">article</span>Blog 管理</a></li>
                 <li><a href="#header-info"><span class="material-icons">info</span>導航區塊管理</a></li>
                 <li><a href="#orders"><span class="material-icons">shopping_cart</span>訂單管理</a></li>
                 <li><a href="#customers"><span class="material-icons">people</span>客戶管理</a></li>
                 <li><a href="#analytics"><span class="material-icons">analytics</span>數據分析</a></li>
-                <li><a href="#settings"><span class="material-icons">settings</span>系統設定</a></li>
+                <li><a href="#admin-settings"><span class="material-icons">admin_panel_settings</span>管理員設定</a></li>
                 <li><a href="#logout"><span class="material-icons">logout</span>登出</a></li>
             </ul>
         </nav>
@@ -409,9 +567,10 @@
                 <h2>儀表板總覽</h2>
                 <div class="user-info">
                     <span class="material-icons">account_circle</span>
-                    <span>管理員</span>
+                    <span id="logged-in-user">管理員</span>
                     <span>|</span>
                     <span id="current-time"></span>
+                    <button class="logout-btn" onclick="logout()">登出</button>
                 </div>
             </div>
 
@@ -1118,6 +1277,316 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 管理員設定區塊 -->
+            <div class="content-section" id="admin-settings-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">管理員設定</h3>
+                    <button class="btn btn-secondary" onclick="loadAdminSettings()">
+                        <span class="material-icons">refresh</span>重新載入
+                    </button>
+                </div>
+                
+                <div class="admin-settings-container">
+                    <!-- 當前設定顯示 -->
+                    <div class="settings-info-card">
+                        <div class="card-header">
+                            <h4><span class="material-icons">info</span>當前設定</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-row">
+                                <span class="info-label">當前用戶名：</span>
+                                <span class="info-value" id="current-username">admin</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">最後修改時間：</span>
+                                <span class="info-value" id="last-modified">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 修改帳密表單 -->
+                    <div class="settings-form-card">
+                        <div class="card-header">
+                            <h4><span class="material-icons">edit</span>修改管理員帳密</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="admin-credentials-form">
+                                <div class="form-group">
+                                    <label for="current-password">當前密碼 *</label>
+                                    <input type="password" id="current-password" class="form-control" required placeholder="請輸入當前密碼">
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="new-username">新用戶名</label>
+                                        <input type="text" id="new-username" class="form-control" placeholder="留空則不修改">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-password">新密碼</label>
+                                        <input type="password" id="new-password" class="form-control" placeholder="留空則不修改">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="confirm-password">確認新密碼</label>
+                                    <input type="password" id="confirm-password" class="form-control" placeholder="請再次輸入新密碼">
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="material-icons">save</span>更新帳密
+                                    </button>
+                                    <button type="button" class="btn btn-warning" onclick="resetToDefault()">
+                                        <span class="material-icons">restore</span>重置為默認
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 安全提醒 -->
+                    <div class="security-notice">
+                        <div class="notice-header">
+                            <span class="material-icons">security</span>
+                            <h4>安全提醒</h4>
+                        </div>
+                        <ul>
+                            <li>建議定期更換管理員密碼</li>
+                            <li>密碼應包含字母、數字和特殊符號</li>
+                            <li>不要在公共場所登入管理後台</li>
+                            <li>登出時請確認已完全關閉瀏覽器</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 活動公告管理區塊 -->
+            <div class="content-section" id="announcements-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">活動公告管理</h3>
+                    <button class="btn btn-primary" onclick="showAddAnnouncementForm()">
+                        <span class="material-icons">add</span>新增公告
+                    </button>
+                </div>
+
+                <!-- 公告統計 -->
+                <div class="announcement-stats">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">總公告數</span>
+                            <span class="material-icons stat-icon">campaign</span>
+                        </div>
+                        <div class="stat-value" id="total-announcements">0</div>
+                        <div class="stat-change">全部公告</div>
+                    </div>
+                    
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <span class="stat-title">已發布</span>
+                            <span class="material-icons stat-icon">publish</span>
+                        </div>
+                        <div class="stat-value" id="published-announcements">0</div>
+                        <div class="stat-change">正在顯示</div>
+                    </div>
+                    
+                    <div class="stat-card secondary">
+                        <div class="stat-header">
+                            <span class="stat-title">草稿</span>
+                            <span class="material-icons stat-icon">draft</span>
+                        </div>
+                        <div class="stat-value" id="draft-announcements">0</div>
+                        <div class="stat-change">待發布</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">首頁顯示</span>
+                            <span class="material-icons stat-icon">home</span>
+                        </div>
+                        <div class="stat-value" id="homepage-announcements">0</div>
+                        <div class="stat-change">首頁展示</div>
+                    </div>
+                </div>
+
+                <!-- 公告列表 -->
+                <div class="announcements-list-container">
+                    <div class="list-controls">
+                        <div class="filter-controls">
+                            <select id="announcement-type-filter" onchange="filterAnnouncements()">
+                                <option value="">所有類型</option>
+                                <option value="一般公告">一般公告</option>
+                                <option value="活動公告">活動公告</option>
+                                <option value="系統公告">系統公告</option>
+                                <option value="優惠公告">優惠公告</option>
+                                <option value="重要通知">重要通知</option>
+                            </select>
+                            
+                            <select id="announcement-status-filter" onchange="filterAnnouncements()">
+                                <option value="">所有狀態</option>
+                                <option value="草稿">草稿</option>
+                                <option value="已發布">已發布</option>
+                                <option value="已停用">已停用</option>
+                            </select>
+                            
+                            <select id="announcement-priority-filter" onchange="filterAnnouncements()">
+                                <option value="">所有優先級</option>
+                                <option value="低">低</option>
+                                <option value="中">中</option>
+                                <option value="高">高</option>
+                                <option value="緊急">緊急</option>
+                            </select>
+                        </div>
+                        
+                        <div class="search-controls">
+                            <input type="text" id="announcement-search" placeholder="搜尋公告標題..." onkeyup="searchAnnouncements()">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="announcements-table">
+                            <thead>
+                                <tr>
+                                    <th>標題</th>
+                                    <th>類型</th>
+                                    <th>優先級</th>
+                                    <th>狀態</th>
+                                    <th>開始時間</th>
+                                    <th>結束時間</th>
+                                    <th>瀏覽次數</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="announcements-table-body">
+                                <!-- 動態加載公告數據 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 公告表單 -->
+            <div class="content-section" id="announcement-form-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title" id="announcement-form-title">新增公告</h3>
+                    <button class="btn btn-secondary" onclick="hideAnnouncementForm()">
+                        <span class="material-icons">close</span>取消
+                    </button>
+                </div>
+                
+                <form id="announcement-form" onsubmit="saveAnnouncement(event)">
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+                        <!-- 左側：基本信息 -->
+                        <div>
+                            <div class="form-group">
+                                <label for="announcement-title">公告標題 *</label>
+                                <input type="text" id="announcement-title" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="announcement-content">公告內容 *</label>
+                                <textarea id="announcement-content" class="form-control" rows="8" required placeholder="請輸入公告內容，支援 HTML 格式..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="announcement-tags">標籤 (用逗號分隔)</label>
+                                <input type="text" id="announcement-tags" class="form-control" placeholder="活動,優惠,新品">
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label for="announcement-start-date">開始時間</label>
+                                    <input type="datetime-local" id="announcement-start-date" class="form-control">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="announcement-end-date">結束時間</label>
+                                    <input type="datetime-local" id="announcement-end-date" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 右側：設定選項 -->
+                        <div>
+                            <div class="form-group">
+                                <label for="announcement-type">公告類型 *</label>
+                                <select id="announcement-type" class="form-control" required>
+                                    <option value="一般公告">一般公告</option>
+                                    <option value="活動公告">活動公告</option>
+                                    <option value="系統公告">系統公告</option>
+                                    <option value="優惠公告">優惠公告</option>
+                                    <option value="重要通知">重要通知</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="announcement-priority">優先級 *</label>
+                                <select id="announcement-priority" class="form-control" required>
+                                    <option value="低">低</option>
+                                    <option value="中" selected>中</option>
+                                    <option value="高">高</option>
+                                    <option value="緊急">緊急</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="announcement-status">狀態 *</label>
+                                <select id="announcement-status" class="form-control" required>
+                                    <option value="草稿" selected>草稿</option>
+                                    <option value="已發布">已發布</option>
+                                    <option value="已停用">已停用</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="announcement-author">作者</label>
+                                <input type="text" id="announcement-author" class="form-control" value="admin">
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="announcement-active" checked>
+                                        <span class="checkmark"></span>
+                                        啟用公告
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="announcement-homepage">
+                                        <span class="checkmark"></span>
+                                        在首頁顯示
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label for="announcement-bg-color">背景色</label>
+                                    <input type="color" id="announcement-bg-color" class="form-control" value="#f8f9fa">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="announcement-text-color">文字色</label>
+                                    <input type="color" id="announcement-text-color" class="form-control" value="#333333">
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="material-icons">save</span>儲存公告
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="previewAnnouncement()">
+                                    <span class="material-icons">preview</span>預覽
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </main>
     </div>
 
@@ -1342,6 +1811,83 @@
             cursor: pointer;
         }
 
+        /* 管理員設定樣式 */
+        .admin-settings-container {
+            display: grid;
+            gap: 25px;
+        }
+
+        .settings-info-card,
+        .settings-form-card {
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
+            overflow: hidden;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-teal);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .info-value {
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+
+        .security-notice {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 1px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .notice-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #856404;
+        }
+
+        .notice-header h4 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .security-notice ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #856404;
+        }
+
+        .security-notice li {
+            margin-bottom: 8px;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #ffb300);
+            color: #212529;
+            border: none;
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #ffb300, #ff8f00);
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -1354,10 +1900,249 @@
             .blog-tabs {
                 flex-direction: column;
             }
+            
+                         .admin-settings-container {
+                 grid-template-columns: 1fr;
+             }
+        }
+
+        /* 活動公告管理樣式 */
+        .announcement-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .announcements-list-container {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(130, 191, 183, 0.1);
+        }
+
+        .list-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-controls select {
+            padding: 8px 12px;
+            border: 2px solid var(--light-teal);
+            border-radius: 8px;
+            background: var(--white);
+            min-width: 120px;
+        }
+
+        .search-controls input {
+            padding: 8px 12px;
+            border: 2px solid var(--light-teal);
+            border-radius: 8px;
+            min-width: 200px;
+        }
+
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 40px;
+        }
+
+        .priority-低 { background: #d4edda; color: #155724; }
+        .priority-中 { background: #fff3cd; color: #856404; }
+        .priority-高 { background: #f8d7da; color: #721c24; }
+        .priority-緊急 { background: #dc3545; color: white; }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 50px;
+        }
+
+        .status-草稿 { background: #e2e3e5; color: #6c757d; }
+        .status-已發布 { background: #d4edda; color: #155724; }
+        .status-已停用 { background: #f8d7da; color: #721c24; }
+
+        .type-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            background: var(--light-teal);
+            color: var(--primary-color);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+
+        .announcement-preview {
+            border: 2px solid var(--light-teal);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            background: var(--background-color);
+        }
+
+        .announcement-title-preview {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .announcement-content-preview {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .announcement-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .list-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-controls {
+                flex-wrap: wrap;
+            }
+            
+            .announcement-stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 
     <script>
+        // 管理員帳密設定（將從後端API獲取）
+        let ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'auraway0316'
+        };
+
+        // 檢查登入狀態
+        function checkAuthStatus() {
+            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (isLoggedIn === 'true') {
+                showAdminPanel();
+            } else {
+                showLoginForm();
+            }
+        }
+
+        // 顯示登入表單
+        function showLoginForm() {
+            document.querySelector('.login-container').style.display = 'flex';
+            document.querySelector('.admin-container').classList.remove('show');
+        }
+
+        // 顯示管理面板
+        function showAdminPanel() {
+            document.querySelector('.login-container').style.display = 'none';
+            document.querySelector('.admin-container').classList.add('show');
+        }
+
+        // 登入驗證
+        async function login(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+            const loginBtn = document.getElementById('login-btn');
+            
+            // 清除之前的錯誤訊息
+            errorDiv.style.display = 'none';
+            loginBtn.disabled = true;
+            loginBtn.textContent = '登入中...';
+            
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // 登入成功
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    sessionStorage.setItem('adminUsername', username);
+                    document.getElementById('logged-in-user').textContent = username;
+                    showAdminPanel();
+                    
+                    // 清空表單
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                } else {
+                    // 登入失敗
+                    errorDiv.textContent = data.message || '登入失敗，請重新輸入';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('登入錯誤:', error);
+                errorDiv.textContent = '網絡錯誤，請稍後再試';
+                errorDiv.style.display = 'block';
+            }
+            
+            loginBtn.disabled = false;
+            loginBtn.textContent = '登入';
+        }
+
+        // 登出功能
+        function logout() {
+            if (confirm('確定要登出嗎？')) {
+                sessionStorage.removeItem('adminLoggedIn');
+                sessionStorage.removeItem('adminUsername');
+                showLoginForm();
+            }
+        }
+
+        // 頁面載入時檢查登入狀態
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+            
+            // 綁定登入表單事件
+            document.querySelector('.login-form').addEventListener('submit', login);
+        });
+
         // 更新當前時間
         function updateTime() {
             const now = new Date();
@@ -1405,15 +2190,21 @@
             
             if (href === '#products') {
                 showProductsSection();
+            } else if (href === '#announcements') {
+                document.getElementById('announcements-section').style.display = 'block';
+                loadAnnouncements();
             } else if (href === '#header-info') {
                 document.getElementById('header-info-section').style.display = 'block';
                 loadHeaderInfo();
             } else if (href === '#blog') {
                 document.getElementById('blog-section').style.display = 'block';
                 initBlogManagement();
+            } else if (href === '#admin-settings') {
+                document.getElementById('admin-settings-section').style.display = 'block';
+                loadAdminSettings();
             } else {
                 // 顯示默認內容（儀表板）
-                document.querySelectorAll('.content-section:not(#header-info-section):not(#blog-section)').forEach(section => {
+                document.querySelectorAll('.content-section:not(#header-info-section):not(#blog-section):not(#admin-settings-section):not(#announcements-section):not(#announcement-form-section)').forEach(section => {
                     section.style.display = 'block';
                 });
             }
@@ -2210,11 +3001,445 @@
             }
         }
 
+        // 管理員設定相關功能
+        async function loadAdminSettings() {
+            try {
+                const response = await fetch('/api/admin/settings');
+                if (response.ok) {
+                    const adminSettings = await response.json();
+                    document.getElementById('current-username').textContent = adminSettings.username;
+                    document.getElementById('last-modified').textContent = new Date(adminSettings.lastModified).toLocaleString('zh-TW');
+                } else {
+                    console.error('載入管理員設定失敗');
+                }
+            } catch (error) {
+                console.error('載入管理員設定錯誤:', error);
+            }
+        }
+
+        async function updateAdminCredentials(event) {
+            event.preventDefault();
+            
+            const currentPassword = document.getElementById('current-password').value;
+            const newUsername = document.getElementById('new-username').value.trim();
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // 驗證輸入
+            if (!currentPassword) {
+                alert('請輸入當前密碼');
+                return;
+            }
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                alert('新密碼與確認密碼不一致');
+                return;
+            }
+            
+            if (!newUsername && !newPassword) {
+                alert('請至少填寫新用戶名或新密碼');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/credentials', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        currentPassword,
+                        newUsername: newUsername || undefined,
+                        newPassword: newPassword || undefined
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('帳密更新成功！請重新登入。');
+                    // 清空表單
+                    document.getElementById('admin-credentials-form').reset();
+                    // 重新載入設定
+                    loadAdminSettings();
+                    // 登出用戶
+                    logout();
+                } else {
+                    alert('更新失敗: ' + data.message);
+                }
+            } catch (error) {
+                console.error('更新帳密錯誤:', error);
+                alert('更新失敗，請稍後再試');
+            }
+        }
+
+        async function resetToDefault() {
+            if (!confirm('確定要重置為默認帳密嗎？\n默認帳號：admin\n默認密碼：auraway0316\n\n此操作將會強制登出。')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ confirmReset: true })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('帳密已重置為默認值！請使用默認帳密重新登入。');
+                    // 清空表單
+                    document.getElementById('admin-credentials-form').reset();
+                    // 重新載入設定
+                    loadAdminSettings();
+                    // 登出用戶
+                    logout();
+                } else {
+                    alert('重置失敗: ' + data.message);
+                }
+            } catch (error) {
+                console.error('重置帳密錯誤:', error);
+                alert('重置失敗，請稍後再試');
+            }
+        }
+
         // 初始化產品管理
         document.addEventListener('DOMContentLoaded', function() {
             // 載入產品數據用於儀表板統計
             loadProducts();
+            
+            // 綁定管理員設定表單事件
+            const adminForm = document.getElementById('admin-credentials-form');
+            if (adminForm) {
+                adminForm.addEventListener('submit', updateAdminCredentials);
+            }
+            
+            // 初始化管理員設定數據
+            initAdminSettings();
         });
+
+        // 初始化管理員設定
+        async function initAdminSettings() {
+            try {
+                await fetch('/api/admin/init', { method: 'POST' });
+            } catch (error) {
+                console.error('初始化管理員設定錯誤:', error);
+            }
+        }
+
+        // 活動公告管理功能
+        let announcements = [];
+        let filteredAnnouncements = [];
+        let editingAnnouncementId = null;
+
+        // 載入公告數據
+        async function loadAnnouncements() {
+            try {
+                const response = await fetch('/api/announcements');
+                if (response.ok) {
+                    announcements = await response.json();
+                    filteredAnnouncements = [...announcements];
+                    displayAnnouncements();
+                    updateAnnouncementStats();
+                } else {
+                    console.error('載入公告失敗');
+                }
+            } catch (error) {
+                console.error('載入公告錯誤:', error);
+            }
+        }
+
+        // 更新公告統計
+        async function updateAnnouncementStats() {
+            try {
+                const response = await fetch('/api/announcements/stats/overview');
+                if (response.ok) {
+                    const stats = await response.json();
+                    document.getElementById('total-announcements').textContent = stats.totalCount;
+                    document.getElementById('published-announcements').textContent = stats.publishedCount;
+                    document.getElementById('draft-announcements').textContent = stats.draftCount;
+                    document.getElementById('homepage-announcements').textContent = stats.homepageCount;
+                }
+            } catch (error) {
+                console.error('載入統計數據錯誤:', error);
+            }
+        }
+
+        // 顯示公告列表
+        function displayAnnouncements() {
+            const tbody = document.getElementById('announcements-table-body');
+            tbody.innerHTML = '';
+
+            filteredAnnouncements.forEach(announcement => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${announcement.title}
+                        </div>
+                    </td>
+                    <td><span class="type-badge">${announcement.type}</span></td>
+                    <td><span class="priority-badge priority-${announcement.priority}">${announcement.priority}</span></td>
+                    <td><span class="status-badge status-${announcement.status}">${announcement.status}</span></td>
+                    <td>${new Date(announcement.startDate).toLocaleDateString('zh-TW')}</td>
+                    <td>${announcement.endDate ? new Date(announcement.endDate).toLocaleDateString('zh-TW') : '-'}</td>
+                    <td>${announcement.viewCount}</td>
+                    <td>
+                        <div class="announcement-actions">
+                            <button class="btn btn-small btn-primary" onclick="editAnnouncement('${announcement._id}')">
+                                <span class="material-icons">edit</span>編輯
+                            </button>
+                            <button class="btn btn-small ${announcement.isActive ? 'btn-warning' : 'btn-success'}" onclick="toggleAnnouncement('${announcement._id}')">
+                                <span class="material-icons">${announcement.isActive ? 'visibility_off' : 'visibility'}</span>
+                                ${announcement.isActive ? '停用' : '啟用'}
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="deleteAnnouncement('${announcement._id}')">
+                                <span class="material-icons">delete</span>刪除
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 篩選公告
+        function filterAnnouncements() {
+            const typeFilter = document.getElementById('announcement-type-filter').value;
+            const statusFilter = document.getElementById('announcement-status-filter').value;
+            const priorityFilter = document.getElementById('announcement-priority-filter').value;
+
+            filteredAnnouncements = announcements.filter(announcement => {
+                return (!typeFilter || announcement.type === typeFilter) &&
+                       (!statusFilter || announcement.status === statusFilter) &&
+                       (!priorityFilter || announcement.priority === priorityFilter);
+            });
+
+            displayAnnouncements();
+        }
+
+        // 搜尋公告
+        function searchAnnouncements() {
+            const searchTerm = document.getElementById('announcement-search').value.toLowerCase();
+            
+            filteredAnnouncements = announcements.filter(announcement => {
+                return announcement.title.toLowerCase().includes(searchTerm) ||
+                       announcement.content.toLowerCase().includes(searchTerm);
+            });
+
+            displayAnnouncements();
+        }
+
+        // 顯示新增公告表單
+        function showAddAnnouncementForm() {
+            document.getElementById('announcements-section').style.display = 'none';
+            document.getElementById('announcement-form-section').style.display = 'block';
+            document.getElementById('announcement-form-title').textContent = '新增公告';
+            document.getElementById('announcement-form').reset();
+            
+            // 設置默認值
+            document.getElementById('announcement-author').value = sessionStorage.getItem('adminUsername') || 'admin';
+            document.getElementById('announcement-active').checked = true;
+            document.getElementById('announcement-homepage').checked = false;
+            
+            editingAnnouncementId = null;
+        }
+
+        // 隱藏公告表單
+        function hideAnnouncementForm() {
+            document.getElementById('announcement-form-section').style.display = 'none';
+            document.getElementById('announcements-section').style.display = 'block';
+            editingAnnouncementId = null;
+        }
+
+        // 編輯公告
+        function editAnnouncement(announcementId) {
+            const announcement = announcements.find(a => a._id === announcementId);
+            if (!announcement) return;
+
+            document.getElementById('announcements-section').style.display = 'none';
+            document.getElementById('announcement-form-section').style.display = 'block';
+            document.getElementById('announcement-form-title').textContent = '編輯公告';
+
+            // 填充表單
+            document.getElementById('announcement-title').value = announcement.title;
+            document.getElementById('announcement-content').value = announcement.content;
+            document.getElementById('announcement-type').value = announcement.type;
+            document.getElementById('announcement-priority').value = announcement.priority;
+            document.getElementById('announcement-status').value = announcement.status;
+            document.getElementById('announcement-author').value = announcement.author;
+            document.getElementById('announcement-active').checked = announcement.isActive;
+            document.getElementById('announcement-homepage').checked = announcement.showOnHomepage;
+            document.getElementById('announcement-bg-color').value = announcement.backgroundColor;
+            document.getElementById('announcement-text-color').value = announcement.textColor;
+            document.getElementById('announcement-tags').value = announcement.tags ? announcement.tags.join(',') : '';
+            
+            // 設置日期時間
+            if (announcement.startDate) {
+                document.getElementById('announcement-start-date').value = new Date(announcement.startDate).toISOString().slice(0, 16);
+            }
+            if (announcement.endDate) {
+                document.getElementById('announcement-end-date').value = new Date(announcement.endDate).toISOString().slice(0, 16);
+            }
+
+            editingAnnouncementId = announcementId;
+        }
+
+        // 儲存公告
+        async function saveAnnouncement(event) {
+            event.preventDefault();
+
+            const formData = {
+                title: document.getElementById('announcement-title').value,
+                content: document.getElementById('announcement-content').value,
+                type: document.getElementById('announcement-type').value,
+                priority: document.getElementById('announcement-priority').value,
+                status: document.getElementById('announcement-status').value,
+                author: document.getElementById('announcement-author').value,
+                isActive: document.getElementById('announcement-active').checked,
+                showOnHomepage: document.getElementById('announcement-homepage').checked,
+                backgroundColor: document.getElementById('announcement-bg-color').value,
+                textColor: document.getElementById('announcement-text-color').value,
+                tags: document.getElementById('announcement-tags').value.split(',').map(tag => tag.trim()).filter(tag => tag)
+            };
+
+            // 處理日期
+            const startDate = document.getElementById('announcement-start-date').value;
+            const endDate = document.getElementById('announcement-end-date').value;
+            
+            if (startDate) formData.startDate = new Date(startDate).toISOString();
+            if (endDate) formData.endDate = new Date(endDate).toISOString();
+
+            try {
+                let response;
+                if (editingAnnouncementId) {
+                    // 更新公告
+                    response = await fetch(`/api/announcements/${editingAnnouncementId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                } else {
+                    // 新增公告
+                    response = await fetch('/api/announcements', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                }
+
+                if (response.ok) {
+                    alert(editingAnnouncementId ? '公告更新成功！' : '公告新增成功！');
+                    hideAnnouncementForm();
+                    await loadAnnouncements();
+                } else {
+                    const error = await response.json();
+                    alert('儲存失敗: ' + (error.message || '未知錯誤'));
+                }
+            } catch (error) {
+                console.error('儲存公告錯誤:', error);
+                alert('儲存失敗，請稍後再試');
+            }
+        }
+
+        // 切換公告狀態
+        async function toggleAnnouncement(announcementId) {
+            try {
+                const response = await fetch(`/api/announcements/${announcementId}/toggle`, {
+                    method: 'PATCH'
+                });
+
+                if (response.ok) {
+                    await loadAnnouncements();
+                    alert('公告狀態更新成功！');
+                } else {
+                    alert('狀態更新失敗');
+                }
+            } catch (error) {
+                console.error('切換公告狀態錯誤:', error);
+                alert('狀態更新失敗');
+            }
+        }
+
+        // 刪除公告
+        async function deleteAnnouncement(announcementId) {
+            const announcement = announcements.find(a => a._id === announcementId);
+            if (!announcement) return;
+
+            if (confirm(`確定要刪除公告「${announcement.title}」嗎？此操作無法復原。`)) {
+                try {
+                    const response = await fetch(`/api/announcements/${announcementId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        await loadAnnouncements();
+                        alert('公告刪除成功！');
+                    } else {
+                        alert('刪除失敗');
+                    }
+                } catch (error) {
+                    console.error('刪除公告錯誤:', error);
+                    alert('刪除失敗');
+                }
+            }
+        }
+
+        // 預覽公告
+        function previewAnnouncement() {
+            const title = document.getElementById('announcement-title').value;
+            const content = document.getElementById('announcement-content').value;
+            const bgColor = document.getElementById('announcement-bg-color').value;
+            const textColor = document.getElementById('announcement-text-color').value;
+            const type = document.getElementById('announcement-type').value;
+            const priority = document.getElementById('announcement-priority').value;
+
+            const previewHtml = `
+                <div class="announcement-preview" style="background-color: ${bgColor}; color: ${textColor};">
+                    <div class="announcement-title-preview">${title || '公告標題'}</div>
+                    <div class="announcement-content-preview">${content || '公告內容'}</div>
+                    <div class="announcement-meta">
+                        <span class="type-badge">${type}</span>
+                        <span class="priority-badge priority-${priority}">${priority}</span>
+                        <span>作者: ${document.getElementById('announcement-author').value}</span>
+                    </div>
+                </div>
+            `;
+
+            // 創建預覽窗口
+            const previewWindow = window.open('', '_blank', 'width=600,height=400');
+            previewWindow.document.write(`
+                <html>
+                    <head>
+                        <title>公告預覽</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 20px; }
+                            .announcement-preview { border-radius: 10px; padding: 20px; }
+                            .announcement-title-preview { font-size: 1.2em; font-weight: 600; margin-bottom: 10px; }
+                            .announcement-content-preview { line-height: 1.6; margin-bottom: 10px; }
+                            .announcement-meta { display: flex; gap: 10px; font-size: 12px; }
+                            .type-badge, .priority-badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+                            .type-badge { background: #C6E6E3; color: #82BFB7; }
+                            .priority-低 { background: #d4edda; color: #155724; }
+                            .priority-中 { background: #fff3cd; color: #856404; }
+                            .priority-高 { background: #f8d7da; color: #721c24; }
+                            .priority-緊急 { background: #dc3545; color: white; }
+                        </style>
+                    </head>
+                    <body>
+                        <h2>公告預覽</h2>
+                        ${previewHtml}
+                    </body>
+                </html>
+            `);
+        }
     </script>
 </body>
 </html> 

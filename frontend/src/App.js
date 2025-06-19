@@ -9,6 +9,7 @@ import AuraPostPage from './components/AuraPostPage';
 import EventPage from './components/EventPage';
 import BabyMemberPage from './components/BabyMemberPage';
 import WomenCards from './components/WomenCards';
+import AurawayRecommendPage from './components/AurawayRecommendPage';
 
 // 產品頁面組件
 import ProbioticProductPage from './components/ProbioticProductPage';
@@ -41,6 +42,9 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   // 全局處理頁面切換時滾動到頂部
   useEffect(() => {
@@ -80,10 +84,68 @@ function App() {
     setMenuOpen(false);
   };
 
-
+  const navigateToAurawayRecommend = () => {
+    setCurrentPage('aurawayrecommend');
+    setMenuOpen(false);
+  };
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  // 搜尋功能
+  const handleSearch = async (query) => {
+    setSearchQuery(query);
+    if (query.trim() === '') {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5001/api/products/active');
+      const products = await response.json();
+      
+      const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase()) ||
+        (product.tags && product.tags.some(tag => 
+          tag.toLowerCase().includes(query.toLowerCase())
+        )) ||
+        (product.category && product.category.toLowerCase().includes(query.toLowerCase()))
+      );
+      
+      setSearchResults(filteredProducts);
+      setShowSearchResults(true);
+    } catch (error) {
+      console.error('搜尋錯誤:', error);
+      setSearchResults([]);
+      setShowSearchResults(false);
+    }
+  };
+
+  const handleSearchInputChange = (e) => {
+    const query = e.target.value;
+    handleSearch(query);
+  };
+
+  const handleSearchResultClick = (product) => {
+    navigateToProduct(product);
+    setShowSearchResults(false);
+    setSearchQuery('');
+  };
+
+  const handleSearchInputBlur = () => {
+    // 延遲隱藏搜尋結果，讓用戶有時間點擊結果
+    setTimeout(() => {
+      setShowSearchResults(false);
+    }, 200);
+  };
+
+  const handleSearchInputFocus = () => {
+    if (searchQuery.trim() !== '' && searchResults.length > 0) {
+      setShowSearchResults(true);
+    }
   };
 
   return (
@@ -103,7 +165,42 @@ function App() {
           <div className="header-actions">
             <div className="search-box">
               <span className="material-icons">search</span>
-              <input type="text" placeholder="搜尋產品..." />
+              <input 
+                type="text" 
+                placeholder="搜尋產品..." 
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+                onFocus={handleSearchInputFocus}
+                onBlur={handleSearchInputBlur}
+              />
+              {showSearchResults && (
+                <div className="search-results">
+                  {searchResults.length > 0 ? (
+                    searchResults.map(product => (
+                      <div 
+                        key={product._id} 
+                        className="search-result-item"
+                        onClick={() => handleSearchResultClick(product)}
+                      >
+                        <img 
+                          src={product.images && product.images.length > 0 ? product.images[0] : '/images/white-rainforest-qCDK3DN7lOs-unsplash.jpg'} 
+                          alt={product.name}
+                        />
+                        <div className="search-result-info">
+                          <h4>{product.name}</h4>
+                          <p>NT$ {product.price}</p>
+                          <span className="search-result-category">{product.category}</span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="search-no-results">
+                      <span className="material-icons">search_off</span>
+                      <p>找不到相關產品</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             <div className="user-actions">
               <span className="material-icons">person</span>
@@ -118,6 +215,7 @@ function App() {
         <nav className={`navbar ${menuOpen ? 'menu-open' : ''}`}>
           <ul className="nav-menu">
             <li onClick={navigateToHome}>Home 首頁</li>
+            <li onClick={navigateToAurawayRecommend}>Auraway推薦</li>
             <li onClick={navigateToAuraPost}>Aura Post 專欄</li>
             <li onClick={navigateToEvent}>Event 活動公告</li>
             <li onClick={navigateToBabyMember}>寶寶會員專區</li>
@@ -258,6 +356,8 @@ function App() {
         <EventPage />
       ) : currentPage === 'babymember' ? (
         <BabyMemberPage />
+      ) : currentPage === 'aurawayrecommend' ? (
+        <AurawayRecommendPage onProductClick={navigateToProduct} />
       ) : null}
 
       <footer className="App-footer">
