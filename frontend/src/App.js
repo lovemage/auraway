@@ -47,6 +47,10 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
+  // Admin UI 隱藏入口功能
+  const [logoClickCount, setLogoClickCount] = useState(0);
+  const [logoClickTimer, setLogoClickTimer] = useState(null);
+
   // 全局處理頁面切換時滾動到頂部
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,10 +64,86 @@ function App() {
 
   const navigateToHome = () => {
     setCurrentPage('home');
-    setMenuOpen(false);
+    setSearchQuery('');
+    setSearchResults([]);
+    setShowSearchResults(false);
   };
 
-
+  // Logo 隱藏入口功能
+  const handleLogoClick = (e) => {
+    e.stopPropagation(); // 防止事件冒泡
+    
+    // 添加點擊動畫效果
+    const logoElement = e.currentTarget;
+    logoElement.classList.add('clicking');
+    setTimeout(() => {
+      logoElement.classList.remove('clicking');
+    }, 300);
+    
+    // 清除之前的計時器
+    if (logoClickTimer) {
+      clearTimeout(logoClickTimer);
+    }
+    
+    const newCount = logoClickCount + 1;
+    setLogoClickCount(newCount);
+    
+    // 如果點擊 5 次，跳轉到 Admin UI
+    if (newCount >= 5) {
+      // 重置計數
+      setLogoClickCount(0);
+      
+      // 添加特殊動畫效果
+      logoElement.classList.add('admin-hint');
+      setTimeout(() => {
+        logoElement.classList.remove('admin-hint');
+      }, 500);
+      
+      // 顯示提示訊息
+      setTimeout(() => {
+        const confirmAccess = window.confirm('🎉 恭喜發現隱藏入口！\n🔐 是否要進入後台管理系統？');
+        
+        if (confirmAccess) {
+          // 跳轉到本地 Admin UI
+          if (process.env.NODE_ENV === 'development') {
+            window.open('http://localhost:5001/admin.html', '_blank');
+          } else {
+            // 生產環境跳轉到 Vercel Admin UI
+            window.open('https://auraway.vercel.app/api/admin', '_blank');
+          }
+        }
+      }, 600);
+      
+      return;
+    }
+    
+    // 顯示進度提示（3次以上時）
+    if (newCount >= 3) {
+      logoElement.classList.add('admin-hint');
+      setTimeout(() => {
+        logoElement.classList.remove('admin-hint');
+      }, 500);
+      
+      // 顯示進度提示
+      if (newCount === 3) {
+        console.log('🔍 繼續點擊發現隱藏功能...');
+      } else if (newCount === 4) {
+        console.log('🔐 再點擊一次即可進入管理系統！');
+      }
+    }
+    
+    // 設置 3 秒後重置計數
+    const timer = setTimeout(() => {
+      setLogoClickCount(0);
+    }, 3000);
+    
+    setLogoClickTimer(timer);
+    
+    // 如果不是第 5 次點擊，執行原本的導航功能
+    if (newCount < 5) {
+      navigateToHome();
+    }
+  };
 
   const navigateToBrandStory = () => {
     setCurrentPage('brandstory');
@@ -159,7 +239,7 @@ function App() {
             <div className="bar"></div>
             <div className="bar"></div>
           </div>
-          <div className="logo-section" onClick={navigateToHome} style={{ cursor: 'pointer' }}>
+          <div className="logo-section" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
             <h1>Auraway Shop</h1>
             <p className="tagline">您的健康守護專家</p>
           </div>
