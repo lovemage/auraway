@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 // Import routes
 const productRoutes = require('./routes/productRoutes');
@@ -16,6 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from backend/public directory
+app.use(express.static('public'));
 
 // Global connection variable for caching
 let cachedConnection = null;
@@ -68,6 +72,32 @@ app.get('/api/health', (req, res) => {
     message: 'Auraway Shop API is running',
     dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
+});
+
+// Admin UI route
+app.get('/api/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/admin.html'));
+});
+
+// Root route
+app.get('/api/', (req, res) => {
+  res.send(`
+    <div style="font-family: 'Roboto', sans-serif; text-align: center; padding: 50px;">
+      <h1>🎉 Auraway Shop Backend API</h1>
+      <p style="font-size: 18px; color: #666; margin: 20px 0;">後端服務器運行正常</p>
+      <div style="margin: 30px 0;">
+        <a href="/api/admin" style="background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: 500;">
+          🖥️ 進入後台管理系統
+        </a>
+      </div>
+      <div style="margin-top: 30px; color: #888;">
+        <p>API端點：</p>
+        <p>• <a href="/api/products">/api/products</a> - 產品管理</p>
+        <p>• <a href="/api/announcements">/api/announcements</a> - 公告管理</p>
+        <p>• <a href="/api/coupons">/api/coupons</a> - 優惠券管理</p>
+      </div>
+    </div>
+  `);
 });
 
 // Error handling middleware
