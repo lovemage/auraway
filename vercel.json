@@ -6,14 +6,14 @@
   "installCommand": "cd frontend && npm install",
   "framework": "create-react-app",
   "functions": {
-    "api/**/*.js": {
-      "runtime": "@vercel/node"
+    "api/server.js": {
+      "runtime": "nodejs18.x"
     }
   },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "destination": "/api/server.js"
     },
     {
       "source": "/(.*)",
