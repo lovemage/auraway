@@ -6,6 +6,14 @@ export const API_BASE_URL = isDevelopment
   ? 'http://localhost:5001/api'  // 開發環境
   : '/api';  // 生產環境 (Vercel)
 
+// 向後兼容的 buildApiUrl 函數
+export const buildApiUrl = (endpoint) => {
+  const baseUrl = isDevelopment 
+    ? 'http://localhost:5001'  // 開發環境
+    : '';  // 生產環境 (Vercel)
+  return `${baseUrl}${endpoint}`;
+};
+
 // API 端點
 export const API_ENDPOINTS = {
   // 產品相關
