@@ -14,7 +14,7 @@ const AurawayRecommendPage = ({ onProductClick }) => {
 
   const fetchProducts = async () => {
     try {
-              const response = await fetch(buildApiUrl(API_ENDPOINTS.products.active));
+              const response = await fetch(buildApiUrl('/api/products/active'));
       const data = await response.json();
       setProducts(data);
       

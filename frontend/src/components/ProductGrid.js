@@ -14,10 +14,10 @@ const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      let url = buildApiUrl(API_ENDPOINTS.products.active);
+      let url = buildApiUrl('/api/products/active');
       
       if (category) {
-        url = buildApiUrl(API_ENDPOINTS.products.category(category));
+        url = buildApiUrl(`/api/products/category/${category}`);
       }
       
       const response = await fetch(url);

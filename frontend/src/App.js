@@ -104,7 +104,7 @@ function App() {
     }
 
     try {
-              const response = await fetch(buildApiUrl(API_ENDPOINTS.products.active));
+              const response = await fetch(buildApiUrl('/api/products/active'));
       const products = await response.json();
       
       const filteredProducts = products.filter(product =>

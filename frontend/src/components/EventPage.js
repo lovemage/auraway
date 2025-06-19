@@ -15,7 +15,7 @@ const EventPage = () => {
   const fetchAnnouncements = async () => {
     try {
       setLoading(true);
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.announcements.public));
+      const response = await fetch(buildApiUrl('/api/announcements/public'));
       if (!response.ok) {
         throw new Error('無法載入活動公告');
       }

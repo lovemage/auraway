@@ -44,7 +44,7 @@ const HeaderInfo = () => {
 
   const fetchHeaderInfo = async () => {
     try {
-              const response = await fetch(buildApiUrl(API_ENDPOINTS.headerInfo));
+              const response = await fetch(buildApiUrl('/api/header-info'));
       if (response.ok) {
         const data = await response.json();
         setHeaderInfos(data);
