@@ -7,6 +7,7 @@ const HeaderInfo = () => {
 
   useEffect(() => {
     fetchHeaderInfo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setDefaultData = () => {

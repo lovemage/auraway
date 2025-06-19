@@ -1958,3 +1958,38 @@ body {
     align-self: stretch;
   }
 }
+
+/* 產品卡片按鈕樣式 */
+.product-name-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.product-name-button:hover {
+  color: #DB7093;
+}
+
+.product-action-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 2px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.product-action-btn:hover {
+  background-color: #f0f0f0;
+  color: #DB7093;
+}

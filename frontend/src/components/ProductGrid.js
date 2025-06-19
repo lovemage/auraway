@@ -8,6 +8,7 @@ const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
 
   useEffect(() => {
     fetchProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
   const fetchProducts = async () => {
@@ -104,15 +105,12 @@ const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
           <div className="product-details">
             <span className="product-catagory">{product.category}</span>
             <h4>
-              <a 
-                href="#" 
-                onClick={(e) => { 
-                  e.preventDefault(); 
-                  handleProductClick(product); 
-                }}
+              <button 
+                className="product-name-button"
+                onClick={() => handleProductClick(product)}
               >
                 {product.name}
-              </a>
+              </button>
             </h4>
             <p>{product.description.length > 50 ? `${product.description.substring(0, 50)}...` : product.description}</p>
             <div className="product-bottom-details">
@@ -123,12 +121,12 @@ const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
                 NT$ {product.price.toLocaleString()}
               </div>
               <div className="product-links">
-                <a href="#" onClick={(e) => e.preventDefault()}>
+                <button className="product-action-btn" onClick={(e) => e.preventDefault()}>
                   <i className="fa fa-heart"></i>
-                </a>
-                <a href="#" onClick={(e) => e.preventDefault()}>
+                </button>
+                <button className="product-action-btn" onClick={(e) => e.preventDefault()}>
                   <i className="fa fa-shopping-cart"></i>
-                </a>
+                </button>
               </div>
             </div>
           </div>
