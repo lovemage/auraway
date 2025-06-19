@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildApiUrl, API_ENDPOINTS } from '../config/api';
 
 const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
   const [products, setProducts] = useState([]);
@@ -12,10 +13,10 @@ const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      let url = 'http://localhost:5001/api/products/active';
+      let url = buildApiUrl(API_ENDPOINTS.products.active);
       
       if (category) {
-        url = `http://localhost:5001/api/products/category/${encodeURIComponent(category)}`;
+        url = buildApiUrl(API_ENDPOINTS.products.category(category));
       }
       
       const response = await fetch(url);

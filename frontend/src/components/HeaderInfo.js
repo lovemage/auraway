@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildApiUrl, API_ENDPOINTS } from '../config/api';
 
 const HeaderInfo = () => {
   const [headerInfos, setHeaderInfos] = useState([]);
@@ -42,7 +43,7 @@ const HeaderInfo = () => {
 
   const fetchHeaderInfo = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/header-info');
+              const response = await fetch(buildApiUrl(API_ENDPOINTS.headerInfo));
       if (response.ok) {
         const data = await response.json();
         setHeaderInfos(data);

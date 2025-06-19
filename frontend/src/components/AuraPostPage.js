@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './BlogStyles.css';
+import { buildApiUrl, API_ENDPOINTS } from '../config/api';
 
 const AuraPostPage = () => {
   const [articles, setArticles] = useState([]);
@@ -79,7 +80,7 @@ const AuraPostPage = () => {
     // 載入文章數據
     const loadArticles = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/blog/articles');
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.blog.articles));
         if (response.ok) {
           const articlesData = await response.json();
           // 轉換MongoDB格式到前台格式
@@ -96,7 +97,7 @@ const AuraPostPage = () => {
         } else {
           // 如果API失敗，使用預設文章並初始化
           setArticles(defaultArticles);
-          await fetch('http://localhost:5001/api/blog/init', { method: 'POST' });
+          await fetch(buildApiUrl(API_ENDPOINTS.blog.init), { method: 'POST' });
         }
       } catch (error) {
         console.error('載入文章失敗:', error);
@@ -107,7 +108,7 @@ const AuraPostPage = () => {
     // 載入blog設定
     const loadSettings = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/blog/settings');
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.blog.settings));
         if (response.ok) {
           const settingsData = await response.json();
           setBlogSettings({

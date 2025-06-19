@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { buildApiUrl, API_ENDPOINTS } from './config/api';
 import ProductGrid from './components/ProductGrid';
 import DynamicProductPage from './components/DynamicProductPage';
 import AboutPage from './components/AboutPage';
@@ -103,7 +104,7 @@ function App() {
     }
 
     try {
-      const response = await fetch('http://localhost:5001/api/products/active');
+              const response = await fetch(buildApiUrl(API_ENDPOINTS.products.active));
       const products = await response.json();
       
       const filteredProducts = products.filter(product =>

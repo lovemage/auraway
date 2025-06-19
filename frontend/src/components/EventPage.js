@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './EventPage.css';
+import { buildApiUrl, API_ENDPOINTS } from '../config/api';
 
 const EventPage = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -14,7 +15,7 @@ const EventPage = () => {
   const fetchAnnouncements = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5001/api/announcements/public');
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.announcements.public));
       if (!response.ok) {
         throw new Error('無法載入活動公告');
       }

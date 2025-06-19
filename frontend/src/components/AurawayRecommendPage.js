@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AurawayRecommendPage.css';
+import { buildApiUrl, API_ENDPOINTS } from '../config/api';
 
 const AurawayRecommendPage = ({ onProductClick }) => {
   const [products, setProducts] = useState([]);
@@ -13,7 +14,7 @@ const AurawayRecommendPage = ({ onProductClick }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/products/active');
+              const response = await fetch(buildApiUrl(API_ENDPOINTS.products.active));
       const data = await response.json();
       setProducts(data);
       
