@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { buildApiUrl, API_ENDPOINTS } from '../config/api';
+import { buildApiUrl } from '../config/api';
 
 const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
   const [products, setProducts] = useState([]);

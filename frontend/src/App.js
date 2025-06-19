@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import { buildApiUrl, API_ENDPOINTS } from './config/api';
+import { buildApiUrl } from './config/api';
 import ProductGrid from './components/ProductGrid';
 import DynamicProductPage from './components/DynamicProductPage';
 import AboutPage from './components/AboutPage';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './EventPage.css';
-import { buildApiUrl, API_ENDPOINTS } from '../config/api';
+import { buildApiUrl } from '../config/api';
 
 const EventPage = () => {
   const [announcements, setAnnouncements] = useState([]);

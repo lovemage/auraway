@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AurawayRecommendPage.css';
-import { buildApiUrl, API_ENDPOINTS } from '../config/api';
+import { buildApiUrl } from '../config/api';
 
 const AurawayRecommendPage = ({ onProductClick }) => {
   const [products, setProducts] = useState([]);
