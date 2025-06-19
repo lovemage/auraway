@@ -34,6 +34,10 @@ const productSchema = new mongoose.Schema({
   images: [{
     type: String,
   }],
+  descriptionImage: {
+    type: String,
+    default: '',
+  },
   specifications: {
     content: String,        // 內容量
     storage: String,        // 保存方式

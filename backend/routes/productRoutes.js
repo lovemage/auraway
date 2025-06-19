@@ -60,6 +60,7 @@ router.post('/', async (req, res) => {
     category: req.body.category,
     badge: req.body.badge,
     images: req.body.images || [],
+    descriptionImage: req.body.descriptionImage || '',
     specifications: req.body.specifications || {},
     tags: req.body.tags || [],
     isActive: req.body.isActive !== undefined ? req.body.isActive : true,
@@ -87,6 +88,7 @@ router.put('/:id', async (req, res) => {
       if (req.body.category) product.category = req.body.category;
       if (req.body.badge !== undefined) product.badge = req.body.badge;
       if (req.body.images) product.images = req.body.images;
+      if (req.body.descriptionImage !== undefined) product.descriptionImage = req.body.descriptionImage;
       if (req.body.specifications) product.specifications = req.body.specifications;
       if (req.body.tags) product.tags = req.body.tags;
       if (req.body.isActive !== undefined) product.isActive = req.body.isActive;

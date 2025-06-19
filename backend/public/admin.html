@@ -563,6 +563,14 @@
                             </div>
                             
                             <div class="form-group">
+                                <label for="product-description-image">產品說明圖 (圖檔連結)</label>
+                                <input type="text" id="product-description-image" class="form-control" placeholder="/images/產品資料夾/產品說明圖.jpg">
+                                <small style="color: var(--text-secondary); font-size: 0.8em; margin-top: 5px; display: block;">
+                                    此圖片將在產品詳情頁面中顯示，用於詳細說明產品特色
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
                                 <label for="product-content">內容量/規格</label>
                                 <input type="text" id="product-content" class="form-control" placeholder="如：18g x 20包/盒">
                             </div>
@@ -646,16 +654,16 @@
                                     <button class="btn btn-secondary" onclick="showProductsSection()">管理</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>專業肝精保健食品</td>
-                                <td>保健食品</td>
-                                <td>NT$1,680</td>
-                                <td>25</td>
-                                <td><span class="status-badge status-active">上架中</span></td>
-                                <td>
+                                                         <tr>
+                                 <td>專業肝精保健食品</td>
+                                 <td>保健食品</td>
+                                 <td>NT$1,680</td>
+                                 <td>25</td>
+                                 <td><span class="status-badge status-active">上架中</span></td>
+                                 <td>
                                     <button class="btn btn-secondary" onclick="showProductsSection()">管理</button>
-                                </td>
-                            </tr>
+                                 </td>
+                             </tr>
                         </tbody>
                     </table>
                 </div>
@@ -2083,6 +2091,7 @@
             document.getElementById('product-badge').value = product.badge || '';
             document.getElementById('product-tags').value = product.tags ? product.tags.join(',') : '';
             document.getElementById('product-images').value = product.images ? product.images.join('\n') : '';
+            document.getElementById('product-description-image').value = product.descriptionImage || '';
             
             // 規格信息
             if (product.specifications) {
@@ -2111,6 +2120,7 @@
                 badge: document.getElementById('product-badge').value,
                 tags: document.getElementById('product-tags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
                 images: document.getElementById('product-images').value.split('\n').map(img => img.trim()).filter(img => img),
+                descriptionImage: document.getElementById('product-description-image').value.trim(),
                 specifications: {
                     content: document.getElementById('product-content').value,
                     storage: document.getElementById('product-storage').value,
