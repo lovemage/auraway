@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // Import routes
-const productRoutes = require('../backend/routes/productRoutes');
-const announcementRoutes = require('../backend/routes/announcementRoutes');
-const blogRoutes = require('../backend/routes/blogRoutes');
-const couponRoutes = require('../backend/routes/couponRoutes');
-const headerInfoRoutes = require('../backend/routes/headerInfoRoutes');
-const adminRoutes = require('../backend/routes/adminRoutes');
+const productRoutes = require('./routes/productRoutes');
+const announcementRoutes = require('./routes/announcementRoutes');
+const blogRoutes = require('./routes/blogRoutes');
+const couponRoutes = require('./routes/couponRoutes');
+const headerInfoRoutes = require('./routes/headerInfoRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
