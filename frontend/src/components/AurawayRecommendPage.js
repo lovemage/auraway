@@ -7,14 +7,77 @@ const AurawayRecommendPage = ({ onProductClick }) => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [categories, setCategories] = useState([]);
+  const [performanceWarning, setPerformanceWarning] = useState(false);
 
   useEffect(() => {
-    fetchProducts();
+    fetchRecommendTags();
   }, []);
 
-  const fetchProducts = async () => {
+  useEffect(() => {
+    if (categories.length > 0) {
+      fetchProductsByTag(selectedCategory);
+    }
+  }, [selectedCategory, categories]);
+
+  const fetchRecommendTags = async () => {
     try {
-              const response = await fetch(buildApiUrl('/api/products/active'));
+      const response = await fetch(buildApiUrl('/api/recommend-tags/active'));
+      const tags = await response.json();
+      
+      if (tags.length === 0) {
+        // 如果沒有推薦標籤，初始化默認標籤
+        await initializeRecommendTags();
+        return;
+      }
+      
+      setCategories(tags);
+      
+      // 檢查是否有性能警告
+      const currentTag = tags.find(tag => tag.name === selectedCategory);
+      if (currentTag && currentTag.performanceWarning) {
+        setPerformanceWarning(true);
+      }
+      
+    } catch (error) {
+      console.error('Error fetching recommend tags:', error);
+      // 如果獲取失敗，回退到舊的方式
+      fetchProductsOldWay();
+    }
+  };
+
+  const initializeRecommendTags = async () => {
+    try {
+      await fetch(buildApiUrl('/api/recommend-tags/init'), { method: 'POST' });
+      // 初始化後重新獲取
+      fetchRecommendTags();
+    } catch (error) {
+      console.error('Error initializing recommend tags:', error);
+      fetchProductsOldWay();
+    }
+  };
+
+  const fetchProductsByTag = async (tagName) => {
+    try {
+      setLoading(true);
+      const response = await fetch(buildApiUrl(`/api/recommend-tags/${tagName}/products`));
+      const data = await response.json();
+      setProducts(data);
+      
+      // 檢查性能警告
+      const currentTag = categories.find(tag => tag.name === tagName);
+      setPerformanceWarning(currentTag && currentTag.performanceWarning);
+      
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products by tag:', error);
+      setLoading(false);
+    }
+  };
+
+  // 舊的方式作為回退
+  const fetchProductsOldWay = async () => {
+    try {
+      const response = await fetch(buildApiUrl('/api/products/active'));
       const data = await response.json();
       setProducts(data);
       
@@ -28,11 +91,21 @@ const AurawayRecommendPage = ({ onProductClick }) => {
       
       // 創建分類列表，按產品數量排序
       const sortedCategories = Object.entries(badgeCount)
-        .map(([badge, count]) => ({ badge, count }))
-        .sort((a, b) => b.count - a.count);
+        .map(([badge, count]) => ({ 
+          name: badge, 
+          displayName: badge, 
+          productCount: count,
+          performanceWarning: false
+        }))
+        .sort((a, b) => b.productCount - a.productCount);
       
       setCategories([
-        { badge: 'all', count: data.length },
+        { 
+          name: 'all', 
+          displayName: '全部推薦', 
+          productCount: data.length,
+          performanceWarning: true
+        },
         ...sortedCategories
       ]);
       
@@ -43,26 +116,8 @@ const AurawayRecommendPage = ({ onProductClick }) => {
     }
   };
 
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
-    : products.filter(product => product.badge === selectedCategory);
-
-  const getCategoryDisplayName = (badge) => {
-    const categoryNames = {
-      'all': '全部推薦',
-      '美國進口': '🇺🇸 美國進口',
-      '日本進口': '🇯🇵 日本進口',
-      '加拿大進口': '🇨🇦 加拿大進口',
-      '新上市': '✨ 新上市',
-      '熱銷產品': '🔥 熱銷產品',
-      '熱銷': '🔥 熱銷',
-      '美肌養顏': '💄 美肌養顏',
-      '美麗秘密': '🌹 美麗秘密',
-      '美味酵素': '🍃 美味酵素',
-      '青蔬酵素': '🥬 青蔬酵素',
-      '口嚼錠': '💊 口嚼錠'
-    };
-    return categoryNames[badge] || badge;
+  const handleCategoryChange = (categoryName) => {
+    setSelectedCategory(categoryName);
   };
 
   const handleProductClick = (product) => {
@@ -71,37 +126,59 @@ const AurawayRecommendPage = ({ onProductClick }) => {
     }
   };
 
+  const getCategoryDisplayName = (categoryName) => {
+    const category = categories.find(cat => cat.name === categoryName);
+    return category ? category.displayName : categoryName;
+  };
+
+  const filteredProducts = selectedCategory === 'all' 
+    ? products 
+    : products.filter(product => product.badge === selectedCategory);
+
   if (loading) {
     return (
-      <div className="auraway-recommend-loading">
-        <div className="loading-spinner"></div>
-        <p>載入推薦產品中...</p>
+      <div className="auraway-recommend-page">
+        <div className="recommend-header">
+          <h1>Auraway 推薦</h1>
+          <p>為您精選最優質的保健產品</p>
+        </div>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>載入推薦產品中...</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="auraway-recommend-page">
-      <div className="auraway-recommend-header">
-        <h1 className="auraway-recommend-title">
-          <span className="title-icon">✨</span>
-          Auraway 精選推薦
-        </h1>
-        <p className="auraway-recommend-subtitle">
-          為您精心挑選的優質保健產品
-        </p>
+      <div className="recommend-header">
+        <h1>Auraway 推薦</h1>
+        <p>為您精選最優質的保健產品</p>
       </div>
 
-      <div className="auraway-recommend-categories">
-        <div className="categories-container">
-          {categories.map(({ badge, count }) => (
+      {/* 性能警告 */}
+      {performanceWarning && (
+        <div className="performance-warning">
+          <div className="warning-icon">⚠️</div>
+          <div className="warning-content">
+            <h4>載入提醒</h4>
+            <p>「全部推薦」標籤包含所有產品，可能會影響頁面載入速度。建議選擇特定分類以獲得更好的瀏覽體驗。</p>
+          </div>
+        </div>
+      )}
+
+      <div className="category-filter">
+        <div className="category-buttons">
+          {categories.map(category => (
             <button
-              key={badge}
-              className={`category-button ${selectedCategory === badge ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(badge)}
+              key={category.name}
+              className={`category-btn ${selectedCategory === category.name ? 'active' : ''} ${category.performanceWarning ? 'warning' : ''}`}
+              onClick={() => handleCategoryChange(category.name)}
             >
-              <span className="category-name">{getCategoryDisplayName(badge)}</span>
-              <span className="category-count">({count})</span>
+              <span className="category-name">{category.displayName}</span>
+              <span className="category-count">({category.productCount})</span>
+              {category.performanceWarning && <span className="warning-badge">⚠️</span>}
             </button>
           ))}
         </div>
@@ -135,28 +212,21 @@ const AurawayRecommendPage = ({ onProductClick }) => {
                   <span className="product-badge">{product.badge}</span>
                 )}
               </div>
-              
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
-                <p className="product-description">{product.description}</p>
-                
-                <div className="product-price">
-                  <span className="current-price">NT$ {product.price}</span>
-                  {product.originalPrice && product.originalPrice > product.price && (
-                    <span className="original-price">NT$ {product.originalPrice}</span>
+                <p className="product-description">
+                  {product.description.length > 80 
+                    ? `${product.description.substring(0, 80)}...` 
+                    : product.description}
+                </p>
+                <div className="product-price-container">
+                  {product.originalPrice && (
+                    <span className="original-price">NT$ {product.originalPrice.toLocaleString()}</span>
                   )}
+                  <span className="current-price">NT$ {product.price.toLocaleString()}</span>
                 </div>
-                
-                <div className="product-features">
-                  {(() => {
-                    // 優先顯示 specifications.features，如果沒有則顯示 tags
-                    const features = product.specifications?.features || product.tags || [];
-                    return features.slice(0, 2).map((feature, index) => (
-                      <span key={index} className="feature-tag">
-                        {feature}
-                      </span>
-                    ));
-                  })()}
+                <div className="product-category">
+                  <span className="category-tag">{product.category}</span>
                 </div>
               </div>
             </div>
@@ -167,7 +237,7 @@ const AurawayRecommendPage = ({ onProductClick }) => {
           <div className="no-products">
             <div className="no-products-icon">📦</div>
             <h3>暫無產品</h3>
-            <p>此分類目前沒有產品，請選擇其他分類</p>
+            <p>此分類目前沒有可用的產品，請選擇其他分類。</p>
           </div>
         )}
       </div>

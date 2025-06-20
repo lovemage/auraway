@@ -549,6 +549,7 @@
             <ul class="sidebar-menu">
                 <li><a href="#dashboard" class="active"><span class="material-icons">dashboard</span>儀表板</a></li>
                 <li><a href="#products"><span class="material-icons">inventory_2</span>商品管理</a></li>
+                <li><a href="#recommend-tags"><span class="material-icons">local_offer</span>推薦管理</a></li>
                 <li><a href="#announcements"><span class="material-icons">campaign</span>活動公告</a></li>
                 <li><a href="#blog"><span class="material-icons">article</span>Blog 管理</a></li>
                 <li><a href="#header-info"><span class="material-icons">info</span>導航區塊管理</a></li>
@@ -627,7 +628,6 @@
                     <table id="products-table">
                         <thead>
                             <tr>
-                                <th>產品圖片</th>
                                 <th>產品名稱</th>
                                 <th>分類</th>
                                 <th>價格</th>
@@ -1359,6 +1359,210 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+
+            <!-- 推薦管理區塊 -->
+            <div class="content-section" id="recommend-tags-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">推薦標籤管理</h3>
+                    <button class="btn btn-primary" onclick="showAddRecommendTagForm()">
+                        <span class="material-icons">add</span>新增推薦標籤
+                    </button>
+                </div>
+
+                <!-- 性能警告提示 -->
+                <div class="performance-warning-notice" style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 20px; margin-bottom: 30px; display: flex; align-items: flex-start; gap: 15px;">
+                    <div style="font-size: 24px; flex-shrink: 0;">⚠️</div>
+                    <div>
+                        <h4 style="margin: 0 0 8px 0; color: #856404; font-size: 1.1rem;">性能提醒</h4>
+                        <p style="margin: 0; color: #856404; line-height: 1.5;">
+                            「全部推薦」標籤會載入所有產品，可能影響頁面載入速度。建議使用特定分類標籤以提升用戶體驗。
+                            推薦標籤會自動連結到產品的 badge 欄位。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 推薦標籤統計 -->
+                <div class="recommend-stats">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">總標籤數</span>
+                            <span class="material-icons stat-icon">local_offer</span>
+                        </div>
+                        <div class="stat-value" id="total-recommend-tags">0</div>
+                        <div class="stat-change">全部標籤</div>
+                    </div>
+                    
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <span class="stat-title">啟用標籤</span>
+                            <span class="material-icons stat-icon">visibility</span>
+                        </div>
+                        <div class="stat-value" id="active-recommend-tags">0</div>
+                        <div class="stat-change">正在顯示</div>
+                    </div>
+                    
+                    <div class="stat-card secondary">
+                        <div class="stat-header">
+                            <span class="stat-title">關聯產品</span>
+                            <span class="material-icons stat-icon">inventory_2</span>
+                        </div>
+                        <div class="stat-value" id="total-linked-products">0</div>
+                        <div class="stat-change">已關聯</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">性能警告</span>
+                            <span class="material-icons stat-icon">warning</span>
+                        </div>
+                        <div class="stat-value" id="warning-tags">0</div>
+                        <div class="stat-change">需注意</div>
+                    </div>
+                </div>
+
+                <!-- 推薦標籤列表 -->
+                <div class="recommend-tags-list-container">
+                    <div class="list-controls">
+                        <div class="filter-controls">
+                            <select id="recommend-tag-status-filter" onchange="filterRecommendTags()">
+                                <option value="">所有狀態</option>
+                                <option value="true">啟用</option>
+                                <option value="false">停用</option>
+                            </select>
+                            
+                            <select id="recommend-tag-warning-filter" onchange="filterRecommendTags()">
+                                <option value="">所有標籤</option>
+                                <option value="true">有性能警告</option>
+                                <option value="false">無性能警告</option>
+                            </select>
+                        </div>
+                        
+                        <div class="search-controls">
+                            <input type="text" id="recommend-tag-search" placeholder="搜尋標籤名稱..." onkeyup="searchRecommendTags()">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="recommend-tags-table">
+                            <thead>
+                                <tr>
+                                    <th>標籤名稱</th>
+                                    <th>顯示名稱</th>
+                                    <th>產品數量</th>
+                                    <th>排序</th>
+                                    <th>狀態</th>
+                                    <th>性能警告</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recommend-tags-table-body">
+                                <!-- 動態加載推薦標籤數據 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 推薦標籤表單 -->
+            <div class="content-section" id="recommend-tag-form-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title" id="recommend-tag-form-title">新增推薦標籤</h3>
+                    <button class="btn btn-secondary" onclick="hideRecommendTagForm()">
+                        <span class="material-icons">close</span>取消
+                    </button>
+                </div>
+                
+                <form id="recommend-tag-form" onsubmit="saveRecommendTag(event)">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <!-- 左側：基本信息 -->
+                        <div>
+                            <div class="form-group">
+                                <label for="recommend-tag-name">標籤名稱 * (用於連結產品 badge)</label>
+                                <input type="text" id="recommend-tag-name" class="form-control" required placeholder="如：熱銷、新上市、日本進口">
+                                <small style="color: var(--text-secondary); font-size: 0.8em; margin-top: 5px; display: block;">
+                                    此名稱需與產品的 badge 欄位完全一致才能正確關聯
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="recommend-tag-display-name">顯示名稱 *</label>
+                                <input type="text" id="recommend-tag-display-name" class="form-control" required placeholder="如：🔥 熱銷商品、✨ 新上市、🇯🇵 日本進口">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="recommend-tag-description">描述</label>
+                                <textarea id="recommend-tag-description" class="form-control" rows="3" placeholder="標籤的詳細描述..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="recommend-tag-icon">圖標 (Material Icons)</label>
+                                <input type="text" id="recommend-tag-icon" class="form-control" value="local_offer" placeholder="local_offer">
+                                <small style="color: var(--text-secondary); font-size: 0.8em; margin-top: 5px; display: block;">
+                                    使用 Google Material Icons 名稱
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <!-- 右側：設定選項 -->
+                        <div>
+                            <div class="form-group">
+                                <label for="recommend-tag-color">標籤顏色</label>
+                                <input type="color" id="recommend-tag-color" class="form-control" value="#007bff">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="recommend-tag-sort-order">排序順序</label>
+                                <input type="number" id="recommend-tag-sort-order" class="form-control" min="0" value="0">
+                                <small style="color: var(--text-secondary); font-size: 0.8em; margin-top: 5px; display: block;">
+                                    數字越小排序越前面
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="recommend-tag-active" checked>
+                                        <span class="checkmark"></span>
+                                        啟用標籤
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="recommend-tag-default">
+                                        <span class="checkmark"></span>
+                                        設為預設標籤
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="recommend-tag-performance-warning">
+                                        <span class="checkmark"></span>
+                                        顯示性能警告
+                                    </label>
+                                </div>
+                                <small style="color: var(--text-secondary); font-size: 0.8em; margin-top: 5px; display: block;">
+                                    當此標籤包含大量產品時建議啟用
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="material-icons">save</span>儲存標籤
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="hideRecommendTagForm()">
+                            取消
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <!-- 活動公告管理區塊 -->
@@ -2190,6 +2394,9 @@
             
             if (href === '#products') {
                 showProductsSection();
+            } else if (href === '#recommend-tags') {
+                document.getElementById('recommend-tags-section').style.display = 'block';
+                loadRecommendTags();
             } else if (href === '#announcements') {
                 document.getElementById('announcements-section').style.display = 'block';
                 loadAnnouncements();
@@ -3439,6 +3646,274 @@
                     </body>
                 </html>
             `);
+        }
+
+        // 推薦標籤管理功能
+        let recommendTags = [];
+        let filteredRecommendTags = [];
+        let editingRecommendTagId = null;
+
+        // 載入推薦標籤數據
+        async function loadRecommendTags() {
+            try {
+                const response = await fetch('/api/recommend-tags');
+                if (response.ok) {
+                    recommendTags = await response.json();
+                    filteredRecommendTags = [...recommendTags];
+                    displayRecommendTags();
+                    updateRecommendTagStats();
+                } else {
+                    console.error('載入推薦標籤失敗');
+                }
+            } catch (error) {
+                console.error('載入推薦標籤錯誤:', error);
+            }
+        }
+
+        // 更新推薦標籤統計
+        function updateRecommendTagStats() {
+            const totalTags = recommendTags.length;
+            const activeTags = recommendTags.filter(tag => tag.isActive).length;
+            const totalProducts = recommendTags.reduce((sum, tag) => sum + tag.productCount, 0);
+            const warningTags = recommendTags.filter(tag => tag.performanceWarning).length;
+
+            document.getElementById('total-recommend-tags').textContent = totalTags;
+            document.getElementById('active-recommend-tags').textContent = activeTags;
+            document.getElementById('total-linked-products').textContent = totalProducts;
+            document.getElementById('warning-tags').textContent = warningTags;
+        }
+
+        // 顯示推薦標籤列表
+        function displayRecommendTags() {
+            const tbody = document.getElementById('recommend-tags-table-body');
+            tbody.innerHTML = '';
+
+            filteredRecommendTags.forEach(tag => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="material-icons" style="color: ${tag.color}; font-size: 18px;">${tag.icon}</span>
+                            <span style="font-weight: 500;">${tag.name}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="color: ${tag.color}; font-weight: 500;">${tag.displayName}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${tag.productCount > 0 ? 'status-active' : 'status-inactive'}">${tag.productCount} 個產品</span>
+                    </td>
+                    <td>${tag.sortOrder}</td>
+                    <td>
+                        <span class="status-badge ${tag.isActive ? 'status-active' : 'status-inactive'}">
+                            ${tag.isActive ? '啟用' : '停用'}
+                        </span>
+                    </td>
+                    <td>
+                        ${tag.performanceWarning ? '<span class="status-badge status-warning">⚠️ 警告</span>' : '<span class="status-badge status-success">正常</span>'}
+                    </td>
+                    <td>
+                        <div class="recommend-tag-actions">
+                            <button class="btn btn-small btn-primary" onclick="editRecommendTag('${tag._id}')">
+                                <span class="material-icons">edit</span>編輯
+                            </button>
+                            <button class="btn btn-small ${tag.isActive ? 'btn-warning' : 'btn-success'}" onclick="toggleRecommendTag('${tag._id}')">
+                                <span class="material-icons">${tag.isActive ? 'visibility_off' : 'visibility'}</span>
+                                ${tag.isActive ? '停用' : '啟用'}
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="deleteRecommendTag('${tag._id}')">
+                                <span class="material-icons">delete</span>刪除
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 篩選推薦標籤
+        function filterRecommendTags() {
+            const statusFilter = document.getElementById('recommend-tag-status-filter').value;
+            const warningFilter = document.getElementById('recommend-tag-warning-filter').value;
+
+            filteredRecommendTags = recommendTags.filter(tag => {
+                const statusMatch = !statusFilter || tag.isActive.toString() === statusFilter;
+                const warningMatch = !warningFilter || tag.performanceWarning.toString() === warningFilter;
+                return statusMatch && warningMatch;
+            });
+
+            displayRecommendTags();
+        }
+
+        // 搜尋推薦標籤
+        function searchRecommendTags() {
+            const searchTerm = document.getElementById('recommend-tag-search').value.toLowerCase();
+            
+            filteredRecommendTags = recommendTags.filter(tag => {
+                return tag.name.toLowerCase().includes(searchTerm) ||
+                       tag.displayName.toLowerCase().includes(searchTerm) ||
+                       tag.description.toLowerCase().includes(searchTerm);
+            });
+
+            displayRecommendTags();
+        }
+
+        // 顯示新增推薦標籤表單
+        function showAddRecommendTagForm() {
+            document.getElementById('recommend-tags-section').style.display = 'none';
+            document.getElementById('recommend-tag-form-section').style.display = 'block';
+            document.getElementById('recommend-tag-form-title').textContent = '新增推薦標籤';
+            document.getElementById('recommend-tag-form').reset();
+            
+            // 設置默認值
+            document.getElementById('recommend-tag-icon').value = 'local_offer';
+            document.getElementById('recommend-tag-color').value = '#007bff';
+            document.getElementById('recommend-tag-sort-order').value = '0';
+            document.getElementById('recommend-tag-active').checked = true;
+            
+            editingRecommendTagId = null;
+        }
+
+        // 隱藏推薦標籤表單
+        function hideRecommendTagForm() {
+            document.getElementById('recommend-tag-form-section').style.display = 'none';
+            document.getElementById('recommend-tags-section').style.display = 'block';
+            editingRecommendTagId = null;
+        }
+
+        // 編輯推薦標籤
+        function editRecommendTag(tagId) {
+            const tag = recommendTags.find(t => t._id === tagId);
+            if (!tag) return;
+
+            document.getElementById('recommend-tags-section').style.display = 'none';
+            document.getElementById('recommend-tag-form-section').style.display = 'block';
+            document.getElementById('recommend-tag-form-title').textContent = '編輯推薦標籤';
+
+            // 填充表單
+            document.getElementById('recommend-tag-name').value = tag.name;
+            document.getElementById('recommend-tag-display-name').value = tag.displayName;
+            document.getElementById('recommend-tag-description').value = tag.description || '';
+            document.getElementById('recommend-tag-icon').value = tag.icon;
+            document.getElementById('recommend-tag-color').value = tag.color;
+            document.getElementById('recommend-tag-sort-order').value = tag.sortOrder;
+            document.getElementById('recommend-tag-active').checked = tag.isActive;
+            document.getElementById('recommend-tag-default').checked = tag.isDefault;
+            document.getElementById('recommend-tag-performance-warning').checked = tag.performanceWarning;
+
+            editingRecommendTagId = tagId;
+        }
+
+        // 儲存推薦標籤
+        async function saveRecommendTag(event) {
+            event.preventDefault();
+
+            const formData = {
+                name: document.getElementById('recommend-tag-name').value,
+                displayName: document.getElementById('recommend-tag-display-name').value,
+                description: document.getElementById('recommend-tag-description').value,
+                icon: document.getElementById('recommend-tag-icon').value,
+                color: document.getElementById('recommend-tag-color').value,
+                sortOrder: parseInt(document.getElementById('recommend-tag-sort-order').value),
+                isActive: document.getElementById('recommend-tag-active').checked,
+                isDefault: document.getElementById('recommend-tag-default').checked,
+                performanceWarning: document.getElementById('recommend-tag-performance-warning').checked
+            };
+
+            try {
+                let response;
+                if (editingRecommendTagId) {
+                    // 更新推薦標籤
+                    response = await fetch(`/api/recommend-tags/${editingRecommendTagId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                } else {
+                    // 新增推薦標籤
+                    response = await fetch('/api/recommend-tags', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                }
+
+                if (response.ok) {
+                    alert(editingRecommendTagId ? '推薦標籤更新成功！' : '推薦標籤新增成功！');
+                    hideRecommendTagForm();
+                    await loadRecommendTags();
+                } else {
+                    const error = await response.json();
+                    alert('儲存失敗: ' + (error.message || '未知錯誤'));
+                }
+            } catch (error) {
+                console.error('儲存推薦標籤錯誤:', error);
+                alert('儲存失敗，請稍後再試');
+            }
+        }
+
+        // 切換推薦標籤狀態
+        async function toggleRecommendTag(tagId) {
+            try {
+                const response = await fetch(`/api/recommend-tags/${tagId}/toggle`, {
+                    method: 'PATCH'
+                });
+
+                if (response.ok) {
+                    await loadRecommendTags();
+                    alert('推薦標籤狀態更新成功！');
+                } else {
+                    alert('狀態更新失敗');
+                }
+            } catch (error) {
+                console.error('切換推薦標籤狀態錯誤:', error);
+                alert('狀態更新失敗');
+            }
+        }
+
+        // 刪除推薦標籤
+        async function deleteRecommendTag(tagId) {
+            const tag = recommendTags.find(t => t._id === tagId);
+            if (!tag) return;
+
+            if (confirm(`確定要刪除推薦標籤「${tag.displayName}」嗎？此操作無法復原。`)) {
+                try {
+                    const response = await fetch(`/api/recommend-tags/${tagId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        await loadRecommendTags();
+                        alert('推薦標籤刪除成功！');
+                    } else {
+                        alert('刪除失敗');
+                    }
+                } catch (error) {
+                    console.error('刪除推薦標籤錯誤:', error);
+                    alert('刪除失敗');
+                }
+            }
+        }
+
+        // 初始化推薦標籤
+        async function initRecommendTags() {
+            try {
+                const response = await fetch('/api/recommend-tags/init', { method: 'POST' });
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`推薦標籤初始化完成！創建了 ${result.count} 個標籤。`);
+                    await loadRecommendTags();
+                } else {
+                    alert('初始化失敗');
+                }
+            } catch (error) {
+                console.error('初始化推薦標籤錯誤:', error);
+                alert('初始化失敗');
+            }
         }
     </script>
 </body>

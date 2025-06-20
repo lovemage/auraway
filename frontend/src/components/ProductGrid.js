@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { buildApiUrl } from '../config/api';
 
-const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
+const ProductGrid = ({ category = null, limit = null, onProductClick, randomize = false }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,8 +24,17 @@ const ProductGrid = ({ category = null, limit = null, onProductClick }) => {
       if (response.ok) {
         let data = await response.json();
         
-        // 如果有限制數量，則截取指定數量的產品
-        if (limit) {
+        // 如果需要隨機化並有限制數量
+        if (randomize && limit) {
+          // Fisher-Yates 隨機洗牌算法
+          const shuffled = [...data];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          data = shuffled.slice(0, limit);
+        } else if (limit) {
+          // 如果只有限制數量，不隨機化
           data = data.slice(0, limit);
         }
         

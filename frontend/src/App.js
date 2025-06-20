@@ -346,7 +346,11 @@ function App() {
 
             <section className="featured-products">
               <h2>精選商品</h2>
-              <ProductGrid onProductClick={navigateToProduct} />
+              <ProductGrid 
+                limit={8} 
+                randomize={true} 
+                onProductClick={navigateToProduct} 
+              />
             </section>
 
             <section className="features-section">
