@@ -245,7 +245,6 @@ function App() {
               alt="Auraway Shop" 
               style={{ height: '60px', width: 'auto' }}
             />
-            <p className="tagline">您的健康守護專家</p>
           </div>
           <div className="header-actions">
             <div className="search-box">
