@@ -240,7 +240,11 @@ function App() {
             <div className="bar"></div>
           </div>
           <div className="logo-section" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-            <h1>Auraway Shop</h1>
+            <img 
+              src="/images/asset/logo-auraway.png" 
+              alt="Auraway Shop" 
+              style={{ height: '60px', width: 'auto' }}
+            />
             <p className="tagline">您的健康守護專家</p>
           </div>
           <div className="header-actions">
@@ -347,9 +351,9 @@ function App() {
             <section className="featured-products">
               <h2>精選商品</h2>
               <ProductGrid 
-                limit={8} 
-                randomize={true} 
                 onProductClick={navigateToProduct} 
+                limit={8} 
+                randomize={true}
               />
             </section>
 

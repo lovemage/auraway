@@ -69,6 +69,17 @@ body {
   transition: all 0.3s ease;
 }
 
+.logo-section img {
+  height: 60px;
+  width: auto;
+  margin-bottom: 5px;
+  transition: all 0.3s ease;
+}
+
+.logo-section:hover img {
+  transform: scale(1.05);
+}
+
 .logo-section:hover h1 {
   transform: scale(1.05);
 }

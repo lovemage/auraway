@@ -10,7 +10,6 @@ const blogRoutes = require('./routes/blogRoutes');
 const couponRoutes = require('./routes/couponRoutes');
 const headerInfoRoutes = require('./routes/headerInfoRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const recommendTagRoutes = require('./routes/recommendTagRoutes');
 
 const app = express();
 
@@ -65,7 +64,6 @@ app.use('/api/blog', blogRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/recommend-tags', recommendTagRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -97,7 +95,6 @@ app.get('/api/', (req, res) => {
         <p>• <a href="/api/products">/api/products</a> - 產品管理</p>
         <p>• <a href="/api/announcements">/api/announcements</a> - 公告管理</p>
         <p>• <a href="/api/coupons">/api/coupons</a> - 優惠券管理</p>
-        <p>• <a href="/api/recommend-tags">/api/recommend-tags</a> - 推薦標籤管理</p>
       </div>
     </div>
   `);

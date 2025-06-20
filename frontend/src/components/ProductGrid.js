@@ -24,17 +24,17 @@ const ProductGrid = ({ category = null, limit = null, onProductClick, randomize 
       if (response.ok) {
         let data = await response.json();
         
-        // 如果需要隨機化並有限制數量
-        if (randomize && limit) {
-          // Fisher-Yates 隨機洗牌算法
-          const shuffled = [...data];
-          for (let i = shuffled.length - 1; i > 0; i--) {
+        // 如果需要隨機排序（用於精選商品）
+        if (randomize) {
+          // Fisher-Yates 洗牌算法隨機排序
+          for (let i = data.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            [data[i], data[j]] = [data[j], data[i]];
           }
-          data = shuffled.slice(0, limit);
-        } else if (limit) {
-          // 如果只有限制數量，不隨機化
+        }
+        
+        // 如果有限制數量，則截取指定數量的產品
+        if (limit) {
           data = data.slice(0, limit);
         }
         
