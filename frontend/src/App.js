@@ -67,6 +67,7 @@ function App() {
     setSearchQuery('');
     setSearchResults([]);
     setShowSearchResults(false);
+    setMenuOpen(false);
   };
 
   // Logo 隱藏入口功能
