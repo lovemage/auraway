@@ -11,6 +11,8 @@ import EventPage from './components/EventPage';
 import BabyMemberPage from './components/BabyMemberPage';
 import WomenCards from './components/WomenCards';
 import AurawayRecommendPage from './components/AurawayRecommendPage';
+import FloatingAiButton from './components/FloatingAiButton';
+import AiQuestionnaireModal from './components/AiQuestionnaireModal';
 
 // 產品頁面組件
 import ProbioticProductPage from './components/ProbioticProductPage';
@@ -46,6 +48,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Admin UI 隱藏入口功能
   const [logoClickCount, setLogoClickCount] = useState(0);
@@ -229,6 +232,9 @@ function App() {
       setShowSearchResults(true);
     }
   };
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
     <div className="App">
@@ -493,6 +499,13 @@ function App() {
           <p>&copy; 2025 Auraway Shop. 版權所有。</p>
         </div>
       </footer>
+
+      <FloatingAiButton onClick={handleOpenModal} />
+      <AiQuestionnaireModal 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        onProductSelect={navigateToProduct}
+      />
     </div>
   );
 }

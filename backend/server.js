@@ -12,10 +12,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://aistorm0910:derWbD9u9MW4GRJt@ivan.w6ickfj.mongodb.net/auraway-shop', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://aistorm0910:derWbD9u9MW4GRJt@ivan.w6ickfj.mongodb.net/auraway-shop')
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 
@@ -26,6 +23,7 @@ const couponRoutes = require('./routes/couponRoutes');
 const headerInfoRoutes = require('./routes/headerInfoRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const aiNutritionistRoutes = require('./routes/aiNutritionistRoutes');
 
 app.use('/api/products', productRoutes);
 app.use('/api/announcements', announcementRoutes);
@@ -33,6 +31,7 @@ app.use('/api/coupons', couponRoutes);
 app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/ai-nutritionist', aiNutritionistRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
