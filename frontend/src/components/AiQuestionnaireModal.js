@@ -595,7 +595,6 @@ const AiQuestionnaireModal = ({ isOpen, onClose, onProductSelect }) => {
   // 渲染問題選項的輔助函數
   function renderQuestionOptions(question, isFollowUp = false) {
     const targetAnswers = isFollowUp ? followUpAnswers : answers;
-    const setTargetAnswers = isFollowUp ? setFollowUpAnswers : setAnswers;
 
     switch (question.type) {
       case 'radio':
