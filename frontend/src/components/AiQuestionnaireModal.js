@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './AiQuestionnaireModal.css';
 import { buildApiUrl } from '../config/api';
@@ -6,54 +6,75 @@ import { buildApiUrl } from '../config/api';
 const questionnaire = [
   {
     key: 'gender',
-    text: '你好！我是您的專屬AI營養師。為了給您最貼切的建議，我需要先了解一下您的基本情況。請問您的生理性別是？',
+    text: '您好！我是您的專屬 AI 營養師，很高興為您提供個人化的健康建議。請問您的生理性別是？',
     type: 'radio',
     options: ['男性', '女性']
+    // In a real scenario, we might add logic to ask about pregnancy if female.
   },
   {
     key: 'age',
-    text: '好的，接下來想了解您的年齡大概落在哪個區間呢？',
+    text: '感謝您的回答！請問您的年齡區間？',
     type: 'radio',
-    options: ['18-29', '30-49', '50歲以上']
+    options: ['18-29', '30-49', '50-65', '65 歲以上']
   },
   {
-    key: 'sleep',
-    text: '了解。那您的睡眠情況通常如何呢？平均每晚睡幾個小時？',
-    type: 'radio',
-    options: ['少於6小時', '6-8小時', '8小時以上']
+    key: 'height',
+    text: '了解了！為了更精準地評估您的健康狀況，請提供您的身高（公分）。',
+    type: 'text',
+    inputType: 'number',
+    placeholder: '例如：175'
   },
   {
-    key: 'workStyle',
-    text: '您的工作型態比較偏向哪一種？這能幫助我了解您白天的活動量。',
-    type: 'radio',
-    options: ['長時間久坐辦公', '需要體力勞動', '經常外出走動']
-  },
-  {
-    key: 'stress',
-    text: '現代人壓力都很大，您感覺自己最近的壓力水平如何？',
-    type: 'radio',
-    options: ['輕鬆愜意', '有點壓力', '壓力山大']
+    key: 'weight',
+    text: '好的，那您的體重（公斤）是？',
+    type: 'text',
+    inputType: 'number',
+    placeholder: '例如：70'
   },
   {
     key: 'diet',
-    text: '在飲食方面，您比較接近哪種情況？',
+    text: '您的飲食習慣對健康影響很大。請問您目前的飲食模式是？',
     type: 'radio',
-    options: ['三餐均衡', '經常外食/吃加工食品', '我是素食者']
+    options: ['均衡飲食', '外食為主（高油、高鹽或加工食品）', '素食/純素（無肉或無動物製品）', '其他']
   },
   {
-    key: 'alcohol',
-    text: '好的，快完成了！請問您有飲酒的習慣嗎？',
+    key: 'waterIntake',
+    text: '水分攝取也很重要！您平均每天喝多少水？',
     type: 'radio',
-    options: ['從不或偶爾', '每週1-2次', '每週3次以上']
+    options: ['少於 1 公升', '1-2 公升', '2 公升以上']
+  },
+  {
+    key: 'exercise',
+    text: '運動能提升整體健康。請問您每週的運動頻率和類型是？',
+    type: 'radio',
+    options: ['幾乎不運動', '輕度運動（散步、瑜伽，1-2 次/週）', '中度運動（慢跑、健身，3-5 次/週）', '高強度運動（重訓、競技運動，5 次以上/週）']
+  },
+  {
+    key: 'sleep',
+    text: '睡眠和壓力對健康影響深遠。請問您的平均睡眠時數？',
+    type: 'radio',
+    options: ['少於 6 小時', '6-8 小時', '8 小時以上']
+  },
+  {
+    key: 'stress',
+    text: '那您的壓力水平感覺如何？',
+    type: 'radio',
+    options: ['低（輕鬆）', '中（偶爾緊張）', '高（持續壓力）']
+  },
+  {
+    key: 'supplements',
+    text: '為了避免重複推薦，您目前是否正在服用保健食品或藥物？若有，請簡單說明。',
+    type: 'text',
+    placeholder: '例如：維生素D (或填無)'
   },
   {
     key: 'healthGoals',
-    text: '感謝您提供這麼多資訊！最後，請告訴我您最想改善的健康目標是什麼？(可複選)',
+    text: '最後，請告訴我您希望優先改善的健康目標是什麼？（可多選）',
     type: 'checkbox',
     options: [
-      '增加活力', '改善睡眠', '腸道健康', '減重減脂', '情緒穩定', 
-      '改善過敏', '降低血壓', '眼睛疲勞', '長期坐姿', '心血管問題', 
-      '改善皮膚', '容易疲倦', '體重管理', '身體強壯'
+      '提升能量與活力', '改善睡眠品質', '促進腸道健康', '體重管理（減重/增肌）', 
+      '穩定情緒與壓力', '增強免疫力', '改善皮膚與頭髮', '支持心血管健康',
+      '緩解關節與肌肉不適', '保護視力', '提升認知功能（如記憶力）'
     ]
   }
 ];
@@ -63,19 +84,22 @@ const AiQuestionnaireModal = ({ isOpen, onClose, onProductSelect }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [showOptions, setShowOptions] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   
   const [step, setStep] = useState('questionnaire'); // 'questionnaire', 'results'
   const [analysis, setAnalysis] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [disclaimer, setDisclaimer] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const resultsContainerRef = useRef(null);
 
-  // Typing animation effect
   useEffect(() => {
     if (isOpen && step === 'questionnaire') {
       const currentQuestion = questionnaire[currentQuestionIndex];
       if (currentQuestion) {
         setShowOptions(false);
+        setInputValue(''); // Clear previous text input
         let i = 0;
         setDisplayedText('');
         const typingInterval = setInterval(() => {
@@ -86,34 +110,39 @@ const AiQuestionnaireModal = ({ isOpen, onClose, onProductSelect }) => {
             clearInterval(typingInterval);
             setShowOptions(true);
           }
-        }, 30); // Typing speed
+        }, 30);
 
         return () => clearInterval(typingInterval);
       }
     }
   }, [currentQuestionIndex, isOpen, step]);
-  
+
   const handleReset = () => {
     setAnswers({});
     setCurrentQuestionIndex(0);
     setStep('questionnaire');
     setAnalysis([]);
     setRecommendations([]);
+    setDisclaimer('');
     setError('');
+    setInputValue('');
   };
 
   const handleSubmit = async (finalAnswers) => {
     setIsLoading(true);
     setError('');
+    setStep('loading');
     try {
       const url = buildApiUrl('/api/ai-nutritionist/recommend');
       const response = await axios.post(url, finalAnswers);
       setAnalysis(response.data.analysis || []);
       setRecommendations(response.data.products || []);
+      setDisclaimer(response.data.disclaimer || '');
       setStep('results');
     } catch (err) {
       setError('抱歉，無法獲取推薦，請稍後再試。');
       console.error('推薦請求失敗:', err);
+      setStep('results'); // Show error on results page
     } finally {
       setIsLoading(false);
     }
@@ -129,42 +158,43 @@ const AiQuestionnaireModal = ({ isOpen, onClose, onProductSelect }) => {
       handleSubmit(newAnswers);
     }
   };
+
+  const handleTextAnswer = () => {
+    const currentQuestion = questionnaire[currentQuestionIndex];
+    if (inputValue.trim() === '' && currentQuestion.key !== 'supplements') {
+        // supplements can be empty, but not height/weight
+        return; 
+    }
+    handleNextQuestion(currentQuestion.key, inputValue.trim() === '' ? '無' : inputValue);
+  };
   
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     const currentGoals = answers.healthGoals || [];
-    let newGoals;
-    if (checked) {
-      newGoals = [...currentGoals, value];
-    } else {
-      newGoals = currentGoals.filter(goal => goal !== value);
-    }
+    const newGoals = checked
+      ? [...currentGoals, value]
+      : currentGoals.filter(goal => goal !== value);
     setAnswers({ ...answers, healthGoals: newGoals });
   };
   
   const handleProductClick = (product) => {
-    onClose(); // Close the modal first
-    setTimeout(() => {
-      onProductSelect(product); // Then navigate
-    }, 300); // Add a small delay for smoother transition
+    onClose();
+    setTimeout(() => onProductSelect(product), 300);
   };
   
   const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
-  // Reset state when modal is closed
   useEffect(() => {
-    if (!isOpen) {
-      // Delay reset to allow closing animation
-      setTimeout(() => {
-        handleReset();
-      }, 300);
-    }
+    if (!isOpen) setTimeout(handleReset, 300);
   }, [isOpen]);
 
+  useEffect(() => {
+    if (step === 'results' && resultsContainerRef.current) {
+      resultsContainerRef.current.scrollTop = 0;
+    }
+  }, [step]);
 
   if (!isOpen) return null;
 
@@ -197,6 +227,19 @@ const AiQuestionnaireModal = ({ isOpen, onClose, onProductSelect }) => {
                     ))}
                   </div>
                 )}
+                {currentQuestion.type === 'text' && (
+                    <div className="text-input-group">
+                        <input 
+                            type={currentQuestion.inputType || 'text'}
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleTextAnswer()}
+                            placeholder={currentQuestion.placeholder}
+                            className="text-input-field"
+                        />
+                        <button onClick={handleTextAnswer} className="submit-button">繼續</button>
+                    </div>
+                )}
                 {currentQuestion.type === 'checkbox' && (
                   <>
                     <div className="checkbox-group">
@@ -210,7 +253,7 @@ const AiQuestionnaireModal = ({ isOpen, onClose, onProductSelect }) => {
                       ))}
                     </div>
                     <button onClick={() => handleNextQuestion('healthGoals', answers.healthGoals || [])} className="submit-button" style={{marginTop: '20px'}}>
-                      選好了
+                      查看分析結果
                     </button>
                   </>
                 )}
@@ -219,43 +262,46 @@ const AiQuestionnaireModal = ({ isOpen, onClose, onProductSelect }) => {
           </div>
         )}
 
-        {isLoading && <p>分析中，請稍候...</p>}
+        {(isLoading || step === 'loading') && 
+          <div className="loading-container">
+            <p>AI 營養師正在為您分析，請稍候...</p>
+            <div className="spinner"></div>
+          </div>
+        }
 
         {step === 'results' && !isLoading && (
-           <div className="results-container">
+           <div className="results-container" ref={resultsContainerRef}>
             <h2>AI 營養師的分析與建議</h2>
+            
             {error && <p className="error-message">{error}</p>}
 
             {analysis.length > 0 && (
               <div className="analysis-report">
-                <h3>給您的專屬健康筆記</h3>
+                <h3>給您的專屬健康筆記 <span role="img" aria-label="memo">📝</span></h3>
                 <ul>
-                  {analysis.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
+                  {analysis.map((item, index) => <li key={index}>{item}</li>)}
                 </ul>
               </div>
             )}
 
-            <h4>為您推薦的產品</h4>
+            {recommendations.length > 0 && <h4>為您推薦的產品</h4>}
             <div className="recommendations-list">
               {recommendations.length > 0 ? (
                 recommendations.map(product => (
-                  <div 
-                    key={product._id} 
-                    className="product-card" 
-                    onClick={() => handleProductClick(product)}
-                    style={{cursor: 'pointer'}}
-                  >
-                    <img src={product.images[0]} alt={product.name} />
-                    <p>{product.name}</p>
+                  <div key={product._id} className="product-card-enhanced" onClick={() => handleProductClick(product)}>
+                    <img src={product.images[0]} alt={product.name} className="product-image-enhanced" />
+                    <div className="product-info-enhanced">
+                      <p className="product-name-enhanced">{product.name}</p>
+                      <p className="product-benefits"><strong>主要效益：</strong>{product.benefits}</p>
+                      <p className="product-evidence"><strong>科學依據：</strong>{product.evidence}</p>
+                    </div>
                   </div>
                 ))
               ) : (
-                <p>根據您的需求，目前沒有找到合適的產品。</p>
+                !error && <p>根據您的需求與現有補充品，目前沒有額外推薦的產品。請繼續保持！</p>
               )}
             </div>
-            <p className="disclaimer-text">本營養師數據庫均為參考值，詳情請洽專業人士。</p>
+            {disclaimer && <p className="disclaimer-text">{disclaimer}</p>}
           </div>
         )}
       </div>
