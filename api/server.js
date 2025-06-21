@@ -10,6 +10,7 @@ const blogRoutes = require('./routes/blogRoutes');
 const couponRoutes = require('./routes/couponRoutes');
 const headerInfoRoutes = require('./routes/headerInfoRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const aiNutritionistRoutes = require('./routes/aiNutritionistRoutes');
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use('/api/blog', blogRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/ai-nutritionist', aiNutritionistRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
