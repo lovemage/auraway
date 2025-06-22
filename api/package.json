@@ -4,13 +4,13 @@
   "description": "Auraway Shop API for Vercel",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.5.0",
-    "cors": "^2.8.5",
     "bcryptjs": "^2.4.3",
-    "dotenv": "^16.3.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0"
   },
   "engines": {
     "node": ">=18.0.0"
   }
-} 
+}

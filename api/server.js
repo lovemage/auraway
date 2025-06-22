@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+require('dotenv').config(); // Load environment variables
 
 // Import routes
 const productRoutes = require('./routes/productRoutes');
@@ -37,7 +38,10 @@ const connectDB = async () => {
     // Configure mongoose for serverless environment
     mongoose.set('strictQuery', false);
     
-    const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://aistorm0910:derWbD9u9MW4GRJt@ivan.w6ickfj.mongodb.net/auraway-shop';
+    const mongoUri = process.env.MONGODB_URI;
+    if (!mongoUri) {
+      throw new Error('MongoDB URI is not defined. Please set MONGODB_URI environment variable.');
+    }
     
     // Optimized connection options for Vercel serverless
     const connection = await mongoose.connect(mongoUri, {
@@ -77,7 +81,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Admin UI route
-app.get('/api/admin', (req, res) => {
+app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/admin.html'));
 });
 
@@ -126,4 +130,14 @@ module.exports = async (req, res) => {
       message: error.message 
     });
   }
-}; 
+};
+
+// Start the server for local development if not in Vercel environment
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5001; // Use 5001 to avoid conflict with frontend
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  });
+} 
