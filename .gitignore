@@ -107,3 +107,6 @@ build/Release
 
 # Firebase service account key
 serviceAccountKey.json
+
+# Local environment variables
+.env.local
