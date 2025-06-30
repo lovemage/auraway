@@ -113,7 +113,7 @@ function App() {
             window.open('http://localhost:5001/admin.html', '_blank');
           } else {
             // 生產環境跳轉到 Vercel Admin UI
-            window.open('https://auraway.vercel.app/api/admin', '_blank');
+            window.open('https://auraway.vercel.app/api/admin.html', '_blank');
           }
         }
       }, 600);

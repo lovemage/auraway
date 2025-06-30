@@ -92,7 +92,7 @@ app.get('/api/', (req, res) => {
       <h1>🎉 Auraway Shop Backend API</h1>
       <p style="font-size: 18px; color: #666; margin: 20px 0;">後端服務器運行正常</p>
       <div style="margin: 30px 0;">
-        <a href="/api/admin" style="background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: 500;">
+        <a href="/admin" style="background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: 500;">
           🖥️ 進入後台管理系統
         </a>
       </div>
