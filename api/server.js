@@ -15,6 +15,8 @@ const aiNutritionistRoutes = require('./routes/aiNutritionistRoutes');
 
 const app = express();
 
+const authenticateFirebaseToken = require('./middleware/authMiddleware');
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -104,6 +106,18 @@ app.get('/api/', (req, res) => {
       </div>
     </div>
   `);
+});
+
+// 範例：保護一個需要認證的路由
+app.get('/api/protected-data', authenticateFirebaseToken, (req, res) => {
+  // 只有經過認證的使用者才能訪問這裡
+  // req.user 包含 Firebase 的使用者資訊 (uid, email 等)
+  // req.mongoUser 包含 MongoDB 中的使用者文件
+  res.json({
+    message: '這是受保護的資料！',
+    firebaseUser: req.user,
+    mongoUser: req.mongoUser
+  });
 });
 
 // Error handling middleware
