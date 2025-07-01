@@ -147,139 +147,137 @@ const ProductDetail = ({ onAddToCart }) => {
 
   return (
     <div className="product-page">
-      <div className="product-container">
-        <button onClick={handleNavigateHome} className="back-btn">
-          <span className="material-icons">arrow_back</span>
-          返回首頁
-        </button>
+      <button onClick={handleNavigateHome} className="back-btn">
+        <span className="material-icons">arrow_back</span>
+        返回首頁
+      </button>
 
-        <div className="product-content">
-          <div className="product-images">
-            <div className="main-image-container">
-              <img 
-                src={product.images && product.images.length > 0 ? product.images[currentImageIndex] : '/images/white-rainforest-qCDK3DN7lOs-unsplash.jpg'} 
-                alt={product.name}
-                className="main-image"
-              />
-              {product.images && product.images.length > 1 && (
-                <>
-                  <button className="image-nav prev" onClick={prevImage}>
-                    <span className="material-icons">chevron_left</span>
-                  </button>
-                  <button className="image-nav next" onClick={nextImage}>
-                    <span className="material-icons">chevron_right</span>
-                  </button>
-                </>
-              )}
-            </div>
-            
+      <div className="product-content">
+        <div className="product-images">
+          <div className="main-image-container">
+            <img
+              src={product.images && product.images.length > 0 ? product.images[currentImageIndex] : '/images/white-rainforest-qCDK3DN7lOs-unsplash.jpg'}
+              alt={product.name}
+              className="main-image"
+            />
             {product.images && product.images.length > 1 && (
-              <div className="thumbnail-container">
-                {product.images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`${product.name} ${index + 1}`}
-                    className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
-                    onClick={() => setCurrentImageIndex(index)}
-                  />
-                ))}
-              </div>
+              <>
+                <button className="image-nav prev" onClick={prevImage}>
+                  <span className="material-icons">chevron_left</span>
+                </button>
+                <button className="image-nav next" onClick={nextImage}>
+                  <span className="material-icons">chevron_right</span>
+                </button>
+              </>
             )}
           </div>
 
-          <div className="product-info">
-            <div className="product-header">
-              <h1 className="product-title">{product.name}</h1>
-              <div className="product-price">
-                <span className="current-price">NT$ {product.price?.toLocaleString()}</span>
-                {product.originalPrice && product.originalPrice > product.price && (
-                  <span className="original-price">NT$ {product.originalPrice.toLocaleString()}</span>
-                )}
-              </div>
+          {product.images && product.images.length > 1 && (
+            <div className="thumbnail-container">
+              {product.images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`${product.name} ${index + 1}`}
+                  className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                  onClick={() => setCurrentImageIndex(index)}
+                />
+              ))}
             </div>
+          )}
+        </div>
 
-            <div className="product-description">
-              <h3>商品描述</h3>
-              <p>{product.description}</p>
+        <div className="product-info">
+          <div className="product-header">
+            <h1 className="product-title">{product.name}</h1>
+            <div className="product-price">
+              <span className="current-price">NT$ {product.price?.toLocaleString()}</span>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="original-price">NT$ {product.originalPrice.toLocaleString()}</span>
+              )}
             </div>
+          </div>
 
-            {product.features && product.features.length > 0 && (
-              <div className="product-features">
-                <h3>主要特色</h3>
-                <ul>
-                  {product.features.map((feature, index) => (
-                    <li key={index}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+          <div className="product-description">
+            <h3>商品描述</h3>
+            <p>{product.description}</p>
+          </div>
 
-            {product.ingredients && (
-              <div className="product-ingredients">
-                <h3>成分說明</h3>
-                <p>{product.ingredients}</p>
-              </div>
-            )}
+          {product.features && product.features.length > 0 && (
+            <div className="product-features">
+              <h3>主要特色</h3>
+              <ul>
+                {product.features.map((feature, index) => (
+                  <li key={index}>{feature}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-            {product.usage && (
-              <div className="product-usage">
-                <h3>使用方法</h3>
-                <p>{product.usage}</p>
-              </div>
-            )}
+          {product.ingredients && (
+            <div className="product-ingredients">
+              <h3>成分說明</h3>
+              <p>{product.ingredients}</p>
+            </div>
+          )}
 
-            <div className="purchase-section">
-              <div className="quantity-selector">
-                <label>數量：</label>
-                <div className="quantity-controls">
-                  <button 
-                    onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1}
-                    className="quantity-btn"
-                  >
-                    <span className="material-icons">remove</span>
-                  </button>
-                  <span className="quantity-display">{quantity}</span>
-                  <button 
-                    onClick={() => handleQuantityChange(1)}
-                    disabled={quantity >= (product.stock || 999)}
-                    className="quantity-btn"
-                  >
-                    <span className="material-icons">add</span>
-                  </button>
-                </div>
-              </div>
+          {product.usage && (
+            <div className="product-usage">
+              <h3>使用方法</h3>
+              <p>{product.usage}</p>
+            </div>
+          )}
 
-              <div className="purchase-buttons">
-                <button 
-                  onClick={handleAddToCart}
-                  disabled={addingToCart || !product.isActive}
-                  className="add-to-cart-btn"
+          <div className="purchase-section">
+            <div className="quantity-selector">
+              <label>數量：</label>
+              <div className="quantity-controls">
+                <button
+                  onClick={() => handleQuantityChange(-1)}
+                  disabled={quantity <= 1}
+                  className="quantity-btn"
                 >
-                  {addingToCart ? (
-                    <>
-                      <span className="loading-spinner small"></span>
-                      加入中...
-                    </>
-                  ) : (
-                    <>
-                      <span className="material-icons">shopping_cart</span>
-                      加入購物車
-                    </>
-                  )}
+                  <span className="material-icons">remove</span>
+                </button>
+                <span className="quantity-display">{quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange(1)}
+                  disabled={quantity >= (product.stock || 999)}
+                  className="quantity-btn"
+                >
+                  <span className="material-icons">add</span>
                 </button>
               </div>
             </div>
 
-            {product.stock !== undefined && (
-              <div className="stock-info">
-                <span className={`stock-status ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                  {product.stock > 0 ? `庫存：${product.stock} 件` : '缺貨中'}
-                </span>
-              </div>
-            )}
+            <div className="purchase-buttons">
+              <button
+                onClick={handleAddToCart}
+                disabled={addingToCart || !product.isActive}
+                className="add-to-cart-btn"
+              >
+                {addingToCart ? (
+                  <>
+                    <span className="loading-spinner small"></span>
+                    加入中...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-icons">shopping_cart</span>
+                    加入購物車
+                  </>
+                )}
+              </button>
+            </div>
           </div>
+
+          {product.stock !== undefined && (
+            <div className="stock-info">
+              <span className={`stock-status ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
+                {product.stock > 0 ? `庫存：${product.stock} 件` : '缺貨中'}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>
