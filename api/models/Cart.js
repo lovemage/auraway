@@ -82,8 +82,9 @@ cartSchema.methods.calculateTotals = function() {
 
 // 添加商品到購物車
 cartSchema.methods.addItem = function(productData, quantity = 1) {
+    const productId = productData._id || productData.productId;
     const existingItemIndex = this.items.findIndex(
-        item => item.productId.toString() === productData._id.toString()
+        item => item.productId.toString() === productId.toString()
     );
 
     if (existingItemIndex > -1) {
@@ -94,7 +95,7 @@ cartSchema.methods.addItem = function(productData, quantity = 1) {
     } else {
         // 添加新商品
         this.items.push({
-            productId: productData._id,
+            productId: productId,
             productName: productData.name,
             productImage: productData.images && productData.images.length > 0 ? productData.images[0] : '',
             price: productData.price,

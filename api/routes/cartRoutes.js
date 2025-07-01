@@ -38,15 +38,28 @@ router.post('/:userId/items', async (req, res) => {
         const { userId } = req.params;
         const { productId, quantity = 1 } = req.body;
         
-        // 獲取商品資訊
-        const product = await Product.findById(productId);
-        if (!product) {
-            return res.status(404).json({ message: '商品不存在' });
-        }
+        let product;
         
-        // 檢查庫存
-        if (product.stock < quantity) {
-            return res.status(400).json({ message: '庫存不足' });
+        // 檢查是否為模擬商品（波森莓濃縮飲PLUS）
+        if (productId === 'bosenberry_plus_001') {
+            product = {
+                _id: 'bosenberry_plus_001',
+                name: '波森莓濃縮飲PLUS',
+                price: 1280,
+                images: ["/images/波森/sg-11134201-23010-iw5fi43owwlv07.webp"],
+                stock: 999 // 模擬庫存
+            };
+        } else {
+            // 獲取真實商品資訊
+            product = await Product.findById(productId);
+            if (!product) {
+                return res.status(404).json({ message: '商品不存在' });
+            }
+            
+            // 檢查庫存
+            if (product.stock < quantity) {
+                return res.status(400).json({ message: '庫存不足' });
+            }
         }
         
         // 獲取或創建購物車

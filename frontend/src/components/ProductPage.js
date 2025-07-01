@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { buildApiUrl } from '../config/api';
 import './ProductPage.css';
 
-function ProductPage() {
+function ProductPage({ onAddToCart, userId, userEmail }) {
   const images = [
     "/images/波森/sg-11134201-23010-iw5fi43owwlv07.webp",
     "/images/波森/sg-11134201-23010-3u6l9axpzwlv0c.webp",
@@ -12,6 +13,7 @@ function ProductPage() {
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [addingToCart, setAddingToCart] = useState(false);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -19,6 +21,57 @@ function ProductPage() {
 
   const prevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  // 模擬商品資料（波森莓濃縮飲PLUS）
+  const productData = {
+    _id: 'bosenberry_plus_001',
+    name: '波森莓濃縮飲PLUS',
+    price: 1280,
+    originalPrice: 2000,
+    images: images,
+    description: '波森莓濃縮飲PLUS富含抗氧化成分，有助於提升免疫力，保護細胞免受自由基傷害。每日一包，保持活力與健康。全素食用，適合全家人食用。'
+  };
+
+  const handleAddToCart = async () => {
+    if (!userId) {
+      alert('系統初始化中，請稍後再試');
+      return;
+    }
+
+    setAddingToCart(true);
+
+    try {
+      const response = await fetch(buildApiUrl(`/api/cart/${userId}/items`), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: productData._id,
+          quantity: 1,
+          userEmail: userEmail || 'guest@auraway.com'
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('添加到購物車失敗');
+      }
+
+      const result = await response.json();
+      console.log('商品已添加到購物車:', result);
+      
+      if (onAddToCart) {
+        onAddToCart();
+      }
+      
+      alert(`已將 ${productData.name} 添加到購物車！`);
+    } catch (error) {
+      console.error('添加到購物車錯誤:', error);
+      alert('添加到購物車失敗，請稍後再試');
+    } finally {
+      setAddingToCart(false);
+    }
   };
 
   return (
@@ -60,9 +113,13 @@ function ProductPage() {
             波森莓濃縮飲PLUS富含抗氧化成分，有助於提升免疫力，保護細胞免受自由基傷害。
             每日一包，保持活力與健康。全素食用，適合全家人食用。
           </p>
-          <button className="add-to-cart">
+          <button 
+            className="add-to-cart"
+            onClick={handleAddToCart}
+            disabled={addingToCart}
+          >
             <span className="material-icons">shopping_cart</span>
-            加入購物車
+            {addingToCart ? '加入中...' : '加入購物車'}
           </button>
         </div>
       </div>

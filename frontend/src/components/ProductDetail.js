@@ -48,8 +48,10 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
   };
 
   const handleAddToCart = async () => {
-    // 如果沒有用戶ID，使用訪客ID
-    const currentUserId = userId || 'guest_' + Date.now();
+    if (!userId) {
+      alert('系統初始化中，請稍後再試');
+      return;
+    }
 
     if (!product) {
       alert('商品資訊載入中，請稍後再試');
@@ -59,7 +61,7 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
     setAddingToCart(true);
 
     try {
-      const response = await fetch(buildApiUrl(`/api/cart/${currentUserId}/items`), {
+      const response = await fetch(buildApiUrl(`/api/cart/${userId}/items`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +69,7 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
         body: JSON.stringify({
           productId: product._id,
           quantity: quantity,
-          price: product.price
+          userEmail: userEmail || 'guest@auraway.com'
         }),
       });
 

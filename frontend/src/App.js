@@ -33,14 +33,48 @@ function App() {
   const [showCheckout, setShowCheckout] = useState(false); // 控制結帳頁面顯示
   const [checkoutCart, setCheckoutCart] = useState(null); // 結帳時的購物車數據
 
+  // 用戶ID管理
+  const [userId, setUserId] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
+  const [cartItemCount, setCartItemCount] = useState(0);
+
   // Admin UI 隱藏入口功能
   const [logoClickCount, setLogoClickCount] = useState(0);
   const [logoClickTimer, setLogoClickTimer] = useState(null);
+
+  // 初始化用戶ID
+  useEffect(() => {
+    // 檢查是否已有用戶ID，如果沒有則創建一個訪客ID
+    let currentUserId = localStorage.getItem('auraway_user_id');
+    if (!currentUserId) {
+      currentUserId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('auraway_user_id', currentUserId);
+    }
+    setUserId(currentUserId);
+    
+    // 載入購物車計數
+    loadCartCount(currentUserId);
+  }, []);
 
   // 全局處理頁面切換時滾動到頂部
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  // 載入購物車計數
+  const loadCartCount = async (userIdToLoad) => {
+    if (!userIdToLoad) return;
+    
+    try {
+      const response = await fetch(buildApiUrl(`/api/cart/${userIdToLoad}/count`));
+      if (response.ok) {
+        const data = await response.json();
+        setCartItemCount(data.itemCount || 0);
+      }
+    } catch (error) {
+      console.error('載入購物車計數失敗:', error);
+    }
+  };
 
 
 
@@ -87,7 +121,10 @@ function App() {
   };
 
   const handleAddToCart = () => {
-    // 當商品添加到購物車後，可以在這裡更新購物車計數等
+    // 當商品添加到購物車後，重新載入購物車計數
+    if (userId) {
+      loadCartCount(userId);
+    }
     console.log('商品已添加到購物車');
   };
 
@@ -319,7 +356,7 @@ function App() {
               <span className="material-icons">favorite</span>
               <div className="cart-icon" onClick={handleOpenCart} style={{ cursor: 'pointer' }}>
                 <span className="material-icons">shopping_cart</span>
-                <span className="cart-count">0</span>
+                <span className="cart-count">{cartItemCount}</span>
               </div>
             </div>
           </div>
@@ -337,7 +374,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage onProductClick={navigateToProduct} />} />
-        <Route path="/product/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
+        <Route path="/product/:id" element={<ProductDetail onAddToCart={handleAddToCart} userId={userId} userEmail={userEmail} />} />
         <Route path="/brandstory" element={<BrandStoryPage />} />
         <Route path="/aurapost" element={<AuraPostPage />} />
         <Route path="/event" element={<EventPage />} />
@@ -404,7 +441,8 @@ function App() {
         isOpen={showCart}
         onClose={handleCloseCart}
         onCheckout={handleCheckout}
-
+        userId={userId}
+        userEmail={userEmail}
       />
 
       {showCheckout && checkoutCart && (
