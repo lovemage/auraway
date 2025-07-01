@@ -91,12 +91,7 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
     }
   };
 
-  const handleQuantityChange = (change) => {
-    const newQuantity = quantity + change;
-    if (newQuantity >= 1 && newQuantity <= (product?.stock || 999)) {
-      setQuantity(newQuantity);
-    }
-  };
+
 
   const handleNavigateHome = () => {
     navigate('/');
