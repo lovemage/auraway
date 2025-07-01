@@ -8,7 +8,7 @@
 
 1. **MONGODB_URI**
    - 描述：MongoDB 連接字串
-   - 值：`mongodb+srv://username:password@cluster.mongodb.net/auraway-shop?retryWrites=true&w=majority`
+   - 值：`mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority`
    - 環境：Production, Preview, Development
 
 ### 可選的環境變數 (如果使用 Firebase Admin)
