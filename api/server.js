@@ -13,6 +13,7 @@ const headerInfoRoutes = require('./routes/headerInfoRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const aiNutritionistRoutes = require('./routes/aiNutritionistRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 const app = express();
 
@@ -90,6 +91,7 @@ app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai-nutritionist', aiNutritionistRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/cart', cartRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
