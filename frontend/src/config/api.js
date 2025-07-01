@@ -2,14 +2,14 @@
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 // 根據環境設定 API 基礎 URL
-export const API_BASE_URL = isDevelopment 
-  ? 'http://localhost:5001/api'  // 開發環境
+export const API_BASE_URL = isDevelopment
+  ? 'http://localhost:5002/api'  // 開發環境
   : '/api';  // 生產環境 (Vercel)
 
 // 向後兼容的 buildApiUrl 函數
 export const buildApiUrl = (endpoint) => {
-  const baseUrl = isDevelopment 
-    ? 'http://localhost:5001'  // 開發環境
+  const baseUrl = isDevelopment
+    ? 'http://localhost:5002'  // 開發環境
     : '';  // 生產環境 (Vercel)
   return `${baseUrl}${endpoint}`;
 };

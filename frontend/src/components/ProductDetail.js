@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import { buildApiUrl } from '../config/api';
 import './ProductPage.css';
 
-const ProductDetail = ({ onAddToCart }) => {
+const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -50,7 +48,7 @@ const ProductDetail = ({ onAddToCart }) => {
   };
 
   const handleAddToCart = async () => {
-    if (!user) {
+    if (!userId) {
       alert('請先登入會員');
       return;
     }
@@ -63,7 +61,7 @@ const ProductDetail = ({ onAddToCart }) => {
     setAddingToCart(true);
 
     try {
-      const response = await fetch(buildApiUrl(`/api/cart/${user.uid}/items`), {
+      const response = await fetch(buildApiUrl(`/api/cart/${userId}/items`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

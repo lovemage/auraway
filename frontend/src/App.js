@@ -13,7 +13,7 @@ import BabyMemberPage from './components/BabyMemberPage';
 import AurawayRecommendPage from './components/AurawayRecommendPage';
 import FloatingAiButton from './components/FloatingAiButton';
 import AiQuestionnaireModal from './components/AiQuestionnaireModal';
-import AuthModal from './components/AuthModal'; // 引入 AuthModal 組件
+
 import ShoppingCart from './components/ShoppingCart';
 import Checkout from './components/Checkout';
 
@@ -28,7 +28,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false); // 控制 AuthModal 顯示
+
   const [showCart, setShowCart] = useState(false); // 控制購物車顯示
   const [showCheckout, setShowCheckout] = useState(false); // 控制結帳頁面顯示
   const [checkoutCart, setCheckoutCart] = useState(null); // 結帳時的購物車數據
@@ -42,14 +42,7 @@ function App() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  // 處理首次訪問的歡迎彈窗
-  useEffect(() => {
-    const hasVisited = localStorage.getItem('hasVisitedAurawayShop');
-    if (!hasVisited) {
-      setShowAuthModal(true);
-      localStorage.setItem('hasVisitedAurawayShop', 'true');
-    }
-  }, []);
+
 
   const navigateToProduct = (product) => {
     navigate(`/product/${product._id}`);
@@ -66,15 +59,7 @@ function App() {
 
 
 
-  const handleAuthSuccess = (user) => {
-    console.log('使用者成功認證:', user);
-    setShowAuthModal(false); // 認證成功後關閉 AuthModal
-    // 您可以在這裡處理登入後的邏輯，例如導向使用者儀表板
-  };
 
-  const handleCloseAuthModal = () => {
-    setShowAuthModal(false);
-  };
 
   // 購物車相關處理函數
   const handleOpenCart = () => {
@@ -143,10 +128,10 @@ function App() {
         if (confirmAccess) {
           // 跳轉到本地 Admin UI
           if (process.env.NODE_ENV === 'development') {
-            window.open('http://localhost:5001/admin.html', '_blank');
+            window.open('http://localhost:5002/admin.html', '_blank');
           } else {
-            // 生產環境跳轉到 Vercel Admin UI
-            window.open('https://auraway.vercel.app/admin', '_blank');
+            // 生產環境跳轉到 Admin UI
+            window.open('/admin', '_blank');
           }
         }
       }, 600);
@@ -327,7 +312,7 @@ function App() {
               )}
             </div>
             <div className="user-actions">
-              <span className="material-icons" onClick={() => setShowAuthModal(true)} style={{ cursor: 'pointer' }}>person</span>
+              <span className="material-icons" style={{ cursor: 'pointer' }}>person</span>
               <span className="material-icons">favorite</span>
               <div className="cart-icon" onClick={handleOpenCart} style={{ cursor: 'pointer' }}>
                 <span className="material-icons">shopping_cart</span>
@@ -410,17 +395,13 @@ function App() {
         onProductSelect={navigateToProduct}
       />
 
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={handleCloseAuthModal}
-        onAuthSuccess={handleAuthSuccess}
-      />
+
 
       <ShoppingCart
         isOpen={showCart}
         onClose={handleCloseCart}
         onCheckout={handleCheckout}
-        onOpenAuth={() => setShowAuthModal(true)}
+
       />
 
       {showCheckout && checkoutCart && (

@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import './Checkout.css';
 
-const Checkout = ({ cart, onClose, onOrderComplete }) => {
-    const { user } = useAuth();
+const Checkout = ({ cart, onClose, onOrderComplete, userId, userEmail }) => {
     const [loading, setLoading] = useState(false);
     const [shippingInfo, setShippingInfo] = useState({
         name: '',
@@ -27,14 +25,13 @@ const Checkout = ({ cart, onClose, onOrderComplete }) => {
     ], []);
 
     useEffect(() => {
-        if (user) {
+        if (userEmail) {
             setShippingInfo(prev => ({
                 ...prev,
-                name: user.displayName || '',
-                email: user.email || ''
+                email: userEmail
             }));
         }
-    }, [user]);
+    }, [userEmail]);
 
     useEffect(() => {
         const selectedOption = shippingOptions.find(option => option.value === shippingInfo.shippingMethod);
@@ -90,7 +87,7 @@ const Checkout = ({ cart, onClose, onOrderComplete }) => {
         
         try {
             const orderData = {
-                userId: user.uid,
+                userId: userId || 'guest',
                 shippingInfo: {
                     ...shippingInfo,
                     shippingFee

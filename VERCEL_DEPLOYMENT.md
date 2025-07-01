@@ -11,19 +11,23 @@
    - 值：`mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority`
    - 環境：Production, Preview, Development
 
-### 可選的環境變數 (如果使用 Firebase Admin)
+### 可選的環境變數 (未來 OAuth 2.0 使用)
 
-2. **FIREBASE_PROJECT_ID**
-   - 描述：Firebase 項目 ID
-   - 值：您的 Firebase 項目 ID
+2. **OAUTH_GOOGLE_CLIENT_ID**
+   - 描述：Google OAuth 2.0 客戶端 ID
+   - 值：您的 Google OAuth 客戶端 ID
 
-3. **FIREBASE_PRIVATE_KEY**
-   - 描述：Firebase Admin SDK 私鑰
-   - 值：完整的私鑰字串（包含 -----BEGIN PRIVATE KEY----- 等）
+3. **OAUTH_GOOGLE_CLIENT_SECRET**
+   - 描述：Google OAuth 2.0 客戶端密鑰
+   - 值：您的 Google OAuth 客戶端密鑰
 
-4. **FIREBASE_CLIENT_EMAIL**
-   - 描述：Firebase Admin SDK 客戶端郵箱
-   - 值：firebase-adminsdk-xxxxx@your-project-id.iam.gserviceaccount.com
+4. **OAUTH_FACEBOOK_CLIENT_ID**
+   - 描述：Facebook OAuth 2.0 應用 ID
+   - 值：您的 Facebook 應用 ID
+
+5. **OAUTH_FACEBOOK_CLIENT_SECRET**
+   - 描述：Facebook OAuth 2.0 應用密鑰
+   - 值：您的 Facebook 應用密鑰
 
 ## 部署步驟
 
