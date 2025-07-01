@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import './ShoppingCart.css';
 
-const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
-    const { user } = useAuth();
+const ShoppingCart = ({ isOpen, onClose, userId, userEmail, onCheckout }) => {
     const [cart, setCart] = useState(null);
     const [loading, setLoading] = useState(false);
     const [couponCode, setCouponCode] = useState('');
@@ -11,11 +9,11 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
     const [couponSuccess, setCouponSuccess] = useState('');
 
     const loadCart = useCallback(async () => {
-        if (!user) return;
+        if (!userId) return;
 
         setLoading(true);
         try {
-            const response = await fetch(`/api/cart/${user.uid}?email=${user.email}`);
+            const response = await fetch(`/api/cart/${userId}?email=${userEmail || ''}`);
             if (response.ok) {
                 const cartData = await response.json();
                 setCart(cartData);
@@ -25,19 +23,17 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
         } finally {
             setLoading(false);
         }
-    }, [user]);
+    }, [userId, userEmail]);
 
     useEffect(() => {
-        if (isOpen && user) {
+        if (isOpen && userId) {
             loadCart();
         }
-    }, [isOpen, user, loadCart]);
+    }, [isOpen, userId, loadCart]);
 
     const updateQuantity = async (productId, newQuantity) => {
-        if (!user || !cart) return;
-        
         try {
-            const response = await fetch(`/api/cart/${user.uid}/items/${productId}`, {
+            const response = await fetch(`/api/cart/${userId}/items/${productId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,10 +51,8 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
     };
 
     const removeItem = async (productId) => {
-        if (!user || !cart) return;
-        
         try {
-            const response = await fetch(`/api/cart/${user.uid}/items/${productId}`, {
+            const response = await fetch(`/api/cart/${userId}/items/${productId}`, {
                 method: 'DELETE',
             });
 
@@ -72,13 +66,13 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
     };
 
     const applyCoupon = async () => {
-        if (!user || !cart || !couponCode.trim()) return;
+        if (!couponCode.trim()) return;
         
         setCouponError('');
         setCouponSuccess('');
         
         try {
-            const response = await fetch(`/api/cart/${user.uid}/coupon`, {
+            const response = await fetch(`/api/cart/${userId}/coupon?email=${userEmail || ''}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,10 +96,9 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
     };
 
     const removeCoupon = async () => {
-        if (!user || !cart) return;
         
         try {
-            const response = await fetch(`/api/cart/${user.uid}/coupon`, {
+            const response = await fetch(`/api/cart/${userId}/coupon`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,39 +135,14 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
                 </div>
 
                 <div className="cart-content">
-                    {!user ? (
-                        <div className="member-prompt">
-                            <div className="member-prompt-icon">
-                                <span className="material-icons">person_add</span>
-                            </div>
-                            <h3>加入會員享更多優惠！</h3>
-                            <p>成為 Auraway 會員，享受以下專屬權益：</p>
-                            <ul className="member-benefits">
-                                <li><span className="material-icons">check_circle</span>新會員專享 10% 折扣</li>
-                                <li><span className="material-icons">check_circle</span>會員專屬商品優惠</li>
-                                <li><span className="material-icons">check_circle</span>生日月專屬禮品</li>
-                                <li><span className="material-icons">check_circle</span>購物積點回饋</li>
-                                <li><span className="material-icons">check_circle</span>優先享受新品資訊</li>
-                            </ul>
-                            <div className="member-prompt-actions">
-                                <button
-                                    className="join-member-btn"
-                                    onClick={() => {
-                                        onClose();
-                                        onOpenAuth && onOpenAuth();
-                                    }}
-                                >
-                                    立即加入會員
-                                </button>
-                                <button className="continue-shopping-btn" onClick={onClose}>
-                                    繼續瀏覽商品
-                                </button>
-                            </div>
+                    {loading ? (
+                        <div className="loading">
+                            <div className="loading-spinner"></div>
+                            <p>載入中...</p>
                         </div>
-                    ) : loading ? (
-                        <div className="cart-loading">載入中...</div>
                     ) : !cart || cart.items.length === 0 ? (
                         <div className="empty-cart">
+                            <span className="material-icons">shopping_cart</span>
                             <p>購物車是空的</p>
                             <button className="continue-shopping-btn" onClick={onClose}>
                                 繼續購物

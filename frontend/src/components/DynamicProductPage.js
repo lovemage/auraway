@@ -85,39 +85,21 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
   }
 
   const images = productData.images || ['/images/placeholder.jpg'];
-  const hasMultipleImages = images.length > 1;
+  const mainImage = images[0]; // 第一張圖作為主圖（小圖）
+  const detailImage = images[1]; // 第二張圖作為詳細圖（長圖）
 
   return (
     <div className="ProductPage">
       <div className="product-container">
-        <div className="image-carousel">
-          <img 
-            src={images[currentImageIndex]} 
-            alt={productData.name} 
-            className="carousel-image"
+        <div className="product-main-image">
+          <img
+            src={mainImage}
+            alt={productData.name}
+            className="main-product-image"
             onError={(e) => {
               e.target.src = '/images/placeholder.jpg';
             }}
           />
-          {hasMultipleImages && (
-            <>
-              <button onClick={prevImage} className="carousel-arrow prev">
-                <span className="material-icons">chevron_left</span>
-              </button>
-              <button onClick={nextImage} className="carousel-arrow next">
-                <span className="material-icons">chevron_right</span>
-              </button>
-              <div className="carousel-controls">
-                {images.map((_, index) => (
-                  <div 
-                    key={index} 
-                    className={`carousel-dot ${index === currentImageIndex ? 'active' : ''}`}
-                    onClick={() => setCurrentImageIndex(index)} 
-                  />
-                ))}
-              </div>
-            </>
-          )}
         </div>
         
         <div className="product-details">
@@ -171,25 +153,51 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
       <div className="additional-info">
         <h2>{productData.name}</h2>
         
-        {/* 產品說明圖 */}
-        {productData.descriptionImage && (
-          <div style={{ 
-            textAlign: 'center', 
+        {/* 產品詳細說明圖 */}
+        {detailImage && detailImage !== mainImage && (
+          <div style={{
+            textAlign: 'center',
             margin: '30px 0',
             background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
             borderRadius: '15px',
             padding: '20px'
           }}>
-            <img 
-              src={productData.descriptionImage} 
-              alt={`${productData.name}產品說明`} 
-              style={{ 
-                width: '100%', 
-                maxWidth: '800px', 
+            <img
+              src={detailImage}
+              alt={`${productData.name}詳細說明`}
+              style={{
+                width: '100%',
+                maxWidth: '800px',
                 height: 'auto',
                 borderRadius: '10px',
                 boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
-              }} 
+              }}
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
+          </div>
+        )}
+
+        {/* 如果有 descriptionImage 字段，也顯示它 */}
+        {productData.descriptionImage && (
+          <div style={{
+            textAlign: 'center',
+            margin: '30px 0',
+            background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+            borderRadius: '15px',
+            padding: '20px'
+          }}>
+            <img
+              src={productData.descriptionImage}
+              alt={`${productData.name}產品說明`}
+              style={{
+                width: '100%',
+                maxWidth: '800px',
+                height: 'auto',
+                borderRadius: '10px',
+                boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
+              }}
               onError={(e) => {
                 e.target.style.display = 'none';
               }}
