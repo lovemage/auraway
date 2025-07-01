@@ -13,6 +13,8 @@ import WomenCards from './components/WomenCards';
 import AurawayRecommendPage from './components/AurawayRecommendPage';
 import FloatingAiButton from './components/FloatingAiButton';
 import AiQuestionnaireModal from './components/AiQuestionnaireModal';
+import ShoppingCart from './components/ShoppingCart';
+import Checkout from './components/Checkout';
 
 // 產品頁面組件
 import ProbioticProductPage from './components/ProbioticProductPage';
@@ -50,6 +52,23 @@ function App() {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // 購物車相關狀態
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [cart, setCart] = useState(null);
+  const [userId] = useState(() => {
+    // 生成或獲取用戶 ID (可以是 session ID 或 Firebase UID)
+    let id = localStorage.getItem('auraway_user_id');
+    if (!id) {
+      id = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('auraway_user_id', id);
+    }
+    return id;
+  });
+  const [userEmail] = useState(() => {
+    return localStorage.getItem('auraway_user_email') || '';
+  });
+
   // Admin UI 隱藏入口功能
   const [logoClickCount, setLogoClickCount] = useState(0);
   const [logoClickTimer, setLogoClickTimer] = useState(null);
@@ -71,6 +90,61 @@ function App() {
     setSearchResults([]);
     setShowSearchResults(false);
     setMenuOpen(false);
+  };
+
+  // 購物車相關功能
+  const openCart = () => {
+    setIsCartOpen(true);
+    setMenuOpen(false);
+  };
+
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
+
+  const openCheckout = (cartData) => {
+    setCart(cartData);
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
+
+  const closeCheckout = () => {
+    setIsCheckoutOpen(false);
+    setCart(null);
+  };
+
+  const handleOrderComplete = (order) => {
+    setIsCheckoutOpen(false);
+    setCart(null);
+    // 可以顯示訂單成功頁面或導航到訂單詳情
+    alert(`訂單創建成功！訂單號：${order.orderNumber}`);
+    setCurrentPage('home');
+  };
+
+  // 添加商品到購物車的功能
+  const addToCart = async (productId, quantity = 1) => {
+    try {
+      const response = await fetch(`/api/cart/${userId}/items?email=${userEmail}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId, quantity }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        // 顯示成功提示
+        alert('商品已添加到購物車！');
+        return result.cart;
+      } else {
+        const error = await response.json();
+        alert(error.error || '添加失敗');
+      }
+    } catch (error) {
+      console.error('添加到購物車失敗:', error);
+      alert('添加失敗');
+    }
   };
 
   // Logo 隱藏入口功能
@@ -296,7 +370,7 @@ function App() {
             <div className="user-actions">
               <span className="material-icons">person</span>
               <span className="material-icons">favorite</span>
-              <div className="cart-icon">
+              <div className="cart-icon" onClick={openCart} style={{ cursor: 'pointer' }}>
                 <span className="material-icons">shopping_cart</span>
                 <span className="cart-count">0</span>
               </div>
@@ -390,7 +464,11 @@ function App() {
           </main>
         </>
       ) : currentPage === 'product' ? (
-        <DynamicProductPage product={selectedProduct} onNavigateHome={navigateToHome} />
+        <DynamicProductPage
+          product={selectedProduct}
+          onNavigateHome={navigateToHome}
+          onAddToCart={addToCart}
+        />
       ) : currentPage === 'probiotic' ? (
         <ProbioticProductPage />
       ) : currentPage === 'liver' ? (
@@ -501,11 +579,31 @@ function App() {
       </footer>
 
       <FloatingAiButton onClick={handleOpenModal} />
-      <AiQuestionnaireModal 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
+      <AiQuestionnaireModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
         onProductSelect={navigateToProduct}
       />
+
+      {/* 購物車組件 */}
+      <ShoppingCart
+        isOpen={isCartOpen}
+        onClose={closeCart}
+        userId={userId}
+        userEmail={userEmail}
+        onCheckout={openCheckout}
+      />
+
+      {/* 結帳組件 */}
+      {isCheckoutOpen && cart && (
+        <Checkout
+          cart={cart}
+          userId={userId}
+          userEmail={userEmail}
+          onOrderComplete={handleOrderComplete}
+          onBack={closeCheckout}
+        />
+      )}
     </div>
   );
 }

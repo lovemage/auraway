@@ -71,6 +71,67 @@
   margin-bottom: 25px;
 }
 
+/* 數量選擇器 */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.quantity-selector label {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--background-color);
+  border-radius: 25px;
+  padding: 5px;
+  border: 2px solid var(--light-teal);
+}
+
+.quantity-btn {
+  background: var(--primary-color);
+  border: none;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+.quantity-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.quantity-btn .material-icons {
+  font-size: 18px;
+}
+
+.quantity-display {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
 .add-to-cart {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   border: none;
@@ -84,9 +145,19 @@
   box-shadow: 0 4px 15px rgba(130, 191, 183, 0.3);
 }
 
-.add-to-cart:hover {
+.add-to-cart:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(130, 191, 183, 0.4);
+}
+
+.add-to-cart:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.add-to-cart .material-icons {
+  margin-right: 8px;
 }
 
 .additional-info {

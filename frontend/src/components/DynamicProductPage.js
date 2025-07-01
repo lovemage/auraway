@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './ProductPage.css';
 
-const DynamicProductPage = ({ product, onNavigateHome }) => {
+const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading] = useState(!product);
   const [productData] = useState(product);
+  const [quantity, setQuantity] = useState(1);
+  const [addingToCart, setAddingToCart] = useState(false);
 
   useEffect(() => {
     if (!product && window.location.hash) {
@@ -22,6 +24,27 @@ const DynamicProductPage = ({ product, onNavigateHome }) => {
   const prevImage = () => {
     if (productData?.images?.length > 1) {
       setCurrentImageIndex((prevIndex) => (prevIndex - 1 + productData.images.length) % productData.images.length);
+    }
+  };
+
+  // 處理加入購物車
+  const handleAddToCart = async () => {
+    if (!onAddToCart || !productData) return;
+
+    setAddingToCart(true);
+    try {
+      await onAddToCart(productData._id, quantity);
+    } catch (error) {
+      console.error('加入購物車失敗:', error);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  // 處理數量變更
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity >= 1) {
+      setQuantity(newQuantity);
     }
   };
 
@@ -87,9 +110,35 @@ const DynamicProductPage = ({ product, onNavigateHome }) => {
           <p className="product-description">
             {productData.description}
           </p>
-          <button className="add-to-cart" onClick={onNavigateHome}>
+
+          {/* 數量選擇器 */}
+          <div className="quantity-selector">
+            <label>數量：</label>
+            <div className="quantity-controls">
+              <button
+                onClick={() => handleQuantityChange(quantity - 1)}
+                disabled={quantity <= 1}
+                className="quantity-btn"
+              >
+                <span className="material-icons">remove</span>
+              </button>
+              <span className="quantity-display">{quantity}</span>
+              <button
+                onClick={() => handleQuantityChange(quantity + 1)}
+                className="quantity-btn"
+              >
+                <span className="material-icons">add</span>
+              </button>
+            </div>
+          </div>
+
+          <button
+            className="add-to-cart"
+            onClick={handleAddToCart}
+            disabled={addingToCart}
+          >
             <span className="material-icons">shopping_cart</span>
-            加入購物車
+            {addingToCart ? '加入中...' : '加入購物車'}
           </button>
         </div>
       </div>
