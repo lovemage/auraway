@@ -148,8 +148,16 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
         返回首頁
       </button>
 
-      <div className="product-content">
-        <div className="product-images">
+      {/* 置中容器 */}
+      <div style={{
+        maxWidth: '800px',
+        margin: '0 auto',
+        padding: '0 20px',
+        textAlign: 'center'
+      }}>
+
+        {/* 1. 產品圖（主圖） */}
+        <div className="product-images" style={{ marginBottom: '40px' }}>
           <div className="main-image-container">
             <img
               src={product.images && product.images.length > 0 ? product.images[currentImageIndex] : '/images/placeholder.svg'}
@@ -158,6 +166,13 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
               }}
               alt={product.name}
               className="main-image"
+              style={{
+                width: '100%',
+                maxWidth: '600px',
+                height: 'auto',
+                borderRadius: '15px',
+                boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
+              }}
             />
             {product.images && product.images.length > 1 && (
               <>
@@ -172,7 +187,13 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
           </div>
 
           {product.images && product.images.length > 1 && (
-            <div className="thumbnail-container">
+            <div className="thumbnail-container" style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '10px',
+              marginTop: '20px',
+              flexWrap: 'wrap'
+            }}>
               {product.images.map((image, index) => (
                 <img
                   key={index}
@@ -180,33 +201,151 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
                   alt={`${product.name} ${index + 1}`}
                   className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
                   onClick={() => setCurrentImageIndex(index)}
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    border: index === currentImageIndex ? '3px solid var(--primary-color)' : '2px solid #ddd'
+                  }}
                 />
               ))}
             </div>
           )}
         </div>
 
-        <div className="product-info">
-          <div className="product-header">
-            <h1 className="product-title">{product.name}</h1>
-            <div className="product-price">
-              <span className="current-price">NT$ {product.price?.toLocaleString()}</span>
+        {/* 2. 產品資訊和加入購物車區塊 */}
+        <div className="product-info" style={{ marginBottom: '40px' }}>
+          <div className="product-header" style={{ marginBottom: '30px' }}>
+            <h1 className="product-title" style={{
+              fontSize: '2.5em',
+              color: 'var(--primary-color)',
+              marginBottom: '20px'
+            }}>
+              {product.name}
+            </h1>
+            <div className="product-price" style={{ fontSize: '1.8em', marginBottom: '20px' }}>
+              <span className="current-price" style={{
+                color: 'var(--secondary-color)',
+                fontWeight: 'bold'
+              }}>
+                NT$ {product.price?.toLocaleString()}
+              </span>
               {product.originalPrice && product.originalPrice > product.price && (
-                <span className="original-price">NT$ {product.originalPrice.toLocaleString()}</span>
+                <span className="original-price" style={{
+                  textDecoration: 'line-through',
+                  color: '#999',
+                  marginLeft: '15px'
+                }}>
+                  NT$ {product.originalPrice.toLocaleString()}
+                </span>
               )}
             </div>
           </div>
 
-          <div className="product-description">
-            <h3>商品描述</h3>
-            <p>{product.description}</p>
-          </div>
+          {/* 加入購物車區塊 */}
+          <div className="purchase-section" style={{
+            background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+            borderRadius: '15px',
+            padding: '30px',
+            marginBottom: '40px'
+          }}>
+            <div className="quantity-selector" style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '20px',
+              marginBottom: '20px'
+            }}>
+              <label style={{ fontSize: '1.2em', fontWeight: 'bold' }}>數量：</label>
+              <div className="quantity-controls" style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '15px'
+              }}>
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={quantity <= 1}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    border: '2px solid var(--primary-color)',
+                    background: 'white',
+                    color: 'var(--primary-color)',
+                    fontSize: '1.5em',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  -
+                </button>
+                <span style={{
+                  fontSize: '1.5em',
+                  fontWeight: 'bold',
+                  minWidth: '40px',
+                  textAlign: 'center'
+                }}>
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    border: '2px solid var(--primary-color)',
+                    background: 'white',
+                    color: 'var(--primary-color)',
+                    fontSize: '1.5em',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
 
-          {/* 產品說明圖 - 優先顯示 descriptionImage，如果沒有則顯示第二張圖 */}
+            <button
+              onClick={handleAddToCart}
+              disabled={addingToCart}
+              style={{
+                background: 'var(--secondary-color)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '25px',
+                padding: '15px 40px',
+                fontSize: '1.3em',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                margin: '0 auto',
+                minWidth: '200px',
+                boxShadow: '0 4px 15px rgba(242, 162, 189, 0.3)'
+              }}
+            >
+              <span className="material-icons">shopping_cart</span>
+              {addingToCart ? '加入中...' : '加入購物車'}
+            </button>
+          </div>
+        </div>
+
+        {/* 3. 描述區塊 */}
+        <div className="description-section">
+          {/* 產品描述圖 */}
           {(product.descriptionImage || (product.images && product.images.length > 1 && product.images[1] !== product.images[0])) && (
             <div style={{
               textAlign: 'center',
-              margin: '30px 0',
+              margin: '0 0 30px 0',
               background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
               borderRadius: '15px',
               padding: '20px'
@@ -216,7 +355,7 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
                 alt={`${product.name}產品說明`}
                 style={{
                   width: '100%',
-                  maxWidth: '800px',
+                  maxWidth: '700px',
                   height: 'auto',
                   borderRadius: '10px',
                   boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
@@ -228,81 +367,87 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
             </div>
           )}
 
-          {product.features && product.features.length > 0 && (
-            <div className="product-features">
-              <h3>主要特色</h3>
-              <ul>
-                {product.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {/* 產品描述（文字） */}
+          <div className="product-description" style={{
+            background: 'white',
+            borderRadius: '15px',
+            padding: '30px',
+            boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
+            textAlign: 'left'
+          }}>
+            <h3 style={{
+              color: 'var(--primary-color)',
+              fontSize: '1.8em',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              商品描述
+            </h3>
+            <p style={{
+              fontSize: '1.1em',
+              lineHeight: '1.8',
+              color: 'var(--text-primary)'
+            }}>
+              {product.description}
+            </p>
 
-          {product.ingredients && (
-            <div className="product-ingredients">
-              <h3>成分說明</h3>
-              <p>{product.ingredients}</p>
-            </div>
-          )}
-
-          {product.usage && (
-            <div className="product-usage">
-              <h3>使用方法</h3>
-              <p>{product.usage}</p>
-            </div>
-          )}
-
-          <div className="purchase-section">
-            <div className="quantity-selector">
-              <label>數量：</label>
-              <div className="quantity-controls">
-                <button
-                  onClick={() => handleQuantityChange(-1)}
-                  disabled={quantity <= 1}
-                  className="quantity-btn"
-                >
-                  <span className="material-icons">remove</span>
-                </button>
-                <span className="quantity-display">{quantity}</span>
-                <button
-                  onClick={() => handleQuantityChange(1)}
-                  disabled={quantity >= (product.stock || 999)}
-                  className="quantity-btn"
-                >
-                  <span className="material-icons">add</span>
-                </button>
+            {/* 其他產品資訊 */}
+            {product.features && product.features.length > 0 && (
+              <div style={{ marginTop: '30px' }}>
+                <h4 style={{
+                  color: 'var(--primary-color)',
+                  fontSize: '1.4em',
+                  marginBottom: '15px'
+                }}>
+                  主要特色
+                </h4>
+                <ul style={{
+                  listStyle: 'none',
+                  padding: '0'
+                }}>
+                  {product.features.map((feature, index) => (
+                    <li key={index} style={{
+                      padding: '8px 0',
+                      borderBottom: '1px solid #f0f0f0',
+                      fontSize: '1.1em'
+                    }}>
+                      ✓ {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
+            )}
 
-            <div className="purchase-buttons">
-              <button
-                onClick={handleAddToCart}
-                disabled={addingToCart || !product.isActive}
-                className="add-to-cart-btn"
-              >
-                {addingToCart ? (
-                  <>
-                    <span className="loading-spinner small"></span>
-                    加入中...
-                  </>
-                ) : (
-                  <>
-                    <span className="material-icons">shopping_cart</span>
-                    加入購物車
-                  </>
-                )}
-              </button>
-            </div>
+            {product.ingredients && (
+              <div style={{ marginTop: '30px' }}>
+                <h4 style={{
+                  color: 'var(--primary-color)',
+                  fontSize: '1.4em',
+                  marginBottom: '15px'
+                }}>
+                  成分說明
+                </h4>
+                <p style={{ fontSize: '1.1em', lineHeight: '1.8' }}>
+                  {product.ingredients}
+                </p>
+              </div>
+            )}
+
+            {product.usage && (
+              <div style={{ marginTop: '30px' }}>
+                <h4 style={{
+                  color: 'var(--primary-color)',
+                  fontSize: '1.4em',
+                  marginBottom: '15px'
+                }}>
+                  使用方法
+                </h4>
+                <p style={{ fontSize: '1.1em', lineHeight: '1.8' }}>
+                  {product.usage}
+                </p>
+              </div>
+            )}
           </div>
-
-          {product.stock !== undefined && (
-            <div className="stock-info">
-              <span className={`stock-status ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                {product.stock > 0 ? `庫存：${product.stock} 件` : '缺貨中'}
-              </span>
-            </div>
-          )}
         </div>
       </div>
     </div>

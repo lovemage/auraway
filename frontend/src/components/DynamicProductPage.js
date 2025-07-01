@@ -88,48 +88,136 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
 
   return (
     <div className="ProductPage">
-      <div className="product-container">
-        <div className="product-main-image">
+      {/* 置中容器 */}
+      <div style={{
+        maxWidth: '800px',
+        margin: '0 auto',
+        padding: '0 20px',
+        textAlign: 'center'
+      }}>
+
+        {/* 1. 產品圖（主圖） */}
+        <div className="product-main-image" style={{ marginBottom: '40px' }}>
+          {productData.badge && (
+            <div style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              background: 'var(--secondary-color)',
+              color: 'white',
+              padding: '8px 16px',
+              borderRadius: '20px',
+              fontSize: '0.9em',
+              fontWeight: 'bold',
+              zIndex: 10
+            }}>
+              {productData.badge}
+            </div>
+          )}
           <img
             src={mainImage}
             alt={productData.name}
-            className="main-product-image"
+            style={{
+              width: '100%',
+              maxWidth: '600px',
+              height: 'auto',
+              borderRadius: '15px',
+              boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
+            }}
             onError={(e) => {
               e.target.src = '/images/placeholder.svg';
             }}
           />
         </div>
-        
-        <div className="product-details">
-          {productData.badge && (
-            <div className="product-badge" style={{ backgroundColor: 'var(--secondary-color)' }}>
-              {productData.badge}
-            </div>
-          )}
-          <h1>{productData.name}</h1>
-          <div className="price-section">
-            <span className="discount-price">NT${productData.price?.toLocaleString()}</span>
+
+        {/* 2. 產品資訊和加入購物車區塊 */}
+        <div className="product-details" style={{ marginBottom: '40px' }}>
+          <h1 style={{
+            fontSize: '2.5em',
+            color: 'var(--primary-color)',
+            marginBottom: '20px'
+          }}>
+            {productData.name}
+          </h1>
+          <div className="price-section" style={{ fontSize: '1.8em', marginBottom: '30px' }}>
+            <span style={{
+              color: 'var(--secondary-color)',
+              fontWeight: 'bold'
+            }}>
+              NT${productData.price?.toLocaleString()}
+            </span>
             {productData.originalPrice && (
-              <span className="original-price">NT${productData.originalPrice?.toLocaleString()}</span>
+              <span style={{
+                textDecoration: 'line-through',
+                color: '#999',
+                marginLeft: '15px'
+              }}>
+                NT${productData.originalPrice?.toLocaleString()}
+              </span>
             )}
           </div>
-          <p className="product-description">
-            {productData.description}
-          </p>
 
-          <div className="purchase-section">
-            <div className="quantity-selector">
-              <label>數量:</label>
-              <div className="quantity-controls">
+          {/* 加入購物車區塊 */}
+          <div className="purchase-section" style={{
+            background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+            borderRadius: '15px',
+            padding: '30px'
+          }}>
+            <div className="quantity-selector" style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '20px',
+              marginBottom: '20px'
+            }}>
+              <label style={{ fontSize: '1.2em', fontWeight: 'bold' }}>數量：</label>
+              <div className="quantity-controls" style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '15px'
+              }}>
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   disabled={quantity <= 1}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    border: '2px solid var(--primary-color)',
+                    background: 'white',
+                    color: 'var(--primary-color)',
+                    fontSize: '1.5em',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                 >
                   -
                 </button>
-                <span className="quantity-display">{quantity}</span>
+                <span style={{
+                  fontSize: '1.5em',
+                  fontWeight: 'bold',
+                  minWidth: '40px',
+                  textAlign: 'center'
+                }}>
+                  {quantity}
+                </span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    border: '2px solid var(--primary-color)',
+                    background: 'white',
+                    color: 'var(--primary-color)',
+                    fontSize: '1.5em',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                 >
                   +
                 </button>
@@ -137,45 +225,86 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
             </div>
 
             <button
-              className="add-to-cart"
               onClick={handleAddToCart}
               disabled={addingToCart}
+              style={{
+                background: 'var(--secondary-color)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '25px',
+                padding: '15px 40px',
+                fontSize: '1.3em',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                margin: '0 auto',
+                minWidth: '200px',
+                boxShadow: '0 4px 15px rgba(242, 162, 189, 0.3)'
+              }}
             >
               <span className="material-icons">shopping_cart</span>
               {addingToCart ? '加入中...' : '加入購物車'}
             </button>
           </div>
         </div>
-      </div>
 
-      <div className="additional-info">
-        <h2>{productData.name}</h2>
-        
-        {/* 產品說明圖 - 優先顯示 descriptionImage，如果沒有則顯示第二張圖 */}
-        {(productData.descriptionImage || (detailImage && detailImage !== mainImage)) && (
-          <div style={{
-            textAlign: 'center',
-            margin: '30px 0',
-            background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+        {/* 3. 描述區塊 */}
+        <div className="description-section">
+          {/* 產品描述圖 */}
+          {(productData.descriptionImage || (detailImage && detailImage !== mainImage)) && (
+            <div style={{
+              textAlign: 'center',
+              margin: '0 0 30px 0',
+              background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+              borderRadius: '15px',
+              padding: '20px'
+            }}>
+              <img
+                src={productData.descriptionImage || detailImage}
+                alt={`${productData.name}產品說明`}
+                style={{
+                  width: '100%',
+                  maxWidth: '700px',
+                  height: 'auto',
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            </div>
+          )}
+
+          {/* 產品描述（文字） */}
+          <div className="product-description" style={{
+            background: 'white',
             borderRadius: '15px',
-            padding: '20px'
+            padding: '30px',
+            boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
+            textAlign: 'left'
           }}>
-            <img
-              src={productData.descriptionImage || detailImage}
-              alt={`${productData.name}產品說明`}
-              style={{
-                width: '100%',
-                maxWidth: '800px',
-                height: 'auto',
-                borderRadius: '10px',
-                boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
-              }}
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
-            />
+            <h3 style={{
+              color: 'var(--primary-color)',
+              fontSize: '1.8em',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              商品描述
+            </h3>
+            <p style={{
+              fontSize: '1.1em',
+              lineHeight: '1.8',
+              color: 'var(--text-primary)'
+            }}>
+              {productData.description}
+            </p>
           </div>
-        )}
+        </div>
+      </div>
         
         {/* 產品特色 */}
         {productData.specifications?.features && productData.specifications.features.length > 0 && (
