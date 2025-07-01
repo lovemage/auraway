@@ -26,6 +26,21 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from backend/public directory
 app.use(express.static('public'));
 
+// Fallback for missing images - serve placeholder
+app.use('/images', (req, res, next) => {
+  const fs = require('fs');
+  const requestedPath = path.join(__dirname, 'public', req.url);
+
+  // Check if the requested image file exists
+  if (!fs.existsSync(requestedPath)) {
+    console.log(`⚠️  圖片不存在，使用 placeholder: ${req.url}`);
+    // Serve placeholder image instead
+    return res.sendFile(path.join(__dirname, 'public/images/placeholder.svg'));
+  }
+
+  next();
+});
+
 // Global connection variable for caching
 let cachedConnection = null;
 

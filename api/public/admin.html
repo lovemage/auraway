@@ -4053,15 +4053,24 @@
         async function removeImagePreview(button, imageUrl, type) {
             const item = button.parentElement;
 
+            console.log('準備刪除圖片:', imageUrl);
+            console.log('API URL:', getApiUrl('/api/upload/image'));
+
             // 從服務器刪除圖片
             try {
-                const response = await fetch(getApiUrl('/api/upload/image'), {
+                const requestUrl = getApiUrl('/api/upload/image');
+                console.log('發送 DELETE 請求到:', requestUrl);
+
+                const response = await fetch(requestUrl, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ imageUrl })
                 });
+
+                console.log('響應狀態:', response.status);
+                console.log('響應 OK:', response.ok);
 
                 if (response.ok) {
                     // 從預覽中移除
@@ -4075,12 +4084,18 @@
                     } else if (type === 'description') {
                         document.getElementById('product-description-image').value = '';
                     }
+
+                    console.log('圖片刪除成功:', imageUrl);
                 } else {
-                    throw new Error('刪除失敗');
+                    const errorData = await response.json();
+                    console.error('刪除失敗:', errorData);
+                    console.error('響應狀態:', response.status);
+                    alert('刪除失敗: ' + (errorData.error || '未知錯誤'));
                 }
             } catch (error) {
                 console.error('圖片刪除錯誤:', error);
-                alert('圖片刪除失敗，請稍後再試');
+                console.error('錯誤詳情:', error.message);
+                alert('圖片刪除失敗: ' + error.message);
             }
         }
 
