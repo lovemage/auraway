@@ -449,6 +449,171 @@
         }
 
         .status-inactive {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
+        .status-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-primary {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .status-secondary {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .status-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* 模態框樣式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 15px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--light-teal);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .close-btn:hover {
+            background-color: var(--background-color);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding: 20px 30px;
+            border-top: 1px solid var(--light-teal);
+        }
+
+        /* 訂單詳情樣式 */
+        .order-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .detail-section {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .detail-section h4 {
+            margin: 0 0 15px 0;
+            color: var(--primary-color);
+            font-size: 1.1em;
+        }
+
+        .detail-section p {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .order-item {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .order-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 表單網格 */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-grid .form-group:nth-child(3),
+        .form-grid .form-group:nth-child(11) {
+            grid-column: 1 / -1;
+        }
+
+        /* 表單操作按鈕 */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-teal);
+        }
+
+        /* 標題操作區 */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-actions select {
+            padding: 8px 12px;
+            border: 1px solid var(--light-teal);
+            border-radius: 8px;
+            background: var(--white);
+        }
+
+        .status-inactive {
             background-color: #f5f5f5;
             color: var(--text-secondary);
         }
@@ -549,6 +714,7 @@
             <ul class="sidebar-menu">
                 <li><a href="#dashboard" class="active"><span class="material-icons">dashboard</span>儀表板</a></li>
                 <li><a href="#products"><span class="material-icons">inventory_2</span>商品管理</a></li>
+                <li><a href="#coupons"><span class="material-icons">local_offer</span>優惠券管理</a></li>
                 <li><a href="#announcements"><span class="material-icons">campaign</span>活動公告</a></li>
                 <li><a href="#blog"><span class="material-icons">article</span>Blog 管理</a></li>
                 <li><a href="#header-info"><span class="material-icons">info</span>導航區塊管理</a></li>
@@ -1130,6 +1296,138 @@
                 </div>
             </div>
 
+            <!-- 優惠券管理區塊 -->
+            <div id="coupons-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">優惠券管理</h3>
+                    <button class="btn btn-primary" onclick="showAddCouponForm()">
+                        <span class="material-icons">add</span>新增優惠券
+                    </button>
+                </div>
+
+                <!-- 優惠券統計 -->
+                <div class="stats-grid" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">總優惠券數</span>
+                            <span class="material-icons stat-icon">local_offer</span>
+                        </div>
+                        <div class="stat-value" id="total-coupons">0</div>
+                        <div class="stat-change">全部優惠券</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">有效優惠券</span>
+                            <span class="material-icons stat-icon">check_circle</span>
+                        </div>
+                        <div class="stat-value" id="active-coupons">0</div>
+                        <div class="stat-change">目前可用</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">已使用次數</span>
+                            <span class="material-icons stat-icon">redeem</span>
+                        </div>
+                        <div class="stat-value" id="used-coupons">0</div>
+                        <div class="stat-change">總使用量</div>
+                    </div>
+                </div>
+
+                <!-- 優惠券列表 -->
+                <div class="table-container">
+                    <table id="coupons-table">
+                        <thead>
+                            <tr>
+                                <th>優惠券代碼</th>
+                                <th>名稱</th>
+                                <th>折扣類型</th>
+                                <th>折扣值</th>
+                                <th>使用次數</th>
+                                <th>有效期</th>
+                                <th>狀態</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coupons-table-body">
+                            <!-- 動態加載優惠券數據 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 優惠券表單 -->
+            <div id="coupon-form-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title" id="coupon-form-title">新增優惠券</h3>
+                    <button class="btn btn-secondary" onclick="hideCouponForm()">
+                        <span class="material-icons">arrow_back</span>返回列表
+                    </button>
+                </div>
+
+                <form id="coupon-form" class="form-container">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="coupon-code">優惠券代碼 *</label>
+                            <input type="text" id="coupon-code" required placeholder="例如：SAVE20">
+                        </div>
+                        <div class="form-group">
+                            <label for="coupon-name">優惠券名稱 *</label>
+                            <input type="text" id="coupon-name" required placeholder="例如：新用戶專屬優惠">
+                        </div>
+                        <div class="form-group">
+                            <label for="coupon-description">描述</label>
+                            <textarea id="coupon-description" placeholder="優惠券使用說明"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="discount-type">折扣類型 *</label>
+                            <select id="discount-type" required onchange="toggleDiscountFields()">
+                                <option value="percentage">百分比折扣</option>
+                                <option value="fixed">固定金額折扣</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="discount-value">折扣值 *</label>
+                            <input type="number" id="discount-value" required min="0" step="0.01">
+                            <small id="discount-hint">輸入百分比數值（例如：20 代表 20%）</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="minimum-amount">最低消費金額</label>
+                            <input type="number" id="minimum-amount" min="0" placeholder="0">
+                        </div>
+                        <div class="form-group" id="max-discount-group">
+                            <label for="maximum-discount">最大折扣金額</label>
+                            <input type="number" id="maximum-discount" min="0" placeholder="無限制">
+                        </div>
+                        <div class="form-group">
+                            <label for="usage-limit">使用次數限制</label>
+                            <input type="number" id="usage-limit" min="1" placeholder="無限制">
+                        </div>
+                        <div class="form-group">
+                            <label for="valid-from">開始日期 *</label>
+                            <input type="datetime-local" id="valid-from" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="valid-to">結束日期 *</label>
+                            <input type="datetime-local" id="valid-to" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="is-active">狀態</label>
+                            <select id="is-active">
+                                <option value="true">啟用</option>
+                                <option value="false">停用</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="hideCouponForm()">取消</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="material-icons">save</span>儲存優惠券
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             <!-- Blog 管理 -->
             <div class="content-section" id="blog-section" style="display: none;">
                 <div class="section-header">
@@ -1273,6 +1571,103 @@
                                 <button class="preview-button">範例按鈕</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 訂單管理區塊 -->
+            <div id="orders-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">訂單管理</h3>
+                    <div class="header-actions">
+                        <select id="order-status-filter" onchange="filterOrders()">
+                            <option value="">全部狀態</option>
+                            <option value="pending">待處理</option>
+                            <option value="confirmed">已確認</option>
+                            <option value="processing">處理中</option>
+                            <option value="shipped">已出貨</option>
+                            <option value="delivered">已送達</option>
+                            <option value="cancelled">已取消</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="refreshOrders()">
+                            <span class="material-icons">refresh</span>重新載入
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 訂單統計 -->
+                <div class="stats-grid" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">總訂單數</span>
+                            <span class="material-icons stat-icon">shopping_cart</span>
+                        </div>
+                        <div class="stat-value" id="total-orders">0</div>
+                        <div class="stat-change">全部訂單</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">待處理</span>
+                            <span class="material-icons stat-icon">pending</span>
+                        </div>
+                        <div class="stat-value" id="pending-orders">0</div>
+                        <div class="stat-change">需要處理</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">本月營收</span>
+                            <span class="material-icons stat-icon">attach_money</span>
+                        </div>
+                        <div class="stat-value" id="monthly-revenue">NT$ 0</div>
+                        <div class="stat-change">本月總額</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">已完成</span>
+                            <span class="material-icons stat-icon">check_circle</span>
+                        </div>
+                        <div class="stat-value" id="completed-orders">0</div>
+                        <div class="stat-change">已送達訂單</div>
+                    </div>
+                </div>
+
+                <!-- 訂單列表 -->
+                <div class="table-container">
+                    <table id="orders-table">
+                        <thead>
+                            <tr>
+                                <th>訂單編號</th>
+                                <th>客戶信息</th>
+                                <th>商品數量</th>
+                                <th>總金額</th>
+                                <th>付款狀態</th>
+                                <th>訂單狀態</th>
+                                <th>下單時間</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- 動態加載訂單數據 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 訂單詳情模態框 -->
+            <div id="order-detail-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="order-detail-title">訂單詳情</h3>
+                        <button class="close-btn" onclick="closeOrderDetail()">
+                            <span class="material-icons">close</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="order-detail-content">
+                        <!-- 動態加載訂單詳情 -->
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeOrderDetail()">關閉</button>
+                        <button class="btn btn-primary" onclick="updateOrderStatus()">更新狀態</button>
                     </div>
                 </div>
             </div>
@@ -2189,6 +2584,9 @@
             
             if (href === '#products') {
                 showProductsSection();
+            } else if (href === '#coupons') {
+                document.getElementById('coupons-section').style.display = 'block';
+                loadCoupons();
             } else if (href === '#announcements') {
                 document.getElementById('announcements-section').style.display = 'block';
                 loadAnnouncements();
@@ -2198,6 +2596,9 @@
             } else if (href === '#blog') {
                 document.getElementById('blog-section').style.display = 'block';
                 initBlogManagement();
+            } else if (href === '#orders') {
+                document.getElementById('orders-section').style.display = 'block';
+                loadOrders();
             } else if (href === '#admin-settings') {
                 document.getElementById('admin-settings-section').style.display = 'block';
                 loadAdminSettings();
@@ -3436,6 +3837,292 @@
                 </html>
             `);
         }
+
+        // ==================== 優惠券管理功能 ====================
+        let editingCouponId = null;
+
+        // 載入優惠券列表
+        async function loadCoupons() {
+            try {
+                const response = await fetch('/api/coupons');
+                const coupons = await response.json();
+
+                const tbody = document.getElementById('coupons-table-body');
+                tbody.innerHTML = '';
+
+                let totalCoupons = 0;
+                let activeCoupons = 0;
+                let totalUsed = 0;
+
+                coupons.forEach(coupon => {
+                    totalCoupons++;
+                    if (coupon.isActive) activeCoupons++;
+                    totalUsed += coupon.usedCount || 0;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><strong>${coupon.code}</strong></td>
+                        <td>${coupon.name}</td>
+                        <td>${coupon.discountType === 'percentage' ? '百分比' : '固定金額'}</td>
+                        <td>${coupon.discountType === 'percentage' ? coupon.discountValue + '%' : 'NT$ ' + coupon.discountValue}</td>
+                        <td>${coupon.usedCount || 0}${coupon.usageLimit ? '/' + coupon.usageLimit : ''}</td>
+                        <td>${new Date(coupon.validFrom).toLocaleDateString()} - ${new Date(coupon.validTo).toLocaleDateString()}</td>
+                        <td><span class="status-badge ${coupon.isActive ? 'status-active' : 'status-inactive'}">${coupon.isActive ? '啟用' : '停用'}</span></td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="editCoupon('${coupon._id}')">編輯</button>
+                            <button class="btn btn-danger" onclick="deleteCoupon('${coupon._id}')">刪除</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // 更新統計
+                document.getElementById('total-coupons').textContent = totalCoupons;
+                document.getElementById('active-coupons').textContent = activeCoupons;
+                document.getElementById('used-coupons').textContent = totalUsed;
+
+            } catch (error) {
+                console.error('載入優惠券失敗:', error);
+                alert('載入優惠券失敗');
+            }
+        }
+
+        // 顯示新增優惠券表單
+        function showAddCouponForm() {
+            document.getElementById('coupons-section').style.display = 'none';
+            document.getElementById('coupon-form-section').style.display = 'block';
+            document.getElementById('coupon-form-title').textContent = '新增優惠券';
+            document.getElementById('coupon-form').reset();
+            editingCouponId = null;
+
+            // 設置預設日期
+            const now = new Date();
+            const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+            const nextMonth = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+            document.getElementById('valid-from').value = tomorrow.toISOString().slice(0, 16);
+            document.getElementById('valid-to').value = nextMonth.toISOString().slice(0, 16);
+        }
+
+        // 隱藏優惠券表單
+        function hideCouponForm() {
+            document.getElementById('coupon-form-section').style.display = 'none';
+            document.getElementById('coupons-section').style.display = 'block';
+        }
+
+        // 切換折扣欄位顯示
+        function toggleDiscountFields() {
+            const discountType = document.getElementById('discount-type').value;
+            const hint = document.getElementById('discount-hint');
+            const maxDiscountGroup = document.getElementById('max-discount-group');
+
+            if (discountType === 'percentage') {
+                hint.textContent = '輸入百分比數值（例如：20 代表 20%）';
+                maxDiscountGroup.style.display = 'block';
+            } else {
+                hint.textContent = '輸入固定折扣金額（例如：100 代表 NT$ 100）';
+                maxDiscountGroup.style.display = 'none';
+            }
+        }
+
+        // ==================== 訂單管理功能 ====================
+
+        // 載入訂單列表
+        async function loadOrders() {
+            try {
+                const response = await fetch('/api/orders');
+                const data = await response.json();
+                const orders = data.orders || [];
+
+                const tbody = document.getElementById('orders-table-body');
+                tbody.innerHTML = '';
+
+                let totalOrders = 0;
+                let pendingOrders = 0;
+                let completedOrders = 0;
+                let monthlyRevenue = 0;
+
+                const currentMonth = new Date().getMonth();
+                const currentYear = new Date().getFullYear();
+
+                orders.forEach(order => {
+                    totalOrders++;
+                    if (order.orderStatus === 'pending') pendingOrders++;
+                    if (order.orderStatus === 'delivered') completedOrders++;
+
+                    const orderDate = new Date(order.createdAt);
+                    if (orderDate.getMonth() === currentMonth && orderDate.getFullYear() === currentYear) {
+                        monthlyRevenue += order.total;
+                    }
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><strong>${order.orderNumber}</strong></td>
+                        <td>
+                            <div>${order.shippingAddress.fullName}</div>
+                            <small>${order.userEmail}</small>
+                        </td>
+                        <td>${order.items.length} 項商品</td>
+                        <td>NT$ ${order.total.toLocaleString()}</td>
+                        <td><span class="status-badge ${getPaymentStatusClass(order.paymentStatus)}">${getPaymentStatusText(order.paymentStatus)}</span></td>
+                        <td><span class="status-badge ${getOrderStatusClass(order.orderStatus)}">${getOrderStatusText(order.orderStatus)}</span></td>
+                        <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="viewOrderDetail('${order._id}')">查看</button>
+                            <button class="btn btn-primary" onclick="updateOrderStatusModal('${order._id}')">更新</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // 更新統計
+                document.getElementById('total-orders').textContent = totalOrders;
+                document.getElementById('pending-orders').textContent = pendingOrders;
+                document.getElementById('completed-orders').textContent = completedOrders;
+                document.getElementById('monthly-revenue').textContent = 'NT$ ' + monthlyRevenue.toLocaleString();
+
+            } catch (error) {
+                console.error('載入訂單失敗:', error);
+                alert('載入訂單失敗');
+            }
+        }
+
+        // 獲取付款狀態樣式
+        function getPaymentStatusClass(status) {
+            switch (status) {
+                case 'paid': return 'status-active';
+                case 'pending': return 'status-warning';
+                case 'failed': return 'status-inactive';
+                case 'refunded': return 'status-secondary';
+                default: return 'status-warning';
+            }
+        }
+
+        // 獲取付款狀態文字
+        function getPaymentStatusText(status) {
+            switch (status) {
+                case 'paid': return '已付款';
+                case 'pending': return '待付款';
+                case 'failed': return '付款失敗';
+                case 'refunded': return '已退款';
+                default: return '未知';
+            }
+        }
+
+        // 獲取訂單狀態樣式
+        function getOrderStatusClass(status) {
+            switch (status) {
+                case 'pending': return 'status-warning';
+                case 'confirmed': return 'status-info';
+                case 'processing': return 'status-primary';
+                case 'shipped': return 'status-secondary';
+                case 'delivered': return 'status-active';
+                case 'cancelled': return 'status-inactive';
+                default: return 'status-warning';
+            }
+        }
+
+        // 獲取訂單狀態文字
+        function getOrderStatusText(status) {
+            switch (status) {
+                case 'pending': return '待處理';
+                case 'confirmed': return '已確認';
+                case 'processing': return '處理中';
+                case 'shipped': return '已出貨';
+                case 'delivered': return '已送達';
+                case 'cancelled': return '已取消';
+                default: return '未知';
+            }
+        }
+
+        // 刷新訂單列表
+        function refreshOrders() {
+            loadOrders();
+        }
+
+        // 篩選訂單
+        function filterOrders() {
+            const status = document.getElementById('order-status-filter').value;
+            const rows = document.querySelectorAll('#orders-table-body tr');
+
+            rows.forEach(row => {
+                if (!status) {
+                    row.style.display = '';
+                } else {
+                    const statusCell = row.cells[5]; // 訂單狀態列
+                    const statusText = statusCell.textContent.trim();
+                    const shouldShow = (
+                        (status === 'pending' && statusText === '待處理') ||
+                        (status === 'confirmed' && statusText === '已確認') ||
+                        (status === 'processing' && statusText === '處理中') ||
+                        (status === 'shipped' && statusText === '已出貨') ||
+                        (status === 'delivered' && statusText === '已送達') ||
+                        (status === 'cancelled' && statusText === '已取消')
+                    );
+                    row.style.display = shouldShow ? '' : 'none';
+                }
+            });
+        }
+
+        // 查看訂單詳情
+        async function viewOrderDetail(orderId) {
+            try {
+                const response = await fetch(`/api/orders/${orderId}`);
+                const order = await response.json();
+
+                const content = document.getElementById('order-detail-content');
+                content.innerHTML = `
+                    <div class="order-detail-grid">
+                        <div class="detail-section">
+                            <h4>訂單信息</h4>
+                            <p><strong>訂單編號：</strong>${order.orderNumber}</p>
+                            <p><strong>下單時間：</strong>${new Date(order.createdAt).toLocaleString()}</p>
+                            <p><strong>訂單狀態：</strong>${getOrderStatusText(order.orderStatus)}</p>
+                            <p><strong>付款狀態：</strong>${getPaymentStatusText(order.paymentStatus)}</p>
+                            <p><strong>付款方式：</strong>${order.paymentMethod}</p>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>客戶信息</h4>
+                            <p><strong>姓名：</strong>${order.shippingAddress.fullName}</p>
+                            <p><strong>電話：</strong>${order.shippingAddress.phone}</p>
+                            <p><strong>郵箱：</strong>${order.shippingAddress.email}</p>
+                            <p><strong>地址：</strong>${order.shippingAddress.city} ${order.shippingAddress.postalCode} ${order.shippingAddress.address}</p>
+                            <p><strong>配送方式：</strong>${order.shippingMethod}</p>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>商品清單</h4>
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <p><strong>${item.productName}</strong></p>
+                                    <p>數量：${item.quantity} | 單價：NT$ ${item.unitPrice} | 小計：NT$ ${item.totalPrice}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>金額明細</h4>
+                            <p><strong>商品小計：</strong>NT$ ${order.subtotal.toLocaleString()}</p>
+                            ${order.discountAmount > 0 ? `<p><strong>優惠折扣：</strong>-NT$ ${order.discountAmount.toLocaleString()}</p>` : ''}
+                            <p><strong>運費：</strong>NT$ ${order.shippingFee.toLocaleString()}</p>
+                            <p><strong>總計：</strong>NT$ ${order.total.toLocaleString()}</p>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('order-detail-modal').style.display = 'flex';
+
+            } catch (error) {
+                console.error('載入訂單詳情失敗:', error);
+                alert('載入訂單詳情失敗');
+            }
+        }
+
+        // 關閉訂單詳情
+        function closeOrderDetail() {
+            document.getElementById('order-detail-modal').style.display = 'none';
+        }
     </script>
 </body>
-</html> 
+</html>

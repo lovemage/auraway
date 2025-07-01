@@ -105,15 +105,27 @@ router.get('/valid/list', async (req, res) => {
 
 // Create a new coupon
 router.post('/', async (req, res) => {
-  const coupon = new Coupon({
-    code: req.body.code,
-    discount: req.body.discount,
-    description: req.body.description,
-    validFrom: req.body.validFrom,
-    validTo: req.body.validTo,
-  });
-
   try {
+    const couponData = {
+      code: req.body.code,
+      name: req.body.name,
+      description: req.body.description,
+      discountType: req.body.discountType,
+      discountValue: req.body.discountValue,
+      minimumAmount: req.body.minimumAmount,
+      validFrom: req.body.validFrom,
+      validTo: req.body.validTo,
+      isActive: req.body.isActive
+    };
+
+    // 可選字段
+    if (req.body.maximumDiscount) couponData.maximumDiscount = req.body.maximumDiscount;
+    if (req.body.usageLimit) couponData.usageLimit = req.body.usageLimit;
+    if (req.body.applicableProducts) couponData.applicableProducts = req.body.applicableProducts;
+    if (req.body.applicableCategories) couponData.applicableCategories = req.body.applicableCategories;
+    if (req.body.userRestrictions) couponData.userRestrictions = req.body.userRestrictions;
+
+    const coupon = new Coupon(couponData);
     const newCoupon = await coupon.save();
     res.status(201).json(newCoupon);
   } catch (err) {
@@ -124,19 +136,35 @@ router.post('/', async (req, res) => {
 // Update a coupon
 router.put('/:id', async (req, res) => {
   try {
-    const coupon = await Coupon.findById(req.params.id);
-    if (coupon) {
-      if (req.body.code) coupon.code = req.body.code;
-      if (req.body.discount) coupon.discount = req.body.discount;
-      if (req.body.description) coupon.description = req.body.description;
-      if (req.body.validFrom) coupon.validFrom = req.body.validFrom;
-      if (req.body.validTo) coupon.validTo = req.body.validTo;
+    const updateData = {};
 
-      const updatedCoupon = await coupon.save();
-      res.json(updatedCoupon);
-    } else {
-      res.status(404).json({ message: 'Coupon not found' });
+    // 更新允許的字段
+    if (req.body.code !== undefined) updateData.code = req.body.code;
+    if (req.body.name !== undefined) updateData.name = req.body.name;
+    if (req.body.description !== undefined) updateData.description = req.body.description;
+    if (req.body.discountType !== undefined) updateData.discountType = req.body.discountType;
+    if (req.body.discountValue !== undefined) updateData.discountValue = req.body.discountValue;
+    if (req.body.minimumAmount !== undefined) updateData.minimumAmount = req.body.minimumAmount;
+    if (req.body.maximumDiscount !== undefined) updateData.maximumDiscount = req.body.maximumDiscount;
+    if (req.body.usageLimit !== undefined) updateData.usageLimit = req.body.usageLimit;
+    if (req.body.validFrom !== undefined) updateData.validFrom = req.body.validFrom;
+    if (req.body.validTo !== undefined) updateData.validTo = req.body.validTo;
+    if (req.body.isActive !== undefined) updateData.isActive = req.body.isActive;
+    if (req.body.applicableProducts !== undefined) updateData.applicableProducts = req.body.applicableProducts;
+    if (req.body.applicableCategories !== undefined) updateData.applicableCategories = req.body.applicableCategories;
+    if (req.body.userRestrictions !== undefined) updateData.userRestrictions = req.body.userRestrictions;
+
+    const updatedCoupon = await Coupon.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedCoupon) {
+      return res.status(404).json({ message: 'Coupon not found' });
     }
+
+    res.json(updatedCoupon);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
