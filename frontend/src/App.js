@@ -35,7 +35,7 @@ function App() {
 
   // 用戶ID管理
   const [userId, setUserId] = useState(null);
-  const [userEmail, setUserEmail] = useState('');
+  const userEmail = ''; // 暫時固定為空，未來實現用戶登入時再使用 useState
   const [cartItemCount, setCartItemCount] = useState(0);
 
   // Admin UI 隱藏入口功能
