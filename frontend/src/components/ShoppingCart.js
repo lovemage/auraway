@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import './ShoppingCart.css';
 
@@ -10,15 +10,9 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
     const [couponError, setCouponError] = useState('');
     const [couponSuccess, setCouponSuccess] = useState('');
 
-    useEffect(() => {
-        if (isOpen && user) {
-            loadCart();
-        }
-    }, [isOpen, user]);
-
-    const loadCart = async () => {
+    const loadCart = useCallback(async () => {
         if (!user) return;
-        
+
         setLoading(true);
         try {
             const response = await fetch(`/api/cart/${user.uid}?email=${user.email}`);
@@ -31,7 +25,13 @@ const ShoppingCart = ({ isOpen, onClose, onCheckout, onOpenAuth }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [user]);
+
+    useEffect(() => {
+        if (isOpen && user) {
+            loadCart();
+        }
+    }, [isOpen, user, loadCart]);
 
     const updateQuantity = async (productId, newQuantity) => {
         if (!user || !cart) return;

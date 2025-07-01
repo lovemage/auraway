@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import './Checkout.css';
 
@@ -18,13 +18,13 @@ const Checkout = ({ cart, onClose, onOrderComplete }) => {
     const [customerNote, setCustomerNote] = useState('');
     const [shippingFee, setShippingFee] = useState(0);
 
-    const shippingOptions = [
+    const shippingOptions = useMemo(() => [
         { value: '7-11付款取貨', label: '7-11付款取貨 (預設)', fee: 0 },
         { value: '先付款-店到店7-11', label: '先付款-店到店7-11', fee: 0 },
         { value: '先付款-店到店-全家', label: '先付款-店到店-全家', fee: 0 },
         { value: '先付款-外島7-11', label: '先付款-外島7-11', fee: 140 },
         { value: '先付款-宅配', label: '先付款-宅配', fee: 80 }
-    ];
+    ], []);
 
     useEffect(() => {
         if (user) {
@@ -39,7 +39,7 @@ const Checkout = ({ cart, onClose, onOrderComplete }) => {
     useEffect(() => {
         const selectedOption = shippingOptions.find(option => option.value === shippingInfo.shippingMethod);
         setShippingFee(selectedOption ? selectedOption.fee : 0);
-    }, [shippingInfo.shippingMethod]);
+    }, [shippingInfo.shippingMethod, shippingOptions]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

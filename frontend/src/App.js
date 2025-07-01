@@ -64,15 +64,7 @@ function App() {
     setMenuOpen(false);
   };
 
-  const navigateToRegister = () => {
-    setShowAuthModal(true); // 點擊註冊時顯示 AuthModal
-    setMenuOpen(false);
-  };
 
-  const navigateToLogin = () => {
-    setShowAuthModal(true); // 點擊登入時顯示 AuthModal
-    setMenuOpen(false);
-  };
 
   const handleAuthSuccess = (user) => {
     console.log('使用者成功認證:', user);
