@@ -291,9 +291,12 @@ function App() {
                         className="search-result-item"
                         onClick={() => handleSearchResultClick(product)}
                       >
-                        <img 
-                          src={product.images && product.images.length > 0 ? product.images[0] : '/images/white-rainforest-qCDK3DN7lOs-unsplash.jpg'} 
+                        <img
+                          src={product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.svg'}
                           alt={product.name}
+                          onError={(e) => {
+                            e.target.src = '/images/placeholder.svg';
+                          }}
                         />
                         <div className="search-result-info">
                           <h4>{product.name}</h4>

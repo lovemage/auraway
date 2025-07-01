@@ -152,7 +152,10 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
         <div className="product-images">
           <div className="main-image-container">
             <img
-              src={product.images && product.images.length > 0 ? product.images[currentImageIndex] : '/images/white-rainforest-qCDK3DN7lOs-unsplash.jpg'}
+              src={product.images && product.images.length > 0 ? product.images[currentImageIndex] : '/images/placeholder.svg'}
+              onError={(e) => {
+                e.target.src = '/images/placeholder.svg';
+              }}
               alt={product.name}
               className="main-image"
             />
@@ -198,6 +201,32 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
             <h3>商品描述</h3>
             <p>{product.description}</p>
           </div>
+
+          {/* 產品說明圖 - 優先顯示 descriptionImage，如果沒有則顯示第二張圖 */}
+          {(product.descriptionImage || (product.images && product.images.length > 1 && product.images[1] !== product.images[0])) && (
+            <div style={{
+              textAlign: 'center',
+              margin: '30px 0',
+              background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+              borderRadius: '15px',
+              padding: '20px'
+            }}>
+              <img
+                src={product.descriptionImage || (product.images && product.images[1])}
+                alt={`${product.name}產品說明`}
+                style={{
+                  width: '100%',
+                  maxWidth: '800px',
+                  height: 'auto',
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            </div>
+          )}
 
           {product.features && product.features.length > 0 && (
             <div className="product-features">
