@@ -3940,6 +3940,13 @@
             });
         }
 
+        // ========== API 工具函數 ==========
+
+        // 獲取 API 基礎 URL
+        function getApiUrl(endpoint) {
+            return `${window.location.origin}${endpoint}`;
+        }
+
         // ========== 圖片上傳管理功能 ==========
 
         // 處理圖片上傳
@@ -3956,7 +3963,7 @@
                 }
 
                 try {
-                    const response = await fetch('/api/upload/images', {
+                    const response = await fetch(getApiUrl('/api/upload/images'), {
                         method: 'POST',
                         body: formData
                     });
@@ -3976,7 +3983,7 @@
                 formData.append('image', files[0]);
 
                 try {
-                    const response = await fetch('/api/upload/image', {
+                    const response = await fetch(getApiUrl('/api/upload/image'), {
                         method: 'POST',
                         body: formData
                     });
@@ -4048,7 +4055,7 @@
 
             // 從服務器刪除圖片
             try {
-                const response = await fetch('/api/upload/image', {
+                const response = await fetch(getApiUrl('/api/upload/image'), {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'

@@ -30,20 +30,18 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
   };
 
   const handleAddToCart = async () => {
-    if (!user) {
-      alert('請先登入會員');
-      return;
-    }
-
     if (!productData) {
       alert('商品資訊載入中，請稍後再試');
       return;
     }
 
+    // 如果沒有用戶ID，使用訪客ID
+    const currentUserId = userId || 'guest_' + Date.now();
+
     setAddingToCart(true);
 
     try {
-      const response = await fetch(`/api/cart/${user.uid}/items`, {
+      const response = await fetch(`/api/cart/${currentUserId}/items`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -48,10 +48,8 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
   };
 
   const handleAddToCart = async () => {
-    if (!userId) {
-      alert('請先登入會員');
-      return;
-    }
+    // 如果沒有用戶ID，使用訪客ID
+    const currentUserId = userId || 'guest_' + Date.now();
 
     if (!product) {
       alert('商品資訊載入中，請稍後再試');
@@ -61,7 +59,7 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
     setAddingToCart(true);
 
     try {
-      const response = await fetch(buildApiUrl(`/api/cart/${userId}/items`), {
+      const response = await fetch(buildApiUrl(`/api/cart/${currentUserId}/items`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
