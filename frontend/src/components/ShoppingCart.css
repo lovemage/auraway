@@ -1,0 +1,489 @@
+/* 購物車覆蓋層 */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+/* 購物車模態框 */
+.cart-modal {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 購物車標題 */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #f0f0f0;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+}
+
+.cart-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #333;
+}
+
+/* 購物車內容 */
+.cart-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.cart-loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+/* 會員提示 */
+.member-prompt {
+    text-align: center;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #fff5f5 100%);
+    margin: 20px;
+    border-radius: 20px;
+    border: 2px solid #ff9a9e;
+}
+
+.member-prompt-icon {
+    margin-bottom: 20px;
+}
+
+.member-prompt-icon .material-icons {
+    font-size: 4rem;
+    color: #ff9a9e;
+    background: white;
+    padding: 20px;
+    border-radius: 50%;
+    box-shadow: 0 8px 25px rgba(255, 154, 158, 0.2);
+}
+
+.member-prompt h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.member-prompt > p {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.member-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.member-benefits li {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.member-benefits li .material-icons {
+    color: #28a745;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.member-prompt-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.join-member-btn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+}
+
+.join-member-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 154, 158, 0.4);
+}
+
+/* 空購物車 */
+.empty-cart {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-cart p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+/* 購物車商品列表 */
+.cart-items {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 15px;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.cart-item-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-item-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cart-item-price {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.cart-item-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8f9fa;
+    border-radius: 20px;
+    padding: 4px;
+}
+
+.quantity-controls button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #666;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-controls button:hover:not(:disabled) {
+    background: #ff9a9e;
+    color: white;
+}
+
+.quantity-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quantity-controls span {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 500;
+    color: #333;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+    background: #dc3545;
+    color: white;
+}
+
+.cart-item-subtotal {
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
+    min-width: 80px;
+    text-align: right;
+}
+
+/* 優惠券區域 */
+.cart-coupon {
+    padding: 20px;
+    border-top: 1px solid #f0f0f0;
+    background: #f8f9fa;
+}
+
+.coupon-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.coupon-input-group input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.coupon-input-group input:focus {
+    border-color: #ff9a9e;
+}
+
+.coupon-input-group button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.coupon-input-group button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 154, 158, 0.3);
+}
+
+.coupon-error {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin: 5px 0 0 0;
+}
+
+.coupon-success {
+    color: #28a745;
+    font-size: 0.8rem;
+    margin: 5px 0 0 0;
+}
+
+.applied-coupon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #d4edda;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #155724;
+}
+
+.applied-coupon button {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+
+/* 購物車摘要 */
+.cart-summary {
+    padding: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.summary-row.discount {
+    color: #28a745;
+}
+
+.summary-row.total {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #333;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+/* 購物車操作按鈕 */
+.cart-actions {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.continue-shopping-btn,
+.checkout-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.continue-shopping-btn {
+    background: #f8f9fa;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.continue-shopping-btn:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+.checkout-btn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+}
+
+.checkout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 154, 158, 0.3);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .cart-overlay {
+        padding: 10px;
+    }
+    
+    .cart-modal {
+        max-height: 95vh;
+    }
+    
+    .cart-item {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .cart-item-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .cart-actions {
+        flex-direction: column;
+    }
+    
+    .coupon-input-group {
+        flex-direction: column;
+    }
+
+    .member-prompt {
+        margin: 10px;
+        padding: 30px 20px;
+    }
+
+    .member-prompt h3 {
+        font-size: 1.3rem;
+    }
+
+    .member-prompt-actions {
+        flex-direction: column;
+    }
+
+    .join-member-btn,
+    .member-prompt-actions .continue-shopping-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

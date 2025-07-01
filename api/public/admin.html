@@ -551,6 +551,7 @@
                 <li><a href="#products"><span class="material-icons">inventory_2</span>商品管理</a></li>
                 <li><a href="#announcements"><span class="material-icons">campaign</span>活動公告</a></li>
                 <li><a href="#blog"><span class="material-icons">article</span>Blog 管理</a></li>
+                <li><a href="#coupons"><span class="material-icons">local_offer</span>優惠券管理</a></li>
                 <li><a href="#header-info"><span class="material-icons">info</span>導航區塊管理</a></li>
                 <li><a href="#orders"><span class="material-icons">shopping_cart</span>訂單管理</a></li>
                 <li><a href="#customers"><span class="material-icons">people</span>客戶管理</a></li>
@@ -1275,6 +1276,135 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- 優惠券管理 -->
+            <div class="content-section" id="coupons-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title">優惠券管理</h3>
+                    <button class="btn btn-primary" onclick="showCouponForm()">
+                        <span class="material-icons">add</span>新增優惠券
+                    </button>
+                </div>
+
+                <!-- 優惠券統計 -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">總優惠券數</span>
+                            <span class="material-icons stat-icon">local_offer</span>
+                        </div>
+                        <div class="stat-value" id="total-coupons">0</div>
+                        <div class="stat-change">全部優惠券</div>
+                    </div>
+
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <span class="stat-title">有效優惠券</span>
+                            <span class="material-icons stat-icon">check_circle</span>
+                        </div>
+                        <div class="stat-value" id="active-coupons">0</div>
+                        <div class="stat-change">可使用</div>
+                    </div>
+
+                    <div class="stat-card secondary">
+                        <div class="stat-header">
+                            <span class="stat-title">已過期</span>
+                            <span class="material-icons stat-icon">schedule</span>
+                        </div>
+                        <div class="stat-value" id="expired-coupons">0</div>
+                        <div class="stat-change">已失效</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">本月使用</span>
+                            <span class="material-icons stat-icon">redeem</span>
+                        </div>
+                        <div class="stat-value" id="monthly-usage">0</div>
+                        <div class="stat-change">使用次數</div>
+                    </div>
+                </div>
+
+                <!-- 優惠券列表 -->
+                <div class="coupons-list-container">
+                    <div class="list-controls">
+                        <div class="search-controls">
+                            <input type="text" id="coupon-search" placeholder="搜尋優惠券代碼..." onkeyup="searchCoupons()">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="coupons-table">
+                            <thead>
+                                <tr>
+                                    <th>優惠券代碼</th>
+                                    <th>折扣</th>
+                                    <th>描述</th>
+                                    <th>有效期間</th>
+                                    <th>狀態</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coupons-tbody">
+                                <!-- 動態加載優惠券 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 優惠券表單 -->
+            <div class="content-section" id="coupon-form-section" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title" id="coupon-form-title">新增優惠券</h3>
+                    <button class="btn btn-secondary" onclick="hideCouponForm()">
+                        <span class="material-icons">close</span>取消
+                    </button>
+                </div>
+
+                <form id="coupon-form" onsubmit="saveCoupon(event)">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="coupon-code">優惠券代碼 *</label>
+                            <input type="text" id="coupon-code" class="form-control" required placeholder="如：SAVE20">
+                            <small class="form-text">建議使用大寫英文和數字組合</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coupon-discount">折扣金額 (NT$) *</label>
+                            <input type="number" id="coupon-discount" class="form-control" min="1" required placeholder="如：100">
+                            <small class="form-text">輸入折扣金額，如100表示折扣100元</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="coupon-description">優惠券描述</label>
+                            <textarea id="coupon-description" class="form-control" rows="3" placeholder="描述此優惠券的用途和限制"></textarea>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label for="coupon-valid-from">生效日期 *</label>
+                                <input type="datetime-local" id="coupon-valid-from" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="coupon-valid-to">到期日期 *</label>
+                                <input type="datetime-local" id="coupon-valid-to" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="material-icons">save</span>
+                                <span id="coupon-form-submit-text">新增優惠券</span>
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="hideCouponForm()">
+                                <span class="material-icons">cancel</span>取消
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <!-- 管理員設定區塊 -->
@@ -2198,12 +2328,15 @@
             } else if (href === '#blog') {
                 document.getElementById('blog-section').style.display = 'block';
                 initBlogManagement();
+            } else if (href === '#coupons') {
+                document.getElementById('coupons-section').style.display = 'block';
+                loadCoupons();
             } else if (href === '#admin-settings') {
                 document.getElementById('admin-settings-section').style.display = 'block';
                 loadAdminSettings();
             } else {
                 // 顯示默認內容（儀表板）
-                document.querySelectorAll('.content-section:not(#header-info-section):not(#blog-section):not(#admin-settings-section):not(#announcements-section):not(#announcement-form-section)').forEach(section => {
+                document.querySelectorAll('.content-section:not(#header-info-section):not(#blog-section):not(#admin-settings-section):not(#announcements-section):not(#announcement-form-section):not(#coupons-section):not(#coupon-form-section)').forEach(section => {
                     section.style.display = 'block';
                 });
             }
@@ -3436,6 +3569,251 @@
                 </html>
             `);
         }
+
+        // ==================== 優惠券管理功能 ====================
+        let editingCouponId = null;
+
+        // 載入優惠券列表
+        async function loadCoupons() {
+            try {
+                const response = await fetch('/api/coupons');
+                const coupons = await response.json();
+
+                displayCoupons(coupons);
+                updateCouponStats(coupons);
+            } catch (error) {
+                console.error('載入優惠券失敗:', error);
+                alert('載入優惠券失敗，請重試');
+            }
+        }
+
+        // 顯示優惠券列表
+        function displayCoupons(coupons) {
+            const tbody = document.getElementById('coupons-tbody');
+            tbody.innerHTML = '';
+
+            coupons.forEach(coupon => {
+                const row = document.createElement('tr');
+                const now = new Date();
+                const validFrom = new Date(coupon.validFrom);
+                const validTo = new Date(coupon.validTo);
+
+                let status = '';
+                let statusClass = '';
+                if (now < validFrom) {
+                    status = '未生效';
+                    statusClass = 'status-pending';
+                } else if (now > validTo) {
+                    status = '已過期';
+                    statusClass = 'status-inactive';
+                } else {
+                    status = '有效';
+                    statusClass = 'status-active';
+                }
+
+                row.innerHTML = `
+                    <td><strong>${coupon.code}</strong></td>
+                    <td>NT$${coupon.discount}</td>
+                    <td>${coupon.description || '-'}</td>
+                    <td>
+                        <div style="font-size: 0.9em;">
+                            <div>開始：${formatDateTime(coupon.validFrom)}</div>
+                            <div>結束：${formatDateTime(coupon.validTo)}</div>
+                        </div>
+                    </td>
+                    <td><span class="status-badge ${statusClass}">${status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-small btn-primary" onclick="editCoupon('${coupon._id}')">
+                                <span class="material-icons">edit</span>編輯
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="deleteCoupon('${coupon._id}')">
+                                <span class="material-icons">delete</span>刪除
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 更新優惠券統計
+        function updateCouponStats(coupons) {
+            const now = new Date();
+            let activeCoupons = 0;
+            let expiredCoupons = 0;
+
+            coupons.forEach(coupon => {
+                const validFrom = new Date(coupon.validFrom);
+                const validTo = new Date(coupon.validTo);
+
+                if (now >= validFrom && now <= validTo) {
+                    activeCoupons++;
+                } else if (now > validTo) {
+                    expiredCoupons++;
+                }
+            });
+
+            document.getElementById('total-coupons').textContent = coupons.length;
+            document.getElementById('active-coupons').textContent = activeCoupons;
+            document.getElementById('expired-coupons').textContent = expiredCoupons;
+            document.getElementById('monthly-usage').textContent = '0'; // 暫時設為0，後續可加入使用統計
+        }
+
+        // 顯示優惠券表單
+        function showCouponForm() {
+            document.getElementById('coupons-section').style.display = 'none';
+            document.getElementById('coupon-form-section').style.display = 'block';
+            document.getElementById('coupon-form-title').textContent = '新增優惠券';
+            document.getElementById('coupon-form-submit-text').textContent = '新增優惠券';
+            document.getElementById('coupon-form').reset();
+            editingCouponId = null;
+
+            // 設定默認日期
+            const now = new Date();
+            const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+            const nextMonth = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+            document.getElementById('coupon-valid-from').value = formatDateTimeLocal(tomorrow);
+            document.getElementById('coupon-valid-to').value = formatDateTimeLocal(nextMonth);
+        }
+
+        // 隱藏優惠券表單
+        function hideCouponForm() {
+            document.getElementById('coupon-form-section').style.display = 'none';
+            document.getElementById('coupons-section').style.display = 'block';
+            editingCouponId = null;
+        }
+
+        // 儲存優惠券
+        async function saveCoupon(event) {
+            event.preventDefault();
+
+            const couponData = {
+                code: document.getElementById('coupon-code').value.toUpperCase(),
+                discount: parseInt(document.getElementById('coupon-discount').value),
+                description: document.getElementById('coupon-description').value,
+                validFrom: document.getElementById('coupon-valid-from').value,
+                validTo: document.getElementById('coupon-valid-to').value
+            };
+
+            try {
+                let response;
+                if (editingCouponId) {
+                    response = await fetch(`/api/coupons/${editingCouponId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(couponData)
+                    });
+                } else {
+                    response = await fetch('/api/coupons', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(couponData)
+                    });
+                }
+
+                if (response.ok) {
+                    alert(editingCouponId ? '優惠券更新成功！' : '優惠券新增成功！');
+                    hideCouponForm();
+                    loadCoupons();
+                } else {
+                    const error = await response.json();
+                    alert('儲存失敗：' + (error.message || '未知錯誤'));
+                }
+            } catch (error) {
+                console.error('儲存優惠券失敗:', error);
+                alert('儲存失敗，請重試');
+            }
+        }
+
+        // 編輯優惠券
+        async function editCoupon(couponId) {
+            try {
+                const response = await fetch(`/api/coupons/${couponId}`);
+                const coupon = await response.json();
+
+                document.getElementById('coupon-code').value = coupon.code;
+                document.getElementById('coupon-discount').value = coupon.discount;
+                document.getElementById('coupon-description').value = coupon.description || '';
+                document.getElementById('coupon-valid-from').value = formatDateTimeLocal(new Date(coupon.validFrom));
+                document.getElementById('coupon-valid-to').value = formatDateTimeLocal(new Date(coupon.validTo));
+
+                document.getElementById('coupon-form-title').textContent = '編輯優惠券';
+                document.getElementById('coupon-form-submit-text').textContent = '更新優惠券';
+                editingCouponId = couponId;
+
+                document.getElementById('coupons-section').style.display = 'none';
+                document.getElementById('coupon-form-section').style.display = 'block';
+            } catch (error) {
+                console.error('載入優惠券失敗:', error);
+                alert('載入優惠券失敗，請重試');
+            }
+        }
+
+        // 刪除優惠券
+        async function deleteCoupon(couponId) {
+            if (!confirm('確定要刪除此優惠券嗎？此操作無法復原。')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/coupons/${couponId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('優惠券刪除成功！');
+                    loadCoupons();
+                } else {
+                    alert('刪除失敗，請重試');
+                }
+            } catch (error) {
+                console.error('刪除優惠券失敗:', error);
+                alert('刪除失敗，請重試');
+            }
+        }
+
+        // 搜尋優惠券
+        function searchCoupons() {
+            const searchTerm = document.getElementById('coupon-search').value.toLowerCase();
+            const rows = document.querySelectorAll('#coupons-tbody tr');
+
+            rows.forEach(row => {
+                const code = row.cells[0].textContent.toLowerCase();
+                const description = row.cells[2].textContent.toLowerCase();
+
+                if (code.includes(searchTerm) || description.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // 格式化日期時間為本地輸入格式
+        function formatDateTimeLocal(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const hours = String(d.getHours()).padStart(2, '0');
+            const minutes = String(d.getMinutes()).padStart(2, '0');
+
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        // 格式化日期時間顯示
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
     </script>
 </body>
-</html> 
+</html>

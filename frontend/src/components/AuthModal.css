@@ -1,0 +1,220 @@
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* 半透明黑色背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.auth-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-modal-content {
+  background-color: var(--white); /* 使用網站的白色背景 */
+  padding: 40px;
+  border-radius: 0; /* 保持方形 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* 參考現有彈窗陰影 */
+  max-width: 500px;
+  width: 90%;
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  position: relative;
+  text-align: center;
+}
+
+.auth-modal-overlay.open .auth-modal-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.auth-modal-content h2 {
+  color: var(--primary-color); /* 使用主色 */
+  font-size: 2em;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.auth-modal-content .modal-close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-secondary); /* 使用次要文字色 */
+  transition: color 0.3s;
+}
+
+.auth-modal-content .modal-close-button:hover {
+  color: var(--primary-color); /* 使用主色 */
+}
+
+.welcome-message {
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-primary); /* 使用主要文字色 */
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--light-teal); /* 參考現有 input 邊框 */
+  border-radius: 0; /* 保持方形 */
+  font-size: 16px;
+  transition: border-color 0.3s;
+  background-color: var(--white);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color); /* 參考現有 input focus 效果 */
+}
+
+.btn.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* 參考現有按鈕漸變色 */
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 0; /* 保持方形 */
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.btn.btn-primary:hover {
+  transform: translateY(-2px); /* 參考現有按鈕 hover 效果 */
+  box-shadow: 0 4px 15px rgba(130, 191, 183, 0.3); /* 參考現有按鈕陰影 */
+}
+
+.btn.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.error-message {
+  color: #dc3545; /* 標準錯誤紅色 */
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.social-auth-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--light-teal); /* 分隔線 */
+}
+
+.social-auth-section p {
+  color: var(--text-secondary);
+  margin-bottom: 15px;
+}
+
+.btn.btn-secondary.google-btn {
+  background-color: var(--light-teal); /* 參考現有次要按鈕背景 */
+  color: var(--primary-color); /* 參考現有次要按鈕文字色 */
+  border: 1px solid var(--primary-color); /* 參考現有次要按鈕邊框 */
+  padding: 12px 20px;
+  border-radius: 0; /* 保持方形 */
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn.btn-secondary.google-btn:hover {
+  background-color: var(--primary-color); /* 參考現有次要按鈕 hover 效果 */
+  color: white;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.toggle-mode-prompt {
+  margin-top: 20px;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.toggle-mode-prompt .link-text,
+.later-option .link-text {
+  color: var(--primary-color); /* 參考現有連結顏色 */
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.toggle-mode-prompt .link-text:hover,
+.later-option .link-text:hover {
+  color: var(--secondary-color); /* 參考現有連結 hover 顏色 */
+}
+
+.later-option {
+  margin-top: 15px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .auth-modal-content {
+    padding: 30px 20px;
+  }
+
+  .auth-modal-content h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+  }
+
+  .form-control {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .btn.btn-primary,
+  .btn.btn-secondary.google-btn {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+}

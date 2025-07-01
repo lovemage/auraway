@@ -34,7 +34,7 @@ const HeaderInfo = () => {
         type: 'guarantee',
         icon: 'verified',
         title: '正品保證',
-        content: '國際認證，品質有保障',
+        content: 'PIS/GMP藥廠等級製造',
         isActive: true,
         order: 3,
         settings: {}

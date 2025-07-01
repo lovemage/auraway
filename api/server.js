@@ -120,6 +120,37 @@ app.get('/api/protected-data', authenticateFirebaseToken, (req, res) => {
   });
 });
 
+// 處理前端註冊後，將 Firebase UID 儲存到 MongoDB 的路由
+app.post('/api/register-user-data', authenticateFirebaseToken, async (req, res) => {
+  try {
+    // authenticateFirebaseToken 中間件已經將 Firebase 使用者資訊放在 req.user 中
+    const firebaseUid = req.user.uid;
+    const email = req.user.email; // 或者從 req.body 中獲取，但從 req.user 更可靠
+
+    // 檢查使用者是否已經存在於 MongoDB (雖然 authMiddleware 已經做了初步檢查)
+    let user = await User.findOne({ firebaseUid: firebaseUid });
+
+    if (user) {
+      return res.status(200).json({ message: '使用者已存在於 MongoDB', user });
+    }
+
+    // 在 MongoDB 中建立新的使用者文件
+    user = new User({
+      firebaseUid: firebaseUid,
+      email: email,
+      // 您可以在這裡添加其他預設的使用者資料
+      // name: req.body.name || '新用戶', // 假設前端也發送了 name
+    });
+
+    await user.save();
+    res.status(201).json({ message: '使用者資料已成功儲存到 MongoDB', user });
+
+  } catch (error) {
+    console.error('儲存使用者資料到 MongoDB 失敗:', error);
+    res.status(500).json({ message: '伺服器錯誤，無法儲存使用者資料' });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

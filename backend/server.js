@@ -24,6 +24,8 @@ const headerInfoRoutes = require('./routes/headerInfoRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const aiNutritionistRoutes = require('./routes/aiNutritionistRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 app.use('/api/products', productRoutes);
 app.use('/api/announcements', announcementRoutes);
@@ -32,6 +34,8 @@ app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai-nutritionist', aiNutritionistRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

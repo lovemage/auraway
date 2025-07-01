@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import './ProductPage.css';
 
-const DynamicProductPage = ({ product, onNavigateHome }) => {
+const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
+  const { user } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading] = useState(!product);
   const [productData] = useState(product);
+  const [quantity, setQuantity] = useState(1);
+  const [addingToCart, setAddingToCart] = useState(false);
 
   useEffect(() => {
     if (!product && window.location.hash) {
@@ -22,6 +26,51 @@ const DynamicProductPage = ({ product, onNavigateHome }) => {
   const prevImage = () => {
     if (productData?.images?.length > 1) {
       setCurrentImageIndex((prevIndex) => (prevIndex - 1 + productData.images.length) % productData.images.length);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      alert('請先登入會員');
+      return;
+    }
+
+    if (!productData) {
+      alert('商品資訊載入中，請稍後再試');
+      return;
+    }
+
+    setAddingToCart(true);
+
+    try {
+      const response = await fetch(`/api/cart/${user.uid}/items`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: productData._id || productData.id,
+          productName: productData.name,
+          productImage: productData.images?.[0] || '/images/placeholder.jpg',
+          price: productData.price,
+          quantity: quantity
+        }),
+      });
+
+      if (response.ok) {
+        alert(`已將 ${productData.name} x${quantity} 加入購物車！`);
+        if (onAddToCart) {
+          onAddToCart();
+        }
+      } else {
+        const error = await response.json();
+        alert(`加入購物車失敗：${error.message}`);
+      }
+    } catch (error) {
+      console.error('加入購物車失敗:', error);
+      alert('加入購物車失敗，請重試');
+    } finally {
+      setAddingToCart(false);
     }
   };
 
@@ -87,10 +136,35 @@ const DynamicProductPage = ({ product, onNavigateHome }) => {
           <p className="product-description">
             {productData.description}
           </p>
-          <button className="add-to-cart" onClick={onNavigateHome}>
-            <span className="material-icons">shopping_cart</span>
-            加入購物車
-          </button>
+
+          <div className="purchase-section">
+            <div className="quantity-selector">
+              <label>數量:</label>
+              <div className="quantity-controls">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={quantity <= 1}
+                >
+                  -
+                </button>
+                <span className="quantity-display">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <button
+              className="add-to-cart"
+              onClick={handleAddToCart}
+              disabled={addingToCart}
+            >
+              <span className="material-icons">shopping_cart</span>
+              {addingToCart ? '加入中...' : '加入購物車'}
+            </button>
+          </div>
         </div>
       </div>
 

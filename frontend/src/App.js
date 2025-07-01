@@ -1,54 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import { buildApiUrl } from './config/api';
-import ProductGrid from './components/ProductGrid';
-import DynamicProductPage from './components/DynamicProductPage';
+import ProductDetail from './components/ProductDetail';
+import HomePage from './components/HomePage';
 import AboutPage from './components/AboutPage';
 import BrandStoryPage from './components/BrandStoryPage';
 import HeaderInfo from './components/HeaderInfo';
 import AuraPostPage from './components/AuraPostPage';
 import EventPage from './components/EventPage';
 import BabyMemberPage from './components/BabyMemberPage';
-import WomenCards from './components/WomenCards';
 import AurawayRecommendPage from './components/AurawayRecommendPage';
 import FloatingAiButton from './components/FloatingAiButton';
 import AiQuestionnaireModal from './components/AiQuestionnaireModal';
+import AuthModal from './components/AuthModal'; // 引入 AuthModal 組件
+import ShoppingCart from './components/ShoppingCart';
+import Checkout from './components/Checkout';
 
-// 產品頁面組件
-import ProbioticProductPage from './components/ProbioticProductPage';
-import LiverProductPage from './components/LiverProductPage';
-import PearlDewProductPage from './components/PearlDewProductPage';
-import RoyalJellyProductPage from './components/RoyalJellyProductPage';
-import EnzymeJellyProductPage from './components/EnzymeJellyProductPage';
-import Q10ProductPage from './components/Q10ProductPage';
-import TurmericFishOilProductPage from './components/TurmericFishOilProductPage';
-import JointCareProductPage from './components/JointCareProductPage';
-import LuteinProductPage from './components/LuteinProductPage';
-import SleepGABAProductPage from './components/SleepGABAProductPage';
-import FatBurnerProductPage from './components/FatBurnerProductPage';
-import BlackMacaProductPage from './components/BlackMacaProductPage';
-import CalciumPowderProductPage from './components/CalciumPowderProductPage';
-import VitaminGummiesProductPage from './components/VitaminGummiesProductPage';
-import BitterMelonProductPage from './components/BitterMelonProductPage';
-import GutHealthProductPage from './components/GutHealthProductPage';
-import MetabolismBProductPage from './components/MetabolismBProductPage';
-import BeautyDrinkProductPage from './components/BeautyDrinkProductPage';
-import VitaminD3ProductPage from './components/VitaminD3ProductPage';
-import VitaminCZincProductPage from './components/VitaminCZincProductPage';
-import CollagenPeptideProductPage from './components/CollagenPeptideProductPage';
-import SlimCupProductPage from './components/SlimCupProductPage';
-import PeaceTabletProductPage from './components/PeaceTabletProductPage';
-import NattokinaseProductPage from './components/NattokinaseProductPage';
-import EnzymeSlimJellyProductPage from './components/EnzymeSlimJellyProductPage';
+
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false); // 控制 AuthModal 顯示
+  const [showCart, setShowCart] = useState(false); // 控制購物車顯示
+  const [showCheckout, setShowCheckout] = useState(false); // 控制結帳頁面顯示
+  const [checkoutCart, setCheckoutCart] = useState(null); // 結帳時的購物車數據
 
   // Admin UI 隱藏入口功能
   const [logoClickCount, setLogoClickCount] = useState(0);
@@ -57,20 +40,78 @@ function App() {
   // 全局處理頁面切換時滾動到頂部
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentPage]);
+  }, [location.pathname]);
+
+  // 處理首次訪問的歡迎彈窗
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisitedAurawayShop');
+    if (!hasVisited) {
+      setShowAuthModal(true);
+      localStorage.setItem('hasVisitedAurawayShop', 'true');
+    }
+  }, []);
 
   const navigateToProduct = (product) => {
-    setSelectedProduct(product);
-    setCurrentPage('product');
+    navigate(`/product/${product._id}`);
     setMenuOpen(false);
   };
 
   const navigateToHome = () => {
-    setCurrentPage('home');
+    navigate('/');
     setSearchQuery('');
     setSearchResults([]);
     setShowSearchResults(false);
     setMenuOpen(false);
+  };
+
+  const navigateToRegister = () => {
+    setShowAuthModal(true); // 點擊註冊時顯示 AuthModal
+    setMenuOpen(false);
+  };
+
+  const navigateToLogin = () => {
+    setShowAuthModal(true); // 點擊登入時顯示 AuthModal
+    setMenuOpen(false);
+  };
+
+  const handleAuthSuccess = (user) => {
+    console.log('使用者成功認證:', user);
+    setShowAuthModal(false); // 認證成功後關閉 AuthModal
+    // 您可以在這裡處理登入後的邏輯，例如導向使用者儀表板
+  };
+
+  const handleCloseAuthModal = () => {
+    setShowAuthModal(false);
+  };
+
+  // 購物車相關處理函數
+  const handleOpenCart = () => {
+    setShowCart(true);
+  };
+
+  const handleCloseCart = () => {
+    setShowCart(false);
+  };
+
+  const handleCheckout = (cart) => {
+    setCheckoutCart(cart);
+    setShowCheckout(true);
+  };
+
+  const handleCloseCheckout = () => {
+    setShowCheckout(false);
+    setCheckoutCart(null);
+  };
+
+  const handleOrderComplete = (order) => {
+    console.log('訂單完成:', order);
+    // 可以在這裡添加訂單完成後的處理邏輯
+    // 例如顯示成功訊息、清空購物車等
+  };
+
+  const handleAddToCart = () => {
+    // 當商品添加到購物車後，可以在這裡更新購物車計數等
+    console.log('商品已添加到購物車');
   };
 
   // Logo 隱藏入口功能
@@ -150,27 +191,27 @@ function App() {
   };
 
   const navigateToBrandStory = () => {
-    setCurrentPage('brandstory');
+    navigate('/brandstory');
     setMenuOpen(false);
   };
 
   const navigateToAuraPost = () => {
-    setCurrentPage('aurapost');
+    navigate('/aurapost');
     setMenuOpen(false);
   };
 
   const navigateToEvent = () => {
-    setCurrentPage('event');
+    navigate('/event');
     setMenuOpen(false);
   };
 
   const navigateToBabyMember = () => {
-    setCurrentPage('babymember');
+    navigate('/babymember');
     setMenuOpen(false);
   };
 
   const navigateToAurawayRecommend = () => {
-    setCurrentPage('aurawayrecommend');
+    navigate('/aurawayrecommend');
     setMenuOpen(false);
   };
 
@@ -294,9 +335,9 @@ function App() {
               )}
             </div>
             <div className="user-actions">
-              <span className="material-icons">person</span>
+              <span className="material-icons" onClick={() => setShowAuthModal(true)} style={{ cursor: 'pointer' }}>person</span>
               <span className="material-icons">favorite</span>
-              <div className="cart-icon">
+              <div className="cart-icon" onClick={handleOpenCart} style={{ cursor: 'pointer' }}>
                 <span className="material-icons">shopping_cart</span>
                 <span className="cart-count">0</span>
               </div>
@@ -314,146 +355,16 @@ function App() {
         </nav>
       </header>
 
-      {currentPage === 'home' ? (
-        <>
-          <section className="hero-section">
-                <div className="hero-content">
-              <h1 className="hero-main-title">妳的身體，懂得所有的答案</h1>
-              <p className="hero-subtitle">
-                我們只是翻譯者，<br />
-                將健康的密語，化作每日的守護。
-              </p>
-              <div className="hero-buttons">
-                <button 
-                  className="hero-btn hero-btn-primary" 
-                  onClick={() => {
-                    const womenCardsSection = document.querySelector('.women-cards-section');
-                    if (womenCardsSection) {
-                      womenCardsSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                >
-                  開始對話
-                </button>
-                <button 
-                  className="hero-btn hero-btn-secondary" 
-                  onClick={() => {
-                    const productsSection = document.querySelector('.featured-products');
-                    if (productsSection) {
-                      productsSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                >
-                  探索更多
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <WomenCards />
-
-          <main className="main-content">
-
-            <section className="featured-products">
-              <h2>精選商品</h2>
-              <ProductGrid 
-                onProductClick={navigateToProduct} 
-                limit={8} 
-                randomize={true}
-              />
-            </section>
-
-            <section className="features-section">
-              <div className="feature-item">
-                <span className="material-icons">local_shipping</span>
-                <h3>快速配送</h3>
-                <p>24小時內出貨，全台快速配送</p>
-              </div>
-              <div className="feature-item">
-                <span className="material-icons">security</span>
-                <h3>安全認證</h3>
-                <p>國際認證，品質有保障</p>
-              </div>
-              <div className="feature-item">
-                <span className="material-icons">support_agent</span>
-                <h3>專業諮詢</h3>
-                <p>營養師線上諮詢服務</p>
-              </div>
-              <div className="feature-item">
-                <span className="material-icons">loop</span>
-                <h3>七天鑑賞</h3>
-                <p>不滿意七天內可退換貨</p>
-              </div>
-            </section>
-
-
-          </main>
-        </>
-      ) : currentPage === 'product' ? (
-        <DynamicProductPage product={selectedProduct} onNavigateHome={navigateToHome} />
-      ) : currentPage === 'probiotic' ? (
-        <ProbioticProductPage />
-      ) : currentPage === 'liver' ? (
-        <LiverProductPage />
-      ) : currentPage === 'pearldew' ? (
-        <PearlDewProductPage />
-      ) : currentPage === 'royaljelly' ? (
-        <RoyalJellyProductPage />
-      ) : currentPage === 'enzymejelly' ? (
-        <EnzymeJellyProductPage />
-      ) : currentPage === 'q10' ? (
-        <Q10ProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'turmericfishoil' ? (
-        <TurmericFishOilProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'jointcare' ? (
-        <JointCareProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'lutein' ? (
-        <LuteinProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'sleepgaba' ? (
-        <SleepGABAProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'fatburner' ? (
-        <FatBurnerProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'blackmaca' ? (
-        <BlackMacaProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'calciumpowder' ? (
-        <CalciumPowderProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'vitamingummies' ? (
-        <VitaminGummiesProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'bittermelon' ? (
-        <BitterMelonProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'guthealth' ? (
-        <GutHealthProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'metabolismb' ? (
-        <MetabolismBProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'beautydrink' ? (
-        <BeautyDrinkProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'vitamind3' ? (
-        <VitaminD3ProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'vitaminczinc' ? (
-        <VitaminCZincProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'collagenpeptide' ? (
-        <CollagenPeptideProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'slimcup' ? (
-        <SlimCupProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'peacetablet' ? (
-        <PeaceTabletProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'nattokinase' ? (
-        <NattokinaseProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'enzymeslimjelly' ? (
-        <EnzymeSlimJellyProductPage onNavigateHome={navigateToHome} />
-      ) : currentPage === 'about' ? (
-        <AboutPage />
-      ) : currentPage === 'brandstory' ? (
-        <BrandStoryPage />
-      ) : currentPage === 'aurapost' ? (
-        <AuraPostPage />
-      ) : currentPage === 'event' ? (
-        <EventPage />
-      ) : currentPage === 'babymember' ? (
-        <BabyMemberPage />
-      ) : currentPage === 'aurawayrecommend' ? (
-        <AurawayRecommendPage onProductClick={navigateToProduct} />
-      ) : null}
+      <Routes>
+        <Route path="/" element={<HomePage onProductClick={navigateToProduct} />} />
+        <Route path="/product/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
+        <Route path="/brandstory" element={<BrandStoryPage />} />
+        <Route path="/aurapost" element={<AuraPostPage />} />
+        <Route path="/event" element={<EventPage />} />
+        <Route path="/babymember" element={<BabyMemberPage />} />
+        <Route path="/aurawayrecommend" element={<AurawayRecommendPage onProductClick={navigateToProduct} />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
 
       <footer className="App-footer">
         <div className="footer-content">
@@ -506,6 +417,27 @@ function App() {
         onClose={handleCloseModal} 
         onProductSelect={navigateToProduct}
       />
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={handleCloseAuthModal}
+        onAuthSuccess={handleAuthSuccess}
+      />
+
+      <ShoppingCart
+        isOpen={showCart}
+        onClose={handleCloseCart}
+        onCheckout={handleCheckout}
+        onOpenAuth={() => setShowAuthModal(true)}
+      />
+
+      {showCheckout && checkoutCart && (
+        <Checkout
+          cart={checkoutCart}
+          onClose={handleCloseCheckout}
+          onOrderComplete={handleOrderComplete}
+        />
+      )}
     </div>
   );
 }

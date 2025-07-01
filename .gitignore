@@ -108,5 +108,8 @@ build/Release
 # Firebase service account key
 serviceAccountKey.json
 
+# Google Cloud service account credentials
+**/[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*
+
 # Local environment variables
 .env.local
