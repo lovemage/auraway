@@ -51,7 +51,7 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
         body: JSON.stringify({
           productId: productData._id || productData.id,
           productName: productData.name,
-          productImage: productData.images?.[0] || '/images/placeholder.jpg',
+          productImage: productData.images?.[0] || '/images/placeholder.svg',
           price: productData.price,
           quantity: quantity
         }),
@@ -84,7 +84,7 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
     );
   }
 
-  const images = productData.images || ['/images/placeholder.jpg'];
+  const images = productData.images || ['/images/placeholder.svg'];
   const mainImage = images[0]; // 第一張圖作為主圖（小圖）
   const detailImage = images[1]; // 第二張圖作為詳細圖（長圖）
 
@@ -97,7 +97,7 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
             alt={productData.name}
             className="main-product-image"
             onError={(e) => {
-              e.target.src = '/images/placeholder.jpg';
+              e.target.src = '/images/placeholder.svg';
             }}
           />
         </div>
@@ -153,8 +153,8 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
       <div className="additional-info">
         <h2>{productData.name}</h2>
         
-        {/* 產品詳細說明圖 */}
-        {detailImage && detailImage !== mainImage && (
+        {/* 產品說明圖 - 優先顯示 descriptionImage，如果沒有則顯示第二張圖 */}
+        {(productData.descriptionImage || (detailImage && detailImage !== mainImage)) && (
           <div style={{
             textAlign: 'center',
             margin: '30px 0',
@@ -163,33 +163,7 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
             padding: '20px'
           }}>
             <img
-              src={detailImage}
-              alt={`${productData.name}詳細說明`}
-              style={{
-                width: '100%',
-                maxWidth: '800px',
-                height: 'auto',
-                borderRadius: '10px',
-                boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
-              }}
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
-            />
-          </div>
-        )}
-
-        {/* 如果有 descriptionImage 字段，也顯示它 */}
-        {productData.descriptionImage && (
-          <div style={{
-            textAlign: 'center',
-            margin: '30px 0',
-            background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
-            borderRadius: '15px',
-            padding: '20px'
-          }}>
-            <img
-              src={productData.descriptionImage}
+              src={productData.descriptionImage || detailImage}
               alt={`${productData.name}產品說明`}
               style={{
                 width: '100%',

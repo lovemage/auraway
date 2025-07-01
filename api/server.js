@@ -12,6 +12,7 @@ const couponRoutes = require('./routes/couponRoutes');
 const headerInfoRoutes = require('./routes/headerInfoRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const aiNutritionistRoutes = require('./routes/aiNutritionistRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 
@@ -73,6 +74,7 @@ app.use('/api/coupons', couponRoutes);
 app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai-nutritionist', aiNutritionistRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -140,7 +142,7 @@ module.exports = async (req, res) => {
 
 // Start the server for local development if not in Vercel environment
 if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5001; // Use 5001 to avoid conflict with frontend
+  const PORT = process.env.PORT || 5002; // Use 5002 to avoid conflict with frontend
   connectDB().then((connection) => {
     if (connection) {
       console.log('✅ 數據庫連接成功');

@@ -103,11 +103,11 @@ const ProductGrid = ({ category = null, limit = null, onProductClick, randomize 
             onClick={() => handleProductClick(product)}
             style={{ cursor: 'pointer' }}
           >
-            <img 
-              src={product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.jpg'} 
+            <img
+              src={product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.svg'}
               alt={product.name}
               onError={(e) => {
-                e.target.src = '/images/placeholder.jpg';
+                e.target.src = '/images/placeholder.svg';
               }}
             />
           </div>

@@ -453,6 +453,99 @@
             color: var(--text-secondary);
         }
 
+        /* 圖片上傳樣式 */
+        .image-upload-section {
+            border: 2px dashed var(--light-teal);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .upload-area {
+            text-align: center;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 8px;
+        }
+
+        .upload-area:hover {
+            background-color: var(--background-color);
+        }
+
+        .upload-area .material-icons {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            margin: 10px 0 5px 0;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .upload-area small {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .images-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .image-preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--light-teal);
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .image-preview-item .remove-btn:hover {
+            background: rgba(255, 0, 0, 1);
+        }
+
+        .product-image-cell {
+            width: 60px;
+            height: 60px;
+        }
+
+        .product-image-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--light-teal);
+        }
+
         /* 響應式設計 */
         @media (max-width: 768px) {
             .admin-container {
@@ -628,6 +721,7 @@
                     <table id="products-table">
                         <thead>
                             <tr>
+                                <th>圖片</th>
                                 <th>產品名稱</th>
                                 <th>分類</th>
                                 <th>價格</th>
@@ -717,16 +811,39 @@
                         <!-- 右側：規格與圖片 -->
                         <div>
                             <div class="form-group">
-                                <label for="product-images">產品圖片 (每行一個URL)</label>
-                                <textarea id="product-images" class="form-control" rows="4" placeholder="/images/產品資料夾/圖片1.jpg&#10;/images/產品資料夾/圖片2.jpg"></textarea>
+                                <label>產品圖片</label>
+                                <div class="image-upload-section">
+                                    <div class="upload-area" onclick="document.getElementById('product-images-upload').click()">
+                                        <span class="material-icons">cloud_upload</span>
+                                        <p>點擊上傳產品圖片</p>
+                                        <small>支援 JPG, PNG, GIF 格式，最大 5MB</small>
+                                    </div>
+                                    <input type="file" id="product-images-upload" multiple accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'product')">
+
+                                    <div id="product-images-preview" class="images-preview">
+                                        <!-- 圖片預覽將在這裡顯示 -->
+                                    </div>
+
+                                    <textarea id="product-images" class="form-control" rows="3" placeholder="圖片URL (每行一個)" style="margin-top: 10px;"></textarea>
+                                </div>
                             </div>
-                            
+
                             <div class="form-group">
-                                <label for="product-description-image">產品說明圖 (圖檔連結)</label>
-                                <input type="text" id="product-description-image" class="form-control" placeholder="/images/產品資料夾/產品說明圖.jpg">
-                                <small style="color: var(--text-secondary); font-size: 0.8em; margin-top: 5px; display: block;">
-                                    此圖片將在產品詳情頁面中顯示，用於詳細說明產品特色
-                                </small>
+                                <label>產品說明圖</label>
+                                <div class="image-upload-section">
+                                    <div class="upload-area" onclick="document.getElementById('description-image-upload').click()">
+                                        <span class="material-icons">cloud_upload</span>
+                                        <p>點擊上傳說明圖</p>
+                                        <small>此圖片將在產品詳情頁面中顯示</small>
+                                    </div>
+                                    <input type="file" id="description-image-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'description')">
+
+                                    <div id="description-image-preview" class="images-preview">
+                                        <!-- 說明圖預覽將在這裡顯示 -->
+                                    </div>
+
+                                    <input type="text" id="product-description-image" class="form-control" placeholder="說明圖URL" style="margin-top: 10px;">
+                                </div>
                             </div>
                             
                             <div class="form-group">
@@ -2875,10 +2992,13 @@
 
             products.forEach(product => {
                 const row = document.createElement('tr');
-                const firstImage = product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.jpg';
+                const firstImage = product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.svg';
                 const originalPrice = product.originalPrice ? `<small style="text-decoration: line-through; color: #999;">NT$${product.originalPrice}</small><br>` : '';
                 
                 row.innerHTML = `
+                    <td class="product-image-cell">
+                        <img src="${firstImage}" alt="${product.name}" onerror="this.src='/images/placeholder.svg'">
+                    </td>
                     <td>
                         <strong>${product.name}</strong>
                         ${product.badge ? `<br><span style="background: var(--secondary-color); color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">${product.badge}</span>` : ''}
@@ -3012,7 +3132,12 @@
             document.getElementById('product-tags').value = product.tags ? product.tags.join(',') : '';
             document.getElementById('product-images').value = product.images ? product.images.join('\n') : '';
             document.getElementById('product-description-image').value = product.descriptionImage || '';
-            
+
+            // 載入圖片預覽
+            setTimeout(() => {
+                loadExistingImages();
+            }, 100);
+
             // 規格信息
             if (product.specifications) {
                 document.getElementById('product-content').value = product.specifications.content || '';
@@ -3813,6 +3938,169 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
+        }
+
+        // ========== 圖片上傳管理功能 ==========
+
+        // 處理圖片上傳
+        async function handleImageUpload(input, type) {
+            const files = input.files;
+            if (!files || files.length === 0) return;
+
+            const formData = new FormData();
+
+            if (type === 'product') {
+                // 多圖片上傳
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('images', files[i]);
+                }
+
+                try {
+                    const response = await fetch('/api/upload/images', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        addProductImages(result.images);
+                    } else {
+                        throw new Error('上傳失敗');
+                    }
+                } catch (error) {
+                    console.error('圖片上傳錯誤:', error);
+                    alert('圖片上傳失敗，請稍後再試');
+                }
+            } else if (type === 'description') {
+                // 單圖片上傳
+                formData.append('image', files[0]);
+
+                try {
+                    const response = await fetch('/api/upload/image', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        setDescriptionImage(result.imageUrl);
+                    } else {
+                        throw new Error('上傳失敗');
+                    }
+                } catch (error) {
+                    console.error('圖片上傳錯誤:', error);
+                    alert('圖片上傳失敗，請稍後再試');
+                }
+            }
+
+            // 清空文件輸入
+            input.value = '';
+        }
+
+        // 添加產品圖片到預覽和表單
+        function addProductImages(images) {
+            const previewContainer = document.getElementById('product-images-preview');
+            const textArea = document.getElementById('product-images');
+
+            images.forEach(image => {
+                // 添加到預覽
+                const previewItem = createImagePreviewItem(image.imageUrl, 'product');
+                previewContainer.appendChild(previewItem);
+
+                // 添加到文本框
+                const currentUrls = textArea.value.trim();
+                textArea.value = currentUrls ? currentUrls + '\n' + image.imageUrl : image.imageUrl;
+            });
+        }
+
+        // 設置說明圖
+        function setDescriptionImage(imageUrl) {
+            const previewContainer = document.getElementById('description-image-preview');
+            const input = document.getElementById('product-description-image');
+
+            // 清空現有預覽
+            previewContainer.innerHTML = '';
+
+            // 添加新預覽
+            const previewItem = createImagePreviewItem(imageUrl, 'description');
+            previewContainer.appendChild(previewItem);
+
+            // 設置輸入框值
+            input.value = imageUrl;
+        }
+
+        // 創建圖片預覽項目
+        function createImagePreviewItem(imageUrl, type) {
+            const item = document.createElement('div');
+            item.className = 'image-preview-item';
+
+            item.innerHTML = `
+                <img src="${imageUrl}" alt="預覽圖片">
+                <button type="button" class="remove-btn" onclick="removeImagePreview(this, '${imageUrl}', '${type}')">×</button>
+            `;
+
+            return item;
+        }
+
+        // 移除圖片預覽
+        async function removeImagePreview(button, imageUrl, type) {
+            const item = button.parentElement;
+
+            // 從服務器刪除圖片
+            try {
+                const response = await fetch('/api/upload/image', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ imageUrl })
+                });
+
+                if (response.ok) {
+                    // 從預覽中移除
+                    item.remove();
+
+                    // 從表單中移除
+                    if (type === 'product') {
+                        const textArea = document.getElementById('product-images');
+                        const urls = textArea.value.split('\n').filter(url => url.trim() !== imageUrl);
+                        textArea.value = urls.join('\n');
+                    } else if (type === 'description') {
+                        document.getElementById('product-description-image').value = '';
+                    }
+                } else {
+                    throw new Error('刪除失敗');
+                }
+            } catch (error) {
+                console.error('圖片刪除錯誤:', error);
+                alert('圖片刪除失敗，請稍後再試');
+            }
+        }
+
+        // 載入現有圖片到預覽
+        function loadExistingImages() {
+            const productImages = document.getElementById('product-images').value;
+            const descriptionImage = document.getElementById('product-description-image').value;
+
+            // 載入產品圖片
+            if (productImages) {
+                const urls = productImages.split('\n').filter(url => url.trim());
+                const previewContainer = document.getElementById('product-images-preview');
+                previewContainer.innerHTML = '';
+
+                urls.forEach(url => {
+                    const previewItem = createImagePreviewItem(url.trim(), 'product');
+                    previewContainer.appendChild(previewItem);
+                });
+            }
+
+            // 載入說明圖
+            if (descriptionImage) {
+                const previewContainer = document.getElementById('description-image-preview');
+                previewContainer.innerHTML = '';
+                const previewItem = createImagePreviewItem(descriptionImage, 'description');
+                previewContainer.appendChild(previewItem);
+            }
         }
     </script>
 </body>
