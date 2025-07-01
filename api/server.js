@@ -42,7 +42,8 @@ const connectDB = async () => {
     
     const mongoUri = process.env.MONGODB_URI;
     if (!mongoUri) {
-      throw new Error('MongoDB URI is not defined. Please set MONGODB_URI environment variable.');
+      console.log('⚠️  MongoDB URI 未設置 - 跳過數據庫連接');
+      return null;
     }
     
     // Optimized connection options for Vercel serverless
@@ -180,9 +181,20 @@ module.exports = async (req, res) => {
 // Start the server for local development if not in Vercel environment
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 5001; // Use 5001 to avoid conflict with frontend
-  connectDB().then(() => {
+  connectDB().then((connection) => {
+    if (connection) {
+      console.log('✅ 數據庫連接成功');
+    } else {
+      console.log('⚠️  以有限功能模式運行（無數據庫）');
+    }
     app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
+      console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    });
+  }).catch((error) => {
+    console.error('服務器啟動失敗:', error);
+    console.log('⚠️  嘗試以有限功能模式啟動服務器...');
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on http://localhost:${PORT} (limited mode)`);
     });
   });
-} 
+}
