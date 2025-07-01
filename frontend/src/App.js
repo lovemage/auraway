@@ -110,10 +110,10 @@ function App() {
         if (confirmAccess) {
           // 跳轉到本地 Admin UI
           if (process.env.NODE_ENV === 'development') {
-            window.open('http://localhost:5001/admin.html', '_blank');
+            window.open('http://localhost:5002/admin.html', '_blank');
           } else {
-            // 生產環境跳轉到 Vercel Admin UI
-            window.open('https://auraway.vercel.app/api/admin', '_blank');
+            // 生產環境跳轉到 Admin UI
+            window.open('/admin', '_blank');
           }
         }
       }, 600);

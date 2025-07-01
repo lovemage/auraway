@@ -63,6 +63,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/coupons', couponRoutes);
+app.use('/api/cart', require('./routes/cartRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/header-info', headerInfoRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai-nutritionist', aiNutritionistRoutes);
@@ -76,7 +78,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Admin UI route
+// Admin UI routes
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/admin.html'));
+});
+
 app.get('/api/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/admin.html'));
 });
@@ -121,9 +127,28 @@ module.exports = async (req, res) => {
     return app(req, res);
   } catch (error) {
     console.error('Database connection failed:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Database connection failed',
-      message: error.message 
+      message: error.message
     });
   }
-}; 
+};
+
+// Start the server for local development if not in Vercel environment
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5002;
+  connectDB().then(() => {
+    console.log('✅ 數據庫連接成功');
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on http://localhost:${PORT}`);
+      console.log(`🔧 Admin UI: http://localhost:${PORT}/admin.html`);
+    });
+  }).catch((error) => {
+    console.error('數據庫連接失敗:', error.message);
+    console.log('⚠️  以有限功能模式啟動服務器...');
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on http://localhost:${PORT} (limited mode)`);
+      console.log(`🔧 Admin UI: http://localhost:${PORT}/admin.html`);
+    });
+  });
+}

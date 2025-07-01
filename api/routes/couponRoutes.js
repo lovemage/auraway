@@ -29,18 +29,75 @@ router.get('/:id', async (req, res) => {
 // Get coupon by code
 router.get('/code/:code', async (req, res) => {
   try {
-    const coupon = await Coupon.findOne({ code: req.params.code });
-    if (coupon) {
-      // Check if coupon is valid based on date
-      const now = new Date();
-      if (now >= coupon.validFrom && now <= coupon.validTo) {
-        res.json(coupon);
-      } else {
-        res.status(400).json({ message: 'Coupon expired or not yet valid' });
-      }
-    } else {
-      res.status(404).json({ message: 'Coupon not found' });
+    const coupon = await Coupon.findOne({
+      code: req.params.code.toUpperCase()
+    }).populate('applicableProducts');
+
+    if (!coupon) {
+      return res.status(404).json({ message: '優惠券不存在' });
     }
+
+    // 使用新的驗證方法
+    if (!coupon.isValid()) {
+      return res.status(400).json({ message: '優惠券已過期或不可用' });
+    }
+
+    res.json(coupon);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// 驗證優惠券
+router.post('/validate', async (req, res) => {
+  try {
+    const { code, cartTotal, products = [], userEmail } = req.body;
+
+    const coupon = await Coupon.findOne({
+      code: code.toUpperCase()
+    }).populate('applicableProducts');
+
+    if (!coupon) {
+      return res.status(404).json({
+        valid: false,
+        message: '優惠券不存在'
+      });
+    }
+
+    const validation = coupon.canUse(cartTotal, products, userEmail);
+    if (!validation.valid) {
+      return res.status(400).json({
+        valid: false,
+        message: validation.reason
+      });
+    }
+
+    const discountResult = coupon.calculateDiscount(cartTotal, products);
+
+    res.json({
+      valid: true,
+      coupon: {
+        code: coupon.code,
+        name: coupon.name,
+        discountType: coupon.discountType,
+        discountValue: coupon.discountValue
+      },
+      discount: discountResult.discount,
+      finalAmount: discountResult.finalAmount
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// 獲取有效的優惠券
+router.get('/valid/list', async (req, res) => {
+  try {
+    const coupons = await Coupon.findValidCoupons()
+      .populate('applicableProducts')
+      .select('-userRestrictions.specificUsers'); // 不返回特定用戶列表
+
+    res.json(coupons);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
