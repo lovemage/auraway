@@ -363,6 +363,54 @@ function App() {
         </div>
         <nav className={`navbar ${menuOpen ? 'menu-open' : ''}`}>
           <ul className="nav-menu">
+            {/* 移動端搜索框 */}
+            <div className="mobile-search">
+              <input
+                type="text"
+                placeholder="搜尋產品..."
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+                onFocus={handleSearchInputFocus}
+                onBlur={handleSearchInputBlur}
+              />
+              {showSearchResults && searchResults.length > 0 && (
+                <div className="search-results">
+                  {searchResults.map((product) => (
+                    <div
+                      key={product._id}
+                      className="search-result-item"
+                      onClick={() => handleSearchResultClick(product)}
+                    >
+                      <img
+                        src={product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.svg'}
+                        alt={product.name}
+                        onError={(e) => {
+                          e.target.src = '/images/placeholder.svg';
+                        }}
+                      />
+                      <div className="result-info">
+                        <h4>{product.name}</h4>
+                        <p>NT$ {product.price?.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* 移動端用戶功能 */}
+            <div className="mobile-user-actions">
+              <div className="mobile-user-action">
+                <span className="material-icons">person</span>
+                <span>會員</span>
+              </div>
+              <div className="mobile-user-action">
+                <span className="material-icons">favorite</span>
+                <span>收藏</span>
+              </div>
+            </div>
+
+            {/* 導航菜單項目 */}
             <li onClick={navigateToHome}>Home 首頁</li>
             <li onClick={navigateToAurawayRecommend}>Auraway推薦</li>
             <li onClick={navigateToAuraPost}>Aura Post 專欄</li>
