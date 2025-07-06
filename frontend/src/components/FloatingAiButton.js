@@ -2,7 +2,7 @@ import React from 'react';
 import './FloatingAiButton.css';
 
 const FloatingAiButton = ({ onClick }) => {
-  const imageUrl = process.env.PUBLIC_URL + '/images/asset/ai-n.jpg';
+  const imageUrl = process.env.PUBLIC_URL + '/images/asset/ai-x.png';
 
   return (
     <button

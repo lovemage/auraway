@@ -353,7 +353,6 @@ function App() {
             </div>
             <div className="user-actions">
               <span className="material-icons" style={{ cursor: 'pointer' }}>person</span>
-              <span className="material-icons">favorite</span>
               <div className="cart-icon" onClick={handleOpenCart} style={{ cursor: 'pointer' }}>
                 <span className="material-icons">shopping_cart</span>
                 <span className="cart-count">{cartItemCount}</span>
@@ -403,10 +402,6 @@ function App() {
               <div className="mobile-user-action">
                 <span className="material-icons">person</span>
                 <span>會員</span>
-              </div>
-              <div className="mobile-user-action">
-                <span className="material-icons">favorite</span>
-                <span>收藏</span>
               </div>
             </div>
 

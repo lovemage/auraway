@@ -887,6 +887,12 @@ body {
   padding: 5px;
 }
 
+/* 桌面端隱藏移動端專用元素 */
+.mobile-search,
+.mobile-user-actions {
+  display: none;
+}
+
 .hamburger-menu .bar {
   width: 25px;
   height: 3px;
@@ -987,8 +993,9 @@ body {
     color: #2a2a2a;
   }
 
-  /* 移動端搜索框 */
+  /* 移動端搜索框 - 只在移動端顯示 */
   .mobile-search {
+    display: block !important;
     padding: 20px 30px;
     border-bottom: 1px solid #e5e5e5;
     margin-top: 60px;
@@ -1068,22 +1075,22 @@ body {
 
   /* 移動端用戶功能 */
   .mobile-user-actions {
+    display: flex !important;
     padding: 20px 30px;
     border-bottom: 1px solid #e5e5e5;
-    display: flex;
-    gap: 20px;
+    justify-content: center;
   }
 
   .mobile-user-action {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 15px;
-    border-radius: 20px;
+    padding: 12px 20px;
+    border-radius: 25px;
     background-color: #f8f8f8;
     cursor: pointer;
     transition: background-color 0.3s;
-    flex: 1;
+    min-width: 120px;
     justify-content: center;
   }
 
