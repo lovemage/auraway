@@ -229,7 +229,7 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
               }}>
                 NT$ {product.price?.toLocaleString()}
               </span>
-              {product.originalPrice && product.originalPrice > product.price && (
+              {product.originalPrice && product.originalPrice > 0 && product.originalPrice > product.price && (
                 <span className="original-price" style={{
                   textDecoration: 'line-through',
                   color: '#999',
@@ -336,61 +336,7 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
           </div>
         </div>
 
-        {/* 3. 描述區塊 */}
-        <div className="description-section">
-          {/* 產品描述圖 */}
-          {(product.descriptionImage || (product.images && product.images.length > 1 && product.images[1] !== product.images[0])) && (
-            <div style={{
-              textAlign: 'center',
-              margin: '0 0 30px 0',
-              background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
-              borderRadius: '15px',
-              padding: '20px'
-            }}>
-              <img
-                src={product.descriptionImage || (product.images && product.images[1])}
-                alt={`${product.name}產品說明`}
-                style={{
-                  width: '100%',
-                  maxWidth: '700px',
-                  height: 'auto',
-                  borderRadius: '10px',
-                  boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
-                }}
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
-            </div>
-          )}
-
-          {/* 產品描述（文字） */}
-          <div className="product-description" style={{
-            background: 'white',
-            borderRadius: '15px',
-            padding: '30px',
-            boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
-            textAlign: 'left'
-          }}>
-            <h3 style={{
-              color: 'var(--primary-color)',
-              fontSize: '1.8em',
-              marginBottom: '20px',
-              textAlign: 'center'
-            }}>
-              商品描述
-            </h3>
-            <p style={{
-              fontSize: '1.1em',
-              lineHeight: '1.8',
-              color: 'var(--text-primary)',
-              whiteSpace: 'pre-wrap'
-            }}>
-              {product.description}
-            </p>
-
-          </div>
-        </div>
+        {/* 3. 產品詳細資訊區塊 */}
 
         {/* 商品特色 */}
         {product.specifications?.features && product.specifications.features.length > 0 && (
@@ -566,6 +512,59 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
                 {product.specifications.ingredients}
               </p>
             </div>
+          </div>
+        )}
+
+        {/* 4. 商品描述（文字） */}
+        <div className="product-description" style={{
+          background: 'white',
+          borderRadius: '15px',
+          padding: '30px',
+          boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
+          textAlign: 'left',
+          margin: '30px 0'
+        }}>
+          <h3 style={{
+            color: 'var(--primary-color)',
+            fontSize: '1.8em',
+            marginBottom: '20px',
+            textAlign: 'center'
+          }}>
+            商品描述
+          </h3>
+          <p style={{
+            fontSize: '1.1em',
+            lineHeight: '1.8',
+            color: 'var(--text-primary)',
+            whiteSpace: 'pre-wrap'
+          }}>
+            {product.description}
+          </p>
+        </div>
+
+        {/* 5. 產品說明圖（最後） */}
+        {(product.descriptionImage || (product.images && product.images.length > 1 && product.images[1] !== product.images[0])) && (
+          <div style={{
+            textAlign: 'center',
+            margin: '30px 0',
+            background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+            borderRadius: '15px',
+            padding: '20px'
+          }}>
+            <img
+              src={product.descriptionImage || (product.images && product.images[1])}
+              alt={`${product.name}產品說明`}
+              style={{
+                width: '100%',
+                maxWidth: '700px',
+                height: 'auto',
+                borderRadius: '10px',
+                boxShadow: '0 4px 15px rgba(130, 191, 183, 0.2)'
+              }}
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
           </div>
         )}
       </div>
