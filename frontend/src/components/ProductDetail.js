@@ -383,69 +383,191 @@ const ProductDetail = ({ onAddToCart, userId, userEmail }) => {
             <p style={{
               fontSize: '1.1em',
               lineHeight: '1.8',
-              color: 'var(--text-primary)'
+              color: 'var(--text-primary)',
+              whiteSpace: 'pre-wrap'
             }}>
               {product.description}
             </p>
 
-            {/* 其他產品資訊 */}
-            {product.features && product.features.length > 0 && (
-              <div style={{ marginTop: '30px' }}>
-                <h4 style={{
-                  color: 'var(--primary-color)',
-                  fontSize: '1.4em',
-                  marginBottom: '15px'
-                }}>
-                  主要特色
-                </h4>
-                <ul style={{
-                  listStyle: 'none',
-                  padding: '0'
-                }}>
-                  {product.features.map((feature, index) => (
-                    <li key={index} style={{
-                      padding: '8px 0',
-                      borderBottom: '1px solid #f0f0f0',
-                      fontSize: '1.1em'
-                    }}>
-                      ✓ {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {product.ingredients && (
-              <div style={{ marginTop: '30px' }}>
-                <h4 style={{
-                  color: 'var(--primary-color)',
-                  fontSize: '1.4em',
-                  marginBottom: '15px'
-                }}>
-                  成分說明
-                </h4>
-                <p style={{ fontSize: '1.1em', lineHeight: '1.8' }}>
-                  {product.ingredients}
-                </p>
-              </div>
-            )}
-
-            {product.usage && (
-              <div style={{ marginTop: '30px' }}>
-                <h4 style={{
-                  color: 'var(--primary-color)',
-                  fontSize: '1.4em',
-                  marginBottom: '15px'
-                }}>
-                  使用方法
-                </h4>
-                <p style={{ fontSize: '1.1em', lineHeight: '1.8' }}>
-                  {product.usage}
-                </p>
-              </div>
-            )}
           </div>
         </div>
+
+        {/* 商品特色 */}
+        {product.specifications?.features && product.specifications.features.length > 0 && (
+          <div style={{
+            background: 'white',
+            borderRadius: '15px',
+            padding: '30px',
+            boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
+            margin: '30px 0'
+          }}>
+            <h3 style={{
+              color: 'var(--primary-color)',
+              fontSize: '1.8em',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              商品特色
+            </h3>
+            <ul style={{
+              listStyle: 'none',
+              padding: '0'
+            }}>
+              {product.specifications.features.map((feature, index) => (
+                <li key={index} style={{
+                  padding: '12px 0',
+                  borderBottom: '1px solid #f0f0f0',
+                  fontSize: '1.1em',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                  <span style={{
+                    color: 'var(--primary-color)',
+                    marginRight: '10px',
+                    fontSize: '1.2em'
+                  }}>✓</span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* 產品規格 */}
+        {product.specifications && (product.specifications.content || product.specifications.storage || product.specifications.origin) && (
+          <div style={{
+            background: 'white',
+            borderRadius: '15px',
+            padding: '30px',
+            boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
+            margin: '30px 0'
+          }}>
+            <h3 style={{
+              color: 'var(--primary-color)',
+              fontSize: '1.8em',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              產品規格
+            </h3>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+              gap: '20px'
+            }}>
+              {product.specifications.content && (
+                <div style={{
+                  background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+                  padding: '20px',
+                  borderRadius: '10px',
+                  boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+                }}>
+                  <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px', fontSize: '1.3em' }}>內容量</h4>
+                  <p style={{ color: 'var(--text-primary)', fontWeight: '500', fontSize: '1.1em' }}>
+                    {product.specifications.content}
+                  </p>
+                </div>
+              )}
+              {product.specifications.storage && (
+                <div style={{
+                  background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+                  padding: '20px',
+                  borderRadius: '10px',
+                  boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+                }}>
+                  <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px', fontSize: '1.3em' }}>保存方式</h4>
+                  <p style={{ color: 'var(--text-primary)', fontSize: '1.1em' }}>
+                    {product.specifications.storage}
+                  </p>
+                </div>
+              )}
+              {product.specifications.origin && (
+                <div style={{
+                  background: 'linear-gradient(135deg, var(--light-teal), var(--light-pink))',
+                  padding: '20px',
+                  borderRadius: '10px',
+                  boxShadow: '0 2px 8px rgba(130, 191, 183, 0.1)'
+                }}>
+                  <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px', fontSize: '1.3em' }}>產地</h4>
+                  <p style={{ color: 'var(--text-primary)', fontWeight: '500', fontSize: '1.1em' }}>
+                    {product.specifications.origin}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 食用方法 */}
+        {product.specifications?.usage && (
+          <div style={{
+            background: 'white',
+            borderRadius: '15px',
+            padding: '30px',
+            boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
+            margin: '30px 0'
+          }}>
+            <h3 style={{
+              color: 'var(--primary-color)',
+              fontSize: '1.8em',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              食用方法
+            </h3>
+            <div style={{
+              background: 'var(--light-teal)',
+              borderRadius: '10px',
+              padding: '25px'
+            }}>
+              <p style={{
+                color: 'var(--text-primary)',
+                fontSize: '1.1em',
+                lineHeight: '1.8',
+                margin: 0,
+                whiteSpace: 'pre-wrap'
+              }}>
+                {product.specifications.usage}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* 主要成分 */}
+        {product.specifications?.ingredients && (
+          <div style={{
+            background: 'white',
+            borderRadius: '15px',
+            padding: '30px',
+            boxShadow: '0 4px 15px rgba(130, 191, 183, 0.1)',
+            margin: '30px 0'
+          }}>
+            <h3 style={{
+              color: 'var(--primary-color)',
+              fontSize: '1.8em',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              主要成分
+            </h3>
+            <div style={{
+              background: 'linear-gradient(135deg, var(--light-pink), var(--light-teal))',
+              borderRadius: '10px',
+              padding: '25px',
+              border: '2px solid var(--primary-color)'
+            }}>
+              <p style={{
+                color: 'var(--text-primary)',
+                fontSize: '1.1em',
+                lineHeight: '1.8',
+                margin: 0,
+                whiteSpace: 'pre-wrap'
+              }}>
+                {product.specifications.ingredients}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

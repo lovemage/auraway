@@ -138,8 +138,7 @@ const AurawayRecommendPage = ({ onProductClick }) => {
               
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
-                <p className="product-description">{product.description}</p>
-                
+
                 <div className="product-price">
                   <span className="current-price">NT$ {product.price}</span>
                   {product.originalPrice && product.originalPrice > product.price && (

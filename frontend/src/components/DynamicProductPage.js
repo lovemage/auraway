@@ -298,7 +298,8 @@ const DynamicProductPage = ({ product, onNavigateHome, onAddToCart }) => {
             <p style={{
               fontSize: '1.1em',
               lineHeight: '1.8',
-              color: 'var(--text-primary)'
+              color: 'var(--text-primary)',
+              whiteSpace: 'pre-wrap'
             }}>
               {productData.description}
             </p>

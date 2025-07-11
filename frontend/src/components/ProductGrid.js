@@ -114,14 +114,13 @@ const ProductGrid = ({ category = null, limit = null, onProductClick, randomize 
           <div className="product-details">
             <span className="product-catagory">{product.category}</span>
             <h4>
-              <button 
+              <button
                 className="product-name-button"
                 onClick={() => handleProductClick(product)}
               >
                 {product.name}
               </button>
             </h4>
-            <p>{product.description.length > 50 ? `${product.description.substring(0, 50)}...` : product.description}</p>
             <div className="product-bottom-details">
               <div className="product-price">
                 {product.originalPrice && (

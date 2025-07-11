@@ -2992,12 +2992,12 @@
 
             products.forEach(product => {
                 const row = document.createElement('tr');
-                const firstImage = product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.svg';
+                const firstImage = product.images && product.images.length > 0 ? product.images[0] : 'images/placeholder.svg';
                 const originalPrice = product.originalPrice ? `<small style="text-decoration: line-through; color: #999;">NT$${product.originalPrice}</small><br>` : '';
                 
                 row.innerHTML = `
                     <td class="product-image-cell">
-                        <img src="${firstImage}" alt="${product.name}" onerror="this.src='/images/placeholder.svg'">
+                        <img src="${firstImage}" alt="${product.name}" onerror="this.src='images/placeholder.svg'">
                     </td>
                     <td>
                         <strong>${product.name}</strong>
