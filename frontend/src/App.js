@@ -302,10 +302,10 @@ function App() {
             <div className="bar"></div>
           </div>
           <div className="logo-section" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-            <img 
-              src="/images/asset/logo-auraway.png" 
-              alt="Auraway Shop" 
-              style={{ height: '60px', width: 'auto' }}
+            <img
+              src="/images/asset/logo2-auraway.png"
+              alt="Auraway Shop"
+              style={{ height: '50px', width: 'auto' }} /* 調整為 50px，比原本稍小但不會影響導航列高度 */
             />
           </div>
           <div className="header-actions">
